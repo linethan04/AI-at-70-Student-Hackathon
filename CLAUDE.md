@@ -1,0 +1,80 @@
+# CLAUDE.md
+
+Guidance for Claude Code when working in this repository.
+
+## Project
+
+A Claude hackathon project ("AI at 70"): a **clinician tool for primary care** that turns the raw material of a geriatric patient's visit into plain-language communication for the patient and their family.
+
+**Inputs** (any combination):
+- Intake / questionnaire responses
+- Clinician (doctor) notes
+- Voice recording of the appointment (transcribed first)
+
+**Outputs** (clinician chooses one or more):
+- **Printout**: a large-print, one-to-two page visit summary
+- **Phone call**: a spoken summary (text-to-speech) for the patient or a family member
+- **Email**: a summary sent to family members / caregivers
+
+**Who it's for:** older adults and their families, many of whom have low health literacy or low baseline reading comprehension. Everything patient-facing must be easy to read, easy to hear, and easy to act on.
+
+### Pipeline (intended)
+
+```
+questionnaire ─┐
+clinician notes ┼─> normalize ─> Claude: extract facts ─> Claude: plain-language rewrite ─> clinician review ─> print / call / email
+audio recording ┘   (transcribe)   (diagnoses, meds, follow-ups,      (per output format)          (edit + approve)
+                                    warning signs, to-dos)
+```
+
+## Repository layout
+
+The repo is early-stage. Each teammate has a working folder:
+
+- `Ethan/` — `EL_audio.py`: audio work (voice output / ElevenLabs text-to-speech for the phone call, and/or recording transcription)
+- `Jason/`, `Max/`, `Tanner/` — personal scratch folders (placeholders for now)
+
+Shared code should move into a common package (e.g. `app/` or `src/`) once pieces start connecting. Update this file when that happens.
+
+## How to run
+
+No app entry point exists yet, and the stack isn't fixed. Each component can use whatever language or tooling its author prefers. For example, a Python script:
+
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+pip install anthropic
+export ANTHROPIC_API_KEY=...   # plus ELEVENLABS_API_KEY etc. for audio
+python Ethan/EL_audio.py
+```
+
+- Put secrets in a local `.env` (git-ignored); never hard-code API keys.
+- Whenever a component gets dependencies or an entry point (`requirements.txt`, `package.json`, a server, a frontend), add its exact install and run commands here.
+
+## Rules
+
+### Patient-facing language
+- Target a **5th–6th grade reading level** or lower. Short sentences, common words, active voice.
+- Explain or replace medical jargon ("hypertension" → "high blood pressure"). If a term must stay (e.g. a drug name), explain it in plain words right after.
+- Lead with what matters most: what we found, what to do, when to come back, and **when to call the doctor or 911**.
+- Use concrete instructions ("Take 1 pill every morning with food"), not vague ones ("take as directed").
+- Printouts: large font (≥14pt), high contrast, plenty of white space, headings, bullet lists.
+- Phone script: written to be heard. Short sentences, repeat key instructions, avoid abbreviations and symbols, say numbers clearly.
+- Respectful tone toward older adults: never condescending or childish.
+
+### Clinical safety
+- **Never invent clinical content.** Every diagnosis, medication, dose, and instruction must trace back to the source inputs. If something is unclear or missing, flag it for the clinician; don't guess.
+- Do not add medical advice, diagnoses, or treatment suggestions that the clinician didn't give.
+- Medication names, doses, and schedules must be copied exactly from the source, and they get the most careful review.
+- **A clinician must review and approve every output before it reaches a patient or family member.** Nothing is sent automatically.
+- Contradictions between inputs (e.g. notes vs. transcript) are surfaced to the clinician, not silently resolved.
+
+### Privacy (PHI)
+- Use **synthetic / de-identified data only** for development and demos. Never commit real patient data, recordings, or transcripts.
+- Don't log full patient records or audio contents.
+- Family-member outputs should only go to contacts the patient/clinician has authorized.
+
+### Code
+- No fixed language or framework: use whatever the person you're working with wants (Python, JavaScript/TypeScript, etc.). Follow the conventions already used in the folder you're editing. Keep things simple and demo-able; this is a hackathon.
+- Use the Anthropic SDK for the language in use for LLM calls. Default to the latest Claude models (e.g. `claude-opus-5-5`, or `claude-sonnet-5-5` / `claude-haiku-5-5` for cheaper or faster steps).
+- Keep prompts in their own files or constants so they're easy to iterate on.
+- Work in your own folder or a feature branch. Don't edit a teammate's folder without checking with them.
