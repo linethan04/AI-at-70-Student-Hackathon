@@ -31,21 +31,28 @@ audio recording ┘   (transcribe)   (diagnoses, meds, follow-ups,      (per out
 
 The repo is early-stage. Each teammate has a working folder:
 
-- `Ethan/` — `EL_audio.py`: audio work (voice output / ElevenLabs text-to-speech for the phone call, and/or recording transcription)
+- `Ethan/` — audio input (pipeline step 1)
+  - `EL_audio.py`: records the visit from the mic (or takes a file) and transcribes it. Engines: ElevenLabs Scribe (`scribe_v2`, speaker labels, medical keyterms) or local `faster-whisper` (offline, no speaker labels). Writes `Ethan/transcripts/<name>.txt` and `.json`; the JSON `segments` list (`speaker`, `start`, `end`, `text`) is the input contract for the Claude steps.
+  - `make_sample_audio.py`: builds a synthetic two-voice visit with macOS `say` for testing
 - `Jason/`, `Max/`, `Tanner/` — personal scratch folders (placeholders for now)
 
 Shared code should move into a common package (e.g. `app/` or `src/`) once pieces start connecting. Update this file when that happens.
 
 ## How to run
 
-No app entry point exists yet, and the stack isn't fixed. Each component can use whatever language or tooling its author prefers. For example, a Python script:
+No app entry point exists yet, and the stack isn't fixed. Each component can use whatever language or tooling its author prefers.
+
+**Audio transcription (`Ethan/`, Python):**
 
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
-pip install anthropic
-export ANTHROPIC_API_KEY=...   # plus ELEVENLABS_API_KEY etc. for audio
-python Ethan/EL_audio.py
+pip install -r Ethan/requirements.txt
+python Ethan/make_sample_audio.py                                   # synthetic test visit (macOS)
+python Ethan/EL_audio.py transcribe Ethan/recordings/sample_visit.wav --keyterms "lisinopril,metformin,A1C"
+python Ethan/EL_audio.py record                                     # live mic; press Enter to stop
 ```
+
+The engine defaults to ElevenLabs when `ELEVENLABS_API_KEY` is set (in `.env` or the environment), otherwise local Whisper. Force one with `--engine elevenlabs|whisper`. Recordings and transcripts are git-ignored.
 
 - Put secrets in a local `.env` (git-ignored); never hard-code API keys.
 - Whenever a component gets dependencies or an entry point (`requirements.txt`, `package.json`, a server, a frontend), add its exact install and run commands here.

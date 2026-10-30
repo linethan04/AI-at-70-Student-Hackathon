@@ -1,0 +1,13 @@
+# Python
+.venv/
+__pycache__/
+
+# Secrets
+.env
+
+# Audio and transcripts may contain PHI: never commit them
+**/recordings/
+**/transcripts/
+*.wav
+*.mp3
+*.m4a

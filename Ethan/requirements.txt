@@ -1,0 +1,6 @@
+elevenlabs
+faster-whisper
+sounddevice
+soundfile
+numpy
+python-dotenv
