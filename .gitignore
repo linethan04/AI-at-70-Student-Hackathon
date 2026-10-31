@@ -15,3 +15,6 @@ __pycache__/
 # Cached public data (NLM drug list) and macOS files
 **/.cache/
 .DS_Store
+
+# Downloaded test recordings and answer keys
+**/test_data/

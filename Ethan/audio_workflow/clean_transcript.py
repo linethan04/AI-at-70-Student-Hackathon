@@ -25,7 +25,7 @@ import json
 import re
 import sys
 from pathlib import Path
-from typing import Literal
+from typing import Callable, Literal
 
 import anthropic
 from dotenv import find_dotenv, load_dotenv
@@ -241,23 +241,25 @@ def find_audio(raw: dict, json_path: Path) -> Path | None:
     return recorded
 
 
-def clean_transcript(json_path: Path, num_speakers: int | None = None, engine: str = "auto") -> Path:
+def clean_transcript(json_path: Path, num_speakers: int | None = None, engine: str = "auto",
+                     log: Callable[[str], None] = print) -> Path:
+    """`log` receives short progress messages (the web app shows them as status)."""
     raw = json.loads(json_path.read_text())
     segments = [dict(s) for s in raw["segments"]]
     acoustic = raw.get("engine") == "elevenlabs"
 
     review = None
     if engine in ("auto", "claude"):
-        print(f"Reviewing {len(segments)} utterances with Claude ({MODEL})...")
+        log(f"Reviewing {len(segments)} utterances with Claude ({MODEL})...")
         try:
             review, method = review_with_claude(segments, acoustic, num_speakers), MODEL
         except NoCredentials:
             if engine == "claude":
                 sys.exit("No valid Anthropic credentials. Add ANTHROPIC_API_KEY=... to .env in the project root.")
-            print("No Anthropic API key found; using the offline method instead.")
+            log("No Anthropic API key found; using the offline method instead.")
     if review is None:
         from offline_cleanup import review_offline
-        review, method = review_offline(segments, find_audio(raw, json_path), num_speakers), OFFLINE_METHOD
+        review, method = review_offline(segments, find_audio(raw, json_path), num_speakers, log), OFFLINE_METHOD
 
     assigned = {u.id: u for u in review.utterances}
     roles = {s.label: s.role for s in review.speakers}
@@ -268,10 +270,10 @@ def clean_transcript(json_path: Path, num_speakers: int | None = None, engine: s
         seg["speaker"] = u.speaker if u else "Unknown"
         seg["role"] = roles.get(seg["speaker"], "unknown")
         seg["speaker_confidence"] = u.confidence if u else "low"
-        if seg["speaker_confidence"] == "low":
+        if seg["speaker_confidence"] == "low" and len(seg["text"].split()) >= 4:  # skip "Okay."/"Yeah."
             low_confidence.append({"time": fmt_time(seg["start"]), "speaker": seg["speaker"], "text": seg["text"]})
 
-    print(f"Checking {len(review.terms)} medical terms against NLM dictionaries...")
+    log(f"Checking {len(review.terms)} medical terms against medical dictionaries...")
     term_results = check_terms(segments, review.terms)
     issues = [{"time": fmt_time(segments[i.utterance_id]["start"]) if 0 <= i.utterance_id < len(segments) else "--:--",
                "utterance_id": i.utterance_id, "problem": i.problem} for i in review.issues]
@@ -291,8 +293,9 @@ def clean_transcript(json_path: Path, num_speakers: int | None = None, engine: s
     }, indent=2))
     out_txt.write_text(render_text(method, speakers, turns, term_results, issues, low_confidence))
 
-    print("\n" + out_txt.read_text())
-    print(f"Saved {out_txt}\nSaved {out_json}")
+    if log is print:
+        print("\n" + out_txt.read_text())
+    log(f"Saved {out_txt}\nSaved {out_json}")
     return out_json
 
 

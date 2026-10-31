@@ -8,10 +8,12 @@ Speakers: split by VOICE, not by meaning. Each sentence's audio is turned into a
   and similar fingerprints are grouped. Roles are guessed from word use: the speaker
   using the most medical terms and numbers is the clinician; the one saying "I"/"my"
   most is the patient.
-Medical terms: words that are neither English nor already medical are fuzzy-matched
-  against RxNorm drug names and a ~98k-word medical spelling list. Strong single-word
-  matches ("orthostratic" -> "orthostatic") become corrections; weaker ones become
-  "did you mean" suggestions for the clinician. Garbled multi-word phrases
+Medical terms: words the speech recognizer itself was unsure of, and that are neither
+  English nor already medical, are fuzzy-matched against RxNorm drug names and a ~98k-word
+  medical spelling list. Strong single-word matches ("orthostratic" -> "orthostatic")
+  become corrections; weaker ones become "did you mean" suggestions for the clinician.
+  Words the recognizer was confident about are left alone unless they closely match a
+  drug name (modern words like "smoothies" aren't in the English list, but aren't errors). Garbled multi-word phrases
   ("glitz preside" -> "glipizide") are beyond this method; Claude handles those.
 """
 
@@ -31,7 +33,7 @@ ENGLISH_WORDS = Path("/usr/share/dict/words")  # present on macOS and most Linux
 
 MIN_EMBED_SECONDS = 1.5       # shorter clips are padded with surrounding audio
 SAME_SPEAKER_SIMILARITY = 0.3  # average voice similarity needed to merge two groups
-MIN_SPEAKER_SECONDS = 2.5      # groups with less speech than this are merged into the closest one
+MIN_SPEAKER_SHARE = 0.05       # groups with under 5% of the speech (or 2.5 s) are merged into the closest one
 AUTO_FIX_SCORE = 85            # fuzzy-match score (0-100) to auto-correct a word
 SUGGEST_SCORE = 72             # ...and to suggest it for review
 
@@ -69,14 +71,24 @@ def _voice_fingerprints(audio: np.ndarray, segments: list[dict]) -> np.ndarray:
 def _cluster(emb: np.ndarray, num_speakers: int | None) -> list[list[int]]:
     """Average-linkage clustering on cosine similarity: keep merging the two most similar
     groups until `num_speakers` remain, or (if unknown) until no pair is similar enough."""
-    groups = [[i] for i in range(len(emb))]
+    n = len(emb)
+    groups = {i: [i] for i in range(n)}
+    sums = emb @ emb.T  # sums[a, b] = total similarity between members of groups a and b
+    sizes = np.ones(n)
+    active = np.ones(n, dtype=bool)
     while len(groups) > 1:
-        sim, a, b = max((np.mean(emb[groups[a]] @ emb[groups[b]].T), a, b)
-                        for a in range(len(groups)) for b in range(a + 1, len(groups)))
-        if (num_speakers and len(groups) <= num_speakers) or (not num_speakers and sim < SAME_SPEAKER_SIMILARITY):
+        avg = sums / np.outer(sizes, sizes)
+        avg[~active, :] = avg[:, ~active] = -np.inf
+        np.fill_diagonal(avg, -np.inf)
+        a, b = np.unravel_index(np.argmax(avg), avg.shape)
+        if (num_speakers and len(groups) <= num_speakers) or (not num_speakers and avg[a, b] < SAME_SPEAKER_SIMILARITY):
             break
+        sums[a, :] += sums[b, :]
+        sums[:, a] += sums[:, b]
+        sizes[a] += sizes[b]
+        active[b] = False
         groups[a] += groups.pop(b)
-    return groups
+    return list(groups.values())
 
 
 def _is_fragment(seg: dict) -> bool:
@@ -95,7 +107,8 @@ def assign_speakers(audio_path: Path, segments: list[dict], num_speakers: int | 
 
     # Too little speech to be a real extra person: fold into the most similar group.
     duration = lambda g: sum(segments[i]["end"] - segments[i]["start"] for i in g)
-    while not num_speakers and len(groups) > 1 and min(map(duration, groups)) < MIN_SPEAKER_SECONDS:
+    min_seconds = max(2.5, MIN_SPEAKER_SHARE * duration(core))
+    while not num_speakers and len(groups) > 1 and min(map(duration, groups)) < min_seconds:
         small = min(groups, key=duration)
         groups.remove(small)
         closest = max(groups, key=lambda g: np.mean(emb[small] @ emb[g].T))
@@ -128,6 +141,8 @@ def _is_known(word: str, known: set[str]) -> bool:
     """Known as-is or after removing a common ending (episodes, tighter, having)."""
     if word in known:
         return True
+    if word.endswith("ies") and word[:-3] + "y" in known:  # diaries, stories
+        return True
     for suffix in ("s", "es", "ed", "d", "ing", "er", "est", "ly"):
         base = word[: -len(suffix)]
         if word.endswith(suffix) and len(base) >= 3 and (base in known or base + "e" in known):
@@ -145,10 +160,13 @@ def find_terms(segments: list[dict]) -> tuple[list[TermCandidate], list[Issue]]:
 
     terms, issues = [], []
     for i, seg in enumerate(segments):
-        for word in dict.fromkeys(re.findall(r"[A-Za-z][A-Za-z-]+(?:'[a-z]+)?", seg["text"])):
+        # Older transcripts have no confidence info: treat every word as unsure.
+        unsure = {u.lower() for u in seg["unsure_words"]} if "unsure_words" in seg else None
+        for word in dict.fromkeys(re.findall(r"[A-Za-z]+(?:'[a-z]+)?", seg["text"])):  # splits "left-hand"
             if "'" in word:  # contractions: let's, you're, it's
                 continue
             w = word.lower()
+            confident = unsure is not None and w not in unsure
             # Capitalized mid-sentence = probably a name ("Mrs. Alvarez"); only flag strong matches.
             is_name = word[0].isupper() and not seg["text"].startswith(word)
             if w in drugs and w not in _english_words():
@@ -158,7 +176,8 @@ def find_terms(segments: list[dict]) -> tuple[list[TermCandidate], list[Issue]]:
                 continue
             if len(w) < 5 or _is_known(w, known):
                 continue
-            match = process.extractOne(w, vocab, scorer=fuzz.ratio,
+            choices = sorted(drugs) if confident else vocab  # confident words: only check for drug names
+            match = process.extractOne(w, choices, scorer=fuzz.ratio,
                                        score_cutoff=AUTO_FIX_SCORE if is_name else SUGGEST_SCORE)
             if not match:
                 continue
@@ -200,16 +219,17 @@ def _guess_roles(segments: list[dict], labels: list[int], terms: list[TermCandid
             for k in range(n)]
 
 
-def review_offline(segments: list[dict], audio_path: Path | None, num_speakers: int | None) -> TranscriptReview:
+def review_offline(segments: list[dict], audio_path: Path | None, num_speakers: int | None,
+                   log=print) -> TranscriptReview:
     issues: list[Issue] = []
     if audio_path and audio_path.exists():
-        print("Separating speakers by voice (TitaNet, offline)...")
+        log("Separating speakers by voice (TitaNet, offline)...")
         labels, confidence = assign_speakers(audio_path, segments, num_speakers)
     else:
         labels, confidence = [0] * len(segments), ["low"] * len(segments)
         issues.append(Issue(utterance_id=0, problem=f"Audio file not found ({audio_path}); speakers not separated."))
 
-    print("Matching words against medical dictionaries (offline)...")
+    log("Matching words against medical dictionaries (offline)...")
     terms, term_issues = find_terms(segments)
     n = max(labels) + 1
     return TranscriptReview(

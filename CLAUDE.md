@@ -40,6 +40,9 @@ The repo is early-stage. Each teammate has a working folder:
   - `EL_audio.py`: records the visit from the mic (or takes a file) and transcribes it. Engines: ElevenLabs Scribe (`scribe_v2`, speaker labels, medical keyterms) or local `faster-whisper` (offline, no speaker labels). Writes `Ethan/audio_workflow/transcripts/<name>.txt` and `.json`; the JSON `segments` list (`speaker`, `start`, `end`, `text`) is the input contract for the Claude steps.
   - `clean_transcript.py`: step 1b. Claude (`claude-opus-5-5`, structured output) assigns each sentence to Speaker 1/2/3 with a role, using conversation context (and ElevenLabs' acoustic labels as hints), and proposes fixes for garbled medical terms. Each fix is applied only if the term exists in an NLM vocabulary **and** sounds like what was heard; otherwise it's flagged. Claude never edits text directly; the script does the exact substitution. Writes `<name>.clean.txt` / `.clean.json`.
   - `offline_cleanup.py`: no-API-key fallback used automatically by `clean_transcript.py`. Speakers are separated by voice (NVIDIA TitaNet speaker model via `sherpa-onnx`, run locally; sentences grouped by voice similarity); roles guessed from word use. Terms: unknown words fuzzy-matched (`rapidfuzz`) against RxNorm + a ~98k medical spelling list; strong matches corrected, weaker ones suggested. Can't decode multi-word garbles ("glitz preside"); Claude can.
+  - `app.py` + `static/`: local web app (Flask, no external JS). Record in the browser with one button (or upload / pick a saved recording), watch progress, then see the transcript with color-coded speakers, clickable timestamps, highlighted corrections and a clinician-review list. `/?open=<recording>` reopens a saved result.
+  - `fetch_test_audio.py`: downloads a PriMock57 mock GP consultation (Babylon Health, CC BY 4.0), mixes doctor + patient channels into one recording, and saves the human transcript as an answer key in `test_data/`. Medication-heavy visits: `day1_consultation06`, `day1_consultation07`, `day5_consultation11`.
+  - `evaluate.py`: scores a pipeline transcript against that answer key (word error rate, speaker accuracy, drug names found).
   - `medical_dictionary.py`: free NLM lookups, no key needed: RxNorm (drugs, generic and brand; full list cached in `Ethan/audio_workflow/.cache/`), RxClass (drug classes), ICD-10-CM and Conditions (diagnoses), LOINC (labs), HCPCS (procedures)
   - `make_sample_audio.py`: builds a synthetic two-voice visit with macOS `say` for testing
 - `Jason/`, `Max/`, `Tanner/` — personal scratch folders (placeholders for now)
@@ -61,7 +64,12 @@ python Ethan/audio_workflow/EL_audio.py record                                  
 python Ethan/audio_workflow/EL_audio.py transcribe <file.wav> --clean              # + speakers and medical term check
 python Ethan/audio_workflow/clean_transcript.py Ethan/audio_workflow/transcripts/<name>.json [--num-speakers 2]   # cleanup on its own
 python Ethan/audio_workflow/medical_dictionary.py medication glipizide             # check a single term
+python Ethan/audio_workflow/app.py                                                 # web app: http://localhost:5050
+python Ethan/audio_workflow/fetch_test_audio.py day1_consultation06                # real mock visit + answer key
+python Ethan/audio_workflow/evaluate.py Ethan/audio_workflow/transcripts/primock_day1_consultation06.clean.json Ethan/audio_workflow/test_data/primock_day1_consultation06.reference.json
 ```
+
+Baseline (offline, Whisper base.en, PriMock57 day1 consultations 01/06/07): word error rate 20-28%, speaker accuracy 89-95%, roles always correct, but only ~1 of 4 drug names survive transcription (e.g. "furosemide" -> "for Ozzamite"). `--whisper-model small.en` improves this (18.7% WER, 2/4 drugs) at ~3x the time; Claude cleanup is the intended fix for garbled drug names.
 
 `--clean` and `clean_transcript.py` use Claude when `ANTHROPIC_API_KEY` is in `.env`, and otherwise fall back to the offline method (`--engine auto|claude|offline`). The first offline run downloads the speaker model (~40 MB) and medical word list into `Ethan/audio_workflow/.cache/`.
 

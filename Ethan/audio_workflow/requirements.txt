@@ -1,6 +1,7 @@
 anthropic
 elevenlabs
 faster-whisper
+flask
 httpx
 pydantic
 rapidfuzz

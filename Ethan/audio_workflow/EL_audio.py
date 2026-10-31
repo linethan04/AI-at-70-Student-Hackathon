@@ -17,9 +17,11 @@ Engines:
 
 import argparse
 import json
+import math
 import os
 import sys
 from datetime import datetime
+from functools import lru_cache
 from pathlib import Path
 
 from dotenv import find_dotenv, load_dotenv
@@ -30,7 +32,8 @@ TRANSCRIPTS_DIR = HERE / "transcripts"
 
 SAMPLE_RATE = 16_000  # 16 kHz mono is plenty for speech and keeps files small
 ELEVENLABS_MODEL = "scribe_v2"
-WHISPER_MODEL = "base.en"  # try "small.en" or "medium.en" for better accuracy
+WHISPER_MODEL = "base.en"  # try "small.en" or "medium.en" for better accuracy (slower)
+UNSURE_BELOW = 0.5  # word confidence (0-1) under which the recognizer was unsure of a word
 
 
 # ---------- recording ----------
@@ -72,7 +75,9 @@ def record_until_enter(out_path: Path) -> Path:
 
 # ---------- transcription ----------
 # Both engines return the same shape: a list of segments
-#   {"speaker": str, "start": float, "end": float, "text": str}
+#   {"speaker": str, "start": float, "end": float, "text": str, "unsure_words": [str]}
+# "unsure_words" are words the recognizer itself had low confidence in: the ones most
+# likely to be mis-heard, and the only ones the offline cleanup will try to correct.
 
 def transcribe_elevenlabs(audio_path: Path, keyterms: list[str]) -> list[dict]:
     from elevenlabs.client import ElevenLabs
@@ -99,11 +104,12 @@ def transcribe_elevenlabs(audio_path: Path, keyterms: list[str]) -> list[dict]:
             segments[-1]["text"] += word.text
             continue
         speaker = word.speaker_id or "speaker_0"
-        if segments and segments[-1]["speaker"] == speaker:
-            segments[-1]["text"] += word.text
-            segments[-1]["end"] = word.end
-        else:
-            segments.append({"speaker": speaker, "start": word.start, "end": word.end, "text": word.text})
+        if not (segments and segments[-1]["speaker"] == speaker):
+            segments.append({"speaker": speaker, "start": word.start, "end": word.end, "text": "", "unsure_words": []})
+        segments[-1]["text"] += word.text
+        segments[-1]["end"] = word.end
+        if word.type == "word" and math.exp(word.logprob) < UNSURE_BELOW:
+            segments[-1]["unsure_words"].append(word.text.strip())
 
     for seg in segments:
         seg["text"] = seg["text"].strip()
@@ -112,10 +118,15 @@ def transcribe_elevenlabs(audio_path: Path, keyterms: list[str]) -> list[dict]:
     return [s for s in segments if s["text"]]
 
 
-def transcribe_whisper(audio_path: Path, keyterms: list[str]) -> list[dict]:
+@lru_cache(maxsize=2)
+def whisper_model(name: str):
     from faster_whisper import WhisperModel
 
-    model = WhisperModel(WHISPER_MODEL, device="cpu", compute_type="int8")
+    return WhisperModel(name, device="cpu", compute_type="int8")
+
+
+def transcribe_whisper(audio_path: Path, keyterms: list[str], model_name: str = WHISPER_MODEL) -> list[dict]:
+    model = whisper_model(model_name)
     # Whisper has no keyterm API, but an initial prompt nudges spelling of uncommon words.
     prompt = ("Medical appointment. Terms: " + ", ".join(keyterms)) if keyterms else None
     segments, _info = model.transcribe(str(audio_path), initial_prompt=prompt, vad_filter=True, word_timestamps=True)
@@ -136,9 +147,11 @@ def split_sentences(words) -> list[dict]:
             out.append(cur)
             cur = None
         if cur is None:
-            cur = {"speaker": "Speaker", "start": w.start, "end": w.end, "text": ""}
+            cur = {"speaker": "Speaker", "start": w.start, "end": w.end, "text": "", "unsure_words": []}
         cur["text"] += w.word
         cur["end"] = w.end
+        if w.probability < UNSURE_BELOW:
+            cur["unsure_words"].append(w.word.strip(" .,?!"))
         if w.word.rstrip().endswith((".", "?", "!")):
             out.append(cur)
             cur = None
@@ -190,6 +203,8 @@ def main() -> None:
     for p in sub.choices.values():
         p.add_argument("--engine", choices=ENGINES,
                        default="elevenlabs" if os.getenv("ELEVENLABS_API_KEY") else "whisper")
+        p.add_argument("--whisper-model", default=WHISPER_MODEL,
+                       help="tiny.en, base.en, small.en, medium.en: bigger = more accurate but slower")
         p.add_argument("--keyterms", default="", help="comma-separated medical terms to recognize, e.g. 'metformin,A1C'")
         p.add_argument("--clean", action="store_true",
                        help="then run clean_transcript.py (speaker separation + medical term check)")
@@ -205,7 +220,10 @@ def main() -> None:
 
     keyterms = [k.strip() for k in args.keyterms.split(",") if k.strip()]
     print(f"Transcribing {audio_path.name} with {args.engine}...")
-    segments = ENGINES[args.engine](audio_path, keyterms)
+    if args.engine == "whisper":
+        segments = transcribe_whisper(audio_path, keyterms, args.whisper_model)
+    else:
+        segments = ENGINES[args.engine](audio_path, keyterms)
     json_path, txt_path = save_transcript(audio_path, args.engine, segments)
 
     print("\n" + txt_path.read_text())

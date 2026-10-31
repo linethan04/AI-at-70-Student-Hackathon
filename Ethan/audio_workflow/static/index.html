@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Visit Recorder</title>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <h1>Visit Recorder</h1>
+      <p class="sub">Record the appointment, then get a transcript with each speaker labeled and medical terms checked.
+        A clinician reviews everything before it reaches a patient.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Step 1: audio -->
+    <section class="card" aria-labelledby="audio-h">
+      <h2 id="audio-h"><span class="num">1</span> Record or choose audio</h2>
+
+      <div class="recorder">
+        <button id="recordBtn" class="record-btn" aria-pressed="false">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="recordLabel">Start recording</span>
+        </button>
+        <div class="rec-info">
+          <div id="timer" class="timer" aria-live="polite">0:00</div>
+          <div class="meter" aria-hidden="true"><div id="meterFill"></div></div>
+          <p id="recordHint" class="hint">Your browser will ask to use the microphone. Speak normally; recording stays on this computer.</p>
+        </div>
+      </div>
+
+      <div class="or"><span>or</span></div>
+
+      <div class="alt-inputs">
+        <label class="field">
+          <span>Upload an audio file</span>
+          <input type="file" id="fileInput" accept="audio/*,.wav,.mp3,.m4a,.webm,.ogg">
+        </label>
+        <label class="field">
+          <span>Use a saved recording</span>
+          <select id="savedSelect"><option value="">Choose…</option></select>
+        </label>
+      </div>
+      <button id="processBtn" class="primary" disabled>Transcribe</button>
+
+      <details class="settings">
+        <summary>Settings</summary>
+        <div class="settings-grid">
+          <label class="field">
+            <span>Transcription</span>
+            <select id="transcriber">
+              <option value="whisper">Whisper (free, runs on this computer)</option>
+              <option value="elevenlabs">ElevenLabs (cloud, needs key)</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Whisper accuracy</span>
+            <select id="whisperModel">
+              <option value="base.en">Fast (base)</option>
+              <option value="small.en">More accurate, ~3× slower (small)</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Speakers &amp; medical terms</span>
+            <select id="cleanup">
+              <option value="auto">Automatic (Claude if a key is set, else offline)</option>
+              <option value="claude">Claude (needs Anthropic key)</option>
+              <option value="offline">Offline (voice matching + dictionaries)</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>People in the room</span>
+            <select id="numSpeakers">
+              <option value="">Detect automatically</option>
+              <option value="2">2</option><option value="3">3</option><option value="4">4</option>
+            </select>
+          </label>
+          <label class="field wide">
+            <span>Medication hints (optional, comma-separated)</span>
+            <input type="text" id="keyterms" placeholder="e.g. lisinopril, metformin, glipizide">
+          </label>
+        </div>
+        <p id="keyNote" class="hint"></p>
+      </details>
+    </section>
+
+    <!-- Step 2: progress -->
+    <section class="card" id="progressCard" hidden aria-labelledby="progress-h">
+      <h2 id="progress-h"><span class="num">2</span> Working on it</h2>
+      <ol class="steps" id="steps">
+        <li data-step="save">Save audio</li>
+        <li data-step="transcribe">Transcribe speech to text</li>
+        <li data-step="speakers">Separate speakers</li>
+        <li data-step="terms">Check medical terms</li>
+      </ol>
+      <p id="progressMsg" class="hint" aria-live="polite"></p>
+      <p id="errorMsg" class="error" role="alert" hidden></p>
+    </section>
+
+    <!-- Step 3: results -->
+    <section class="card" id="resultsCard" hidden aria-labelledby="results-h">
+      <div class="results-head">
+        <h2 id="results-h"><span class="num">3</span> Transcript</h2>
+        <div class="downloads">
+          <a id="dlTxt" class="button-link" download>Download .txt</a>
+          <a id="dlJson" class="button-link" download>Download .json</a>
+        </div>
+      </div>
+      <p id="method" class="hint"></p>
+      <audio id="player" controls preload="metadata"></audio>
+      <div id="speakers" class="speakers"></div>
+
+      <div class="results-grid">
+        <div id="transcript" class="transcript"></div>
+        <aside class="side">
+          <h3>Needs clinician review</h3>
+          <ul id="review" class="review"></ul>
+          <h3>Medical term check</h3>
+          <ul id="terms" class="terms"></ul>
+          <p class="hint">Corrections are applied only when the term is in a medical dictionary and sounds like what was heard.
+            Highlighted words in the transcript were corrected; hover or tap to see what was heard.</p>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap foot">
+    <p>Test audio: PriMock57 mock consultations (Babylon Health, CC BY 4.0). Do not use real patient recordings during development.</p>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
