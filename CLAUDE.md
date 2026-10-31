@@ -84,6 +84,7 @@ The engine defaults to ElevenLabs when `ELEVENLABS_API_KEY` is set (in `.env` or
 - Printouts: large font (≥14pt), high contrast, plenty of white space, headings, bullet lists.
 - Phone script: written to be heard. Short sentences, repeat key instructions, avoid abbreviations and symbols, say numbers clearly.
 - Respectful tone toward older adults: never condescending or childish.
+- For every medicine and test, lead with plain words for what it is for, then the name in parentheses (Blood pressure medicine (Amlodipine); a blood test (BMP)). Tag any medicine the clinician changed (New, Higher dose, Lower dose, Stopped). Follow with one action line that says how many, how much, how often, and when (Take 1 pill (5 mg) twice a day, with meals). Spell out every abbreviation (BID, qhs, PRN, ER) in everyday words. Drug and test names stay only as the parenthetical name.
 
 ### Translation
 - English is the standard. The plain-language English version is the base output, and it can be translated into these optional languages: Mandarin, Spanish, Portuguese, and Arabic.
@@ -94,6 +95,7 @@ The engine defaults to ElevenLabs when `ELEVENLABS_API_KEY` is set (in `.env` or
 - Keep the same plain-language standards in the target language: short sentences, common words, no idioms or slang. Use the patient's stated language variety if given.
 - Mark every term translated on your own (not from an official source) and flag it for clinician review. Run a back-translation check to English and flag any drift in meaning.
 - If the clinician can't read the target language, mark the output "translation not verified by a speaker of this language" until a qualified reviewer confirms it.
+- Use the same layout in every language. Translate the purpose words, change tags, and action lines into everyday words in the target language (twice a day, at bedtime, as needed). Keep drug names, doses, and test names exactly as written in the parentheses. Never carry English abbreviations into the translation.
 
 ### Clinical safety
 - Never invent clinical content. Every diagnosis, medication, dose, and instruction must trace back to the source inputs. If something is unclear or missing, flag it for the clinician; don't guess.
@@ -103,6 +105,7 @@ The engine defaults to ElevenLabs when `ELEVENLABS_API_KEY` is set (in `.env` or
 - Plain-language explanations of a condition or medicine (e.g. from MedlinePlus or FDA) are used only for things the clinician documented. Never add warnings or side effects the clinician didn't mention.
 - A clinician must review and approve every output before it reaches a patient or family member. Nothing is sent automatically.
 - Contradictions between inputs (e.g. notes vs. transcript) are surfaced to the clinician, not silently resolved.
+- Link a symptom to a medicine, or call a medicine a cause, only if the clinician wrote it, and keep their level of certainty (“may be”).
 
 ### Privacy (PHI)
 - Use synthetic / de-identified data only for development and demos. Never commit real patient data, recordings, or transcripts.
