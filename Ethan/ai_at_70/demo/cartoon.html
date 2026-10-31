@@ -37,14 +37,14 @@ svg.bg{position:absolute;inset:0}
 .card h3{margin:0;font:800 24px "Plus Jakarta Sans",sans-serif}.sub{font:600 16px "Plus Jakarta Sans",sans-serif;color:var(--muted)}
 .tick{display:flex;align-items:center;gap:14px;font:700 21px "Plus Jakarta Sans",sans-serif;padding:12px 14px;border-radius:12px;background:#f1f7f6;margin-top:10px}
 .tick i{display:grid;place-items:center;width:30px;height:30px;border-radius:8px;background:var(--teal);color:#fff;font-style:normal;font-weight:800;flex:none}
-.hand{font:600 33px/1.25 Caveat,cursive;color:#23408e}
+.typed{font:500 20px/1.55 Menlo,'SF Mono',monospace;color:#12303d}
 .mail{font:500 16px/1.45 "Plus Jakarta Sans",sans-serif;white-space:pre-wrap;padding:18px 22px;color:var(--ink)}
 .mailhead{background:#f1f7f6;padding:14px 22px;border-bottom:1px solid var(--line);font:600 16px "Plus Jakarta Sans",sans-serif;color:var(--muted)}
 .mailhead b{display:block;font:800 21px "Plus Jakarta Sans",sans-serif;color:var(--blue)}
 .wave{position:absolute;z-index:4;border:4px solid var(--teal);border-radius:50%;animation:wave 1.4s ease-out infinite both}
 .flow{display:grid;grid-template-columns:1fr 44px 150px 44px 1fr;align-items:center;gap:6px;padding:8px 26px 26px}
 .flow .col{display:grid;gap:10px}.flow .lab{font:800 14px "Plus Jakarta Sans",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
-.item{display:flex;align-items:center;gap:10px;font:700 18px "Plus Jakarta Sans",sans-serif;background:#f1f7f6;border-radius:12px;padding:10px 12px}
+.item{display:flex;align-items:center;gap:10px;min-height:48px;font:700 18px "Plus Jakarta Sans",sans-serif;background:#f1f7f6;border-radius:12px;padding:10px 12px}
 .item span{font-size:22px}.item small{display:block;font:600 13px "Plus Jakarta Sans",sans-serif;color:var(--muted)}
 .item.opt{background:#fff;border:2px dashed #b9cfca}.item.out{background:#e4f4f1}
 .arrowx{font:800 30px "Plus Jakarta Sans",sans-serif;color:var(--teal);text-align:center}
@@ -106,7 +106,8 @@ function person(o) {
   const R = { down: sit ? [[44, shY + 8], [50, shY + 72], [28, hipY + 6]] : [[44, shY + 8], [52, shY + 78], [54, shY + 148]],
               hold: [[44, shY + 8], [52, shY + 76], [22, shY + 62]],
               phone: [[44, shY + 8], [64, shY + 40], [26, hy + 4]],
-              present: [[44, shY + 8], [80, shY + 44], [112, shY + 10]] }[arm];
+              present: [[44, shY + 8], [80, shY + 44], [112, shY + 10]],
+              type: [[44, shY + 8], [64, shY + 84], [104, shY + 108]] }[arm];
   const armG = (a, back) => `<g ${back ? 'style="filter:brightness(.92)"' : ""}>${line(a[0][0], a[0][1], a[1][0], a[1][1], 19, sleeve)}${line(a[1][0], a[1][1], a[2][0], a[2][1], 17, sleeve)}
     ${coat ? `<circle cx="${a[1][0]}" cy="${a[1][1]}" r="0"/>` : ""}<circle cx="${a[2][0]}" cy="${a[2][1]}" r="9.5" fill="${skin}"/></g>`;
   const mouth = look === "sad" ? `<path d="M-7 ${hy + 17} q7 -6 14 0" stroke="#6b2b22" stroke-width="2.6" fill="none" stroke-linecap="round"/>`
@@ -190,7 +191,7 @@ const SCENES = {
     today(); add(livingRoom());
     add(svg(chair(380, 610, "#9fb4c4") + person({ ...MARIA, x: 380, y: 610, pose: "sit", look: "sad" }) + table(500, 470, 150) + pills(522, 470)));
     add(`<div class="card namecard slidein" ${delay(0.4)}><b>Maria, 78</b><span>Type 2 diabetes · high blood pressure</span><span>Swollen legs for two weeks</span></div>`);
-    chip(0, "Today"); caption("Meet Maria");
+    caption("This is Maria, 78");
   },
   doctor() {  // today: a visit full of jargon
     today(); add(examRoom());
@@ -198,14 +199,14 @@ const SCENES = {
     [["Bilateral leg edema", 470, 80, 0.2], ["Titrate amlodipine", 600, 160, 0.8], ["Metformin 1000 mg BID", 450, 240, 1.4],
      ["Check BMP + microalbumin", 560, 320, 2.0], ["F/u 4 wks", 500, 400, 2.6]]
       .forEach(([t, x, y, d]) => add(`<div class="bubble jargon pop" style="left:${x}px;top:${y}px;animation-delay:${d}s">${t}</div>`));
-    qs(220, 150); chip(0, "Today"); caption("A visit full of medical words");
+    qs(220, 150); caption("Her check-ups move fast");
   },
   home() {  // today: home, and nobody is sure what changed
     today(); add(livingRoom());
     add(svg(table(480, 470, 300) + pills(590, 470) + person({ ...MARIA, x: 360, y: 630, look: "confused" }) + person({ ...SOFIA, x: 920, y: 630, look: "confused", flip: true })));
     add(`<div class="bubble tail-r pop" style="left:660px;top:110px;animation-delay:.3s">What did the doctor say, Mom?</div>`);
     add(`<div class="bubble tail-l pop" style="left:250px;top:130px;animation-delay:1.6s">I… don't remember.</div>`);
-    qs(570, 280, 4); chip(0, "Today"); caption("Home again, and just as confused");
+    qs(570, 280, 4); caption("By the time she's home, it's all a blur");
   },
   turn() {  // the same visit, with AI at 70
     add(`<div class="turn"><div><img class="pop" src="${DATA.logo}"><small class="fadeup" ${delay(0.2)}>The same visit,</small><b class="fadeup" ${delay(0.7)}>with AI at 70</b></div></div>`);
@@ -216,16 +217,19 @@ const SCENES = {
     add(`<div class="card slidein" style="left:620px;top:110px;width:520px;padding:26px 28px;animation-delay:0s"><h3>Today's check-in</h3><div class="sub">A few simple questions</div>
       ${[["Follow-up visit", 0.4], ["Help remembering medicines", 0.75], ["Share my summary with my daughter, Sofia", 1.1]]
         .map(([t, d]) => `<div class="tick pop" style="animation-delay:${d}s"><i>✓</i>${t}</div>`).join("")}</div>`);
-    chip(1, "Check-in"); caption("Maria arrives for her visit");
+    chip(1, "Check-in"); caption("Maria checks in with a few simple questions");
   },
   visit() {  // Dr. Lee takes notes
     add(examRoom());
-    add(svg(chair(320, 610, "#9ec3dc") + person({ ...MARIA, x: 320, y: 610, pose: "sit", look: "neutral" }) + person({ ...DOCTOR, x: 650, y: 620, arm: "hold", look: "talk", flip: true, prop: PROPS.clipboard })));
-    add(`<div class="card slidein" style="left:800px;top:220px;width:430px;padding:22px 28px;background:#fffef6;transform:rotate(1.5deg);animation-delay:.2s">
-      <div class="sub" style="margin-bottom:6px">Dr. Lee's notes</div>
-      ${["Bilat. leg edema x 2 wks", "↓ amlodipine to 5 mg daily", "↑ metformin 1000 mg BID", "BMP + urine microalb today", "F/u 4 wks · ER / 911 if CP"]
-        .map((t, i) => `<div class="hand fadeup" style="animation-delay:${0.6 + i * 0.6}s">${t}</div>`).join("")}</div>`);
-    chip(2, "The visit"); caption("Notes full of medical shorthand");
+    const laptop = `<g transform="translate(690 450)"><path d="M10 -96 h130 a8 8 0 0 1 8 8 v88 h-146 v-88 a8 8 0 0 1 8 -8z" fill="#1f2d36"/><rect x="10" y="-88" width="130" height="80" rx="3" fill="#eef6f4"/>
+      <path d="M22 -74 h70 M22 -60 h96 M22 -46 h58 M22 -32 h84" stroke="#38b6a9" stroke-width="5" stroke-linecap="round"/><path d="M-12 0 h174 l-12 12 h-150z" fill="#8a9aa8"/></g>`;
+    add(svg(chair(230, 610, "#9ec3dc") + person({ ...MARIA, x: 230, y: 610, pose: "sit", look: "neutral" }) + table(620, 450, 260) + laptop
+      + person({ ...DOCTOR, x: 960, y: 620, arm: "type", look: "talk", flip: true })));
+    add(`<div class="card slidein" style="left:420px;top:60px;width:420px;padding:20px 26px;animation-delay:.2s">
+      <div class="sub" style="margin-bottom:8px">Dr. Lee's typed notes</div>
+      ${["Bilat. leg edema x 2 wks", "Decr. amlodipine to 5 mg daily", "Incr. metformin 1000 mg BID", "BMP + urine microalb today", "F/u 4 wks; ER/911 if CP"]
+        .map((t, i) => `<div class="typed fadeup" style="animation-delay:${0.5 + i * 0.45}s">${t}</div>`).join("")}</div>`);
+    chip(2, "The visit"); caption("Doctor Lee types up notes, in the usual shorthand");
   },
   recommend() {  // Dr. Lee explains AI at 70: what goes in, what comes out
     add(examRoom());
@@ -235,55 +239,57 @@ const SCENES = {
       <div style="padding:20px 26px 6px"><h3>AI at 70</h3><div class="sub">Dr. Lee's tool: visit notes in, a plain-language summary out</div></div>
       <div class="flow">
         <div class="col"><div class="lab">In</div>
-          <div class="item pop" ${delay(1.2)}><span>📋</span><div>Check-in</div></div>
-          <div class="item pop" ${delay(1.6)}><span>📝</span><div>Visit notes</div></div>
-          <div class="item opt pop" ${delay(2.0)}><span>🎙️</span><div>Conversation<small>optional</small></div></div></div>
+          <div class="item pop" ${delay(1.2)}><div>Check-in</div></div>
+          <div class="item pop" ${delay(1.6)}><div>Typed visit notes</div></div>
+          <div class="item opt pop" ${delay(2.0)}><div>Conversation recording<small>adds helpful detail</small></div></div></div>
         <div class="arrowx fadeup" ${delay(2.6)}>→</div>
-        <div class="core pop" ${delay(3.0)}><img src="${DATA.logo}">AI at 70<small>5th-grade words · checked by Dr. Lee</small></div>
+        <div class="core pop" ${delay(3.0)}><img src="${DATA.logo}">AI at 70<small>checked by Dr. Lee</small></div>
         <div class="arrowx fadeup" ${delay(3.6)}>→</div>
         <div class="col"><div class="lab">Out</div>
-          <div class="item out pop" ${delay(4.2)}><span>🖨️</span><div>Printout</div></div>
-          <div class="item out pop" ${delay(4.6)}><span>✉️</span><div>Email</div></div>
-          <div class="item out pop" ${delay(5.0)}><span>📞</span><div>Phone call</div></div></div>
+          <div class="item out pop" ${delay(4.2)}><div>Printout</div></div>
+          <div class="item out pop" ${delay(4.6)}><div>Email</div></div>
+          <div class="item out pop" ${delay(5.0)}><div>Phone call</div></div></div>
       </div></div>`);
-    chip(3, "AI at 70"); caption("Notes in. A plain-language summary out.");
+    chip(3, "AI at 70"); caption("Notes in, plain, everyday language out");
   },
-  photo() {  // Dr. Lee photographs the notes
-    add(examRoom());
-    add(svg(person({ ...DOCTOR, x: 300, y: 630, arm: "present", prop: PROPS.phone })));
-    add(`<div class="card pop" style="left:560px;top:70px;width:620px;transform:rotate(1.5deg);animation-delay:.2s"><img src="${DATA.note}" style="width:100%;display:block"></div>`);
-    add(`<div style="position:absolute;inset:0;z-index:9;background:#fff;opacity:0;animation:flash .5s ease-out .9s both"></div>`);
-    chip(3, "AI at 70"); caption("A photo of the notes is all it needs");
+  spanish() {  // the same summary, translated
+    add(`<div class="end" style="background:linear-gradient(135deg,#eaf6f3,#dceefa)"></div>`);
+    [["English", DATA.printout, 110, 0.1, -1.5], ["Español", DATA.printoutEs, 670, 0.9, 1.5]].forEach(([label, img, x, d, r]) =>
+      add(`<div class="card slidein" style="left:${x}px;top:70px;width:500px;height:520px;transform:rotate(${r}deg);animation-delay:${d}s">
+        <div style="position:absolute;top:14px;right:14px;z-index:2;background:${label === "English" ? "#1c5d84" : "#38b6a9"};color:#fff;border-radius:999px;padding:6px 16px;font:800 18px 'Plus Jakarta Sans'">${label}</div>
+        <img src="${img}" style="width:100%;display:block"></div>`));
+    add(`<div class="pop" style="position:absolute;z-index:7;left:604px;top:290px;width:72px;height:72px;border-radius:50%;background:#fff;box-shadow:0 10px 26px rgba(18,48,61,.2);display:grid;place-items:center;font:800 34px 'Plus Jakarta Sans';color:#38b6a9;animation-delay:.6s">→</div>`);
+    chip(3, "AI at 70"); caption("Here it is in Spanish, in plain, everyday words");
   },
   handoff() {  // Maria leaves with her printout
     add(waitingRoom());
     add(svg(person({ ...MARIA, x: 250, y: 630, arm: "hold", prop: PROPS.paper }) + person({ ...DOCTOR, x: 1110, y: 630, arm: "present", flip: true })));
     add(`<div class="card slidein" style="left:420px;top:60px;width:440px;height:520px;animation-delay:.2s"><img src="${DATA.printout}" style="width:100%;display:block"></div>`);
     add(`<div class="bubble tail-r pop" style="left:790px;top:140px;animation-delay:1.2s;font-size:21px">See you in 4 weeks, Maria!</div>`);
-    chip(4, "Going home"); caption("Printed before she leaves");
+    chip(4, "Going home"); caption("Maria leaves with her summary in hand");
   },
   email() {  // at home: Sofia gets the email
     add(livingRoom());
     add(svg(sofa(80, 380) + person({ ...MARIA, x: 200, y: 610, pose: "sit", arm: "hold", prop: PROPS.paper }) + person({ ...SOFIA, x: 560, y: 630, arm: "hold", prop: PROPS.phone })));
     add(`<div class="card slidein" style="left:690px;top:60px;width:540px;height:560px;animation-delay:.2s"><div class="mailhead"><b>Your mom's visit summary</b>From: Dr. Lee's office · AI at 70</div><div class="mail">${DATA.familyEmail}</div></div>`);
-    chip(5, "At home"); caption("Sofia gets the summary by email");
+    chip(5, "At home"); caption("That evening, Sofia gets it by email");
   },
   phone() {  // a phone call walks them through it
     add(livingRoom());
     add(svg(sofa(80, 420) + person({ ...MARIA, x: 190, y: 610, pose: "sit", look: "happy" }) + person({ ...SOFIA, x: 380, y: 610, pose: "sit", arm: "phone", prop: PROPS.phoneEar })));
     [0, 0.45, 0.9].forEach((d) => add(`<div class="wave" style="left:400px;top:200px;width:80px;height:80px;animation-delay:${d}s"></div>`));
     add(`<div class="card slidein" style="left:640px;top:80px;width:560px;padding:24px 30px;animation-delay:.2s">
-      <div class="sub">📞 Incoming call · AI at 70</div><div style="font:800 32px 'Plus Jakarta Sans';color:#1c5d84;margin:4px 0 14px">Dr. Lee's office</div>
+      <div class="sub">Incoming call · AI at 70</div><div style="font:800 32px 'Plus Jakarta Sans';color:#1c5d84;margin:4px 0 14px">Dr. Lee's office</div>
       ${DATA.phone.map((l, i) => `<div class="fadeup" style="font:600 24px/1.35 'Plus Jakarta Sans';margin:10px 0;padding:12px 16px;background:#f1f7f6;border-radius:12px;animation-delay:${DATA.phoneAt[i]}s">“${l}”</div>`).join("")}</div>`);
-    chip(5, "At home"); caption("A phone call, in a warm, clear voice");
+    chip(5, "At home"); caption("A friendly call goes over what matters most");
   },
   together() {  // Maria and Sofia, each with the summary
     add(livingRoom());
     add(svg(sofa(80, 420) + person({ ...MARIA, x: 190, y: 610, pose: "sit", arm: "hold", prop: PROPS.paper }) + person({ ...SOFIA, x: 380, y: 610, pose: "sit", arm: "hold", prop: PROPS.phone })));
     add(`<div style="position:absolute;z-index:6;left:700px;top:130px;width:460px;display:grid;gap:18px">
-      ${[["🖨️", "Printout", "Maria", 0.3], ["✉️", "Email", "Sofia", 0.8], ["📞", "Phone call", "Sofia", 1.3]]
-        .map(([e, t, who, d]) => `<div class="badge pop" ${delay(d)}><span>${e}</span><div>${t}<div class="sub">${who}</div></div><i>✓</i></div>`).join("")}</div>`);
-    chip(5, "At home"); caption("Everyone knows what comes next");
+      ${[["Printout", "Maria", 0.3], ["Email", "Sofia", 0.8], ["Phone call", "Sofia", 1.3]]
+        .map(([t, who, d]) => `<div class="badge pop" ${delay(d)}><div>${t}<div class="sub">${who}</div></div><i>✓</i></div>`).join("")}</div>`);
+    chip(5, "At home"); caption("This time, nobody's guessing");
   },
   end() {
     add(`<div class="end">${svg(blobs([[200, 160, 220, "#fff", 0.5], [1120, 600, 260, "#fff", 0.45]]))}<div><img src="${DATA.logo}"><h1>AI at 70</h1>

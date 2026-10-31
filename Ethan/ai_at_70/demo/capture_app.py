@@ -2,8 +2,8 @@
 
 Needs the server running (python Ethan/ai_at_70/app.py) and the demo audio (test_kit/make_test_audio.py).
 Chrome's fake microphone plays demo/maria_visit.wav into the Record button, so the recording step is real.
-Writes demo/video/build/app.webm plus marks.json (when each moment happens), a picture of the printout, and the
-email and phone text the video shows.
+Writes demo/video/build/app.webm plus marks.json (when each moment happens), pictures of the printout (English and
+Spanish), and the email and phone text the video shows.
 
     python Ethan/ai_at_70/demo/capture_app.py
 """
@@ -74,13 +74,15 @@ def main() -> None:
         mark("transcribed")
         page.wait_for_timeout(2500)
 
-        # the photo of Dr. Lee's notes
+        # Dr. Lee's typed note, uploaded as a file
         page.click("#next3")
         page.wait_for_timeout(800)
         mark("note")
-        page.set_input_files("#nFile", str(HERE / "maria_note_photo.jpg"))
+        page.wait_for_timeout(700)
+        page.set_input_files("#nFile", str(HERE / "maria_note.txt"))
         page.wait_for_function("document.getElementById('nStatus').textContent.startsWith('✓')", timeout=120000)
         mark("note_read")
+        page.wait_for_timeout(1500)
         page.click("#clinName")
         page.keyboard.type("Dr. Lee", delay=60)
         page.click("#office")
@@ -124,6 +126,19 @@ def main() -> None:
             body: JSON.stringify({doc, lang: 'en', patient: 'Maria Rodriguez', recipient: 'Sofia Rodriguez', relationship: 'Daughter',
                                   clinician: 'Dr. Lee', office_phone: '555-0100'})})).json()).email""")
         phone_lines = page.evaluate("[...document.querySelectorAll('#script li')].map(li => li.textContent)")
+
+        # the same summary in Spanish (the language buttons above the patient's page)
+        page.locator("#langs").scroll_into_view_if_needed()
+        page.mouse.wheel(0, -120)
+        page.wait_for_timeout(800)
+        mark("spanish")
+        page.click("#langs button:has-text('Español')")
+        page.wait_for_function("document.getElementById('sheet').lang === 'es' && !document.querySelector('#langs button').disabled", timeout=180000)
+        page.wait_for_timeout(500)
+        mark("spanish_done")
+        page.mouse.wheel(0, 300)
+        page.wait_for_timeout(2500)
+        page.locator("#sheet").screenshot(path=str(BUILD / "printout_es.png"))
         ctx.close()
         video = Path(page.video.path())
         browser.close()

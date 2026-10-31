@@ -1,15 +1,15 @@
 """Build the ~60-second AI at 70 demo video: Maria Rodriguez's visit, today and with AI at 70.
 
     python Ethan/ai_at_70/test_kit/make_test_audio.py   # once: demo/maria_visit.wav
-    python Ethan/ai_at_70/demo/make_note_photo.py       # once: demo/maria_note_photo.jpg
     python Ethan/ai_at_70/app.py &                      # the real page, for the screen recording
     python Ethan/ai_at_70/demo/capture_app.py           # records the page (demo/video/build/app.webm)
     python Ethan/ai_at_70/demo/make_video.py            # -> demo/video/ai_at_70_demo.mp4
 
 Built like a short ad: hook (meet Maria), problem (a visit full of jargon, a confused home), the turn ("the same
-visit, with AI at 70"), how it works (simple check-in, Dr. Lee's notes, AI at 70 in and out, approval, the printout),
+visit, with AI at 70"), how it works (simple check-in, Dr. Lee's typed notes, AI at 70 in and out, the recording as a helpful extra, uploading
+the typed notes, approval, translation as an option, the printout),
 the payoff at home (email and phone call for her daughter Sofia), and the line that answers the problem
-("nobody's guessing"). About 145 spoken words: one continuous voiceover with real pauses, scenes crossfade.
+("nobody's guessing"). About 175 spoken words (~75 s): one continuous voiceover with real pauses, scenes crossfade.
 
 Cartoon scenes come from cartoon.html (modern flat style), rendered frame by frame; the app scenes are cut from the
 screen recording of the real page and shown in a browser window. Narration and the phone-call voice are Kokoro (the
@@ -54,13 +54,17 @@ STORY = [
     # the turn
     ("turn", "Now, the same visit, with AI at 70.", 0.5),
     # how it works
-    ("arrive@1.6 + app:checkin:checkin_done|A few simple questions", "Maria checks in with a few simple questions.", 0.7),
-    ("visit", "Doctor Lee takes notes, in the usual shorthand.", 0.5),
-    ("recommend", "Then, Doctor Lee turns to AI at 70. The notes go in, and out comes a summary in plain, everyday words.", 0.9),
-    ("app:record:+2.4|Optional: record the conversation + photo@1.2 + app:note:+2.2|Read from the photo",
-     "Recording the visit is optional. A photo of the notes is enough.", 0.6),
-    ("app:summary:approved+0.8|Plain words, checked by Dr. Lee", "Doctor Lee reads it over, and approves it,", 0.2),
-    ("handoff", "and Maria leaves with it, right in her hand.", 0.7),
+    ("arrive@1.6 + app:checkin:checkin_done|Maria checks in with a few simple questions", "Maria checks in with a few simple questions.", 0.7),
+    ("visit", "Doctor Lee types up notes, in the usual shorthand.", 0.6),
+    ("recommend", "Then Doctor Lee turns to AI at 70, which takes those notes and turns them into a summary in plain, everyday language.", 0.9),
+    ("app:record:recording+2.5|Recording the conversation adds helpful detail + app:transcribed:+2.0|Recording the conversation adds helpful detail",
+     "Recording the conversation can add helpful detail, and it's written out right away.", 0.6),
+    ("app:note:note_read+1.2|Doctor Lee uploads the typed notes", "Then Doctor Lee uploads the typed notes.", 0.5),
+    ("app:summary:approved+0.8|Doctor Lee reads it over and approves it", "In seconds, there's a summary. Doctor Lee reads it over, and approves it.", 0.5),
+    ("app:spanish:spanish_done+1.2|Spanish, Mandarin, Portuguese or Arabic",
+     "For patients who prefer another language, it can be translated into Spanish, Mandarin, Portuguese, or Arabic.", 0.5),
+    ("spanish", "Here it is in Spanish, still in plain, everyday words.", 0.7),
+    ("handoff", "Maria leaves with her summary, right in her hand.", 0.7),
     # the payoff: at home
     ("email", "That evening, Sofia gets it by email,", 0.15),
     ("phone", "and a friendly call goes over what matters most.", 0.4),   # + the phone voice
@@ -88,7 +92,7 @@ def caption_png(page, text: str, path: Path) -> None:
 
 def cartoon_data(phone_at=(3.0, 5.6)) -> str:
     fam = json.loads((BUILD / "family_email.json").read_text())["body"].split("\n")
-    data = {"logo": "video/build/logo.png", "note": "maria_note_photo.jpg", "printout": "video/build/printout.png",
+    data = {"logo": "video/build/logo.png", "printout": "video/build/printout.png", "printoutEs": "video/build/printout_es.png",
             "familyEmail": "\n".join(fam[:15]), "phone": PHONE_LINES, "phoneAt": list(phone_at)}
     return urllib.parse.quote(json.dumps(data))
 

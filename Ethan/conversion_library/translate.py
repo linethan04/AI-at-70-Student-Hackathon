@@ -99,14 +99,32 @@ def run(pair: str, lines: list[str], candidates: int = 1) -> list[list[str]]:
     return [[tidy(h) for h in r.hypotheses] for r in results]
 
 
+# Fixed everyday wording for words the summary uses again and again, so a page says them the same way every time
+# (the model alone mixes "pastilla", "comprimido" and "píldora", or "usted" and "tú"). Our own wording (model
+# knowledge), flagged like every other translated line. (English pattern, wording in the target language.)
+GLOSSARY = {
+    "es": [(r"\bBlood sugar medicine\b", "Medicina para el azúcar en la sangre"),
+           (r"\bBlood pressure medicine\b", "Medicina para la presión arterial"),
+           (r"\bCholesterol medicine\b", "Medicina para el colesterol"),
+           (r"\bPain medicine\b", "Medicina para el dolor"),
+           (r"\bTake 1 pill\b", "Tome 1 pastilla"),
+           (r"\bthe swelling\b", "la hinchazón"), (r"\bswelling\b", "hinchazón")],
+}
+WHOLE_LINES = {"es": {"Raise your legs when you sit.": "Suba las piernas cuando se siente."}}
+
 TOKENS = ("ZX{}", "VAR{}", "#{}")  # placeholder styles, tried in turn (the Arabic model garbles some)
 SCRIPT = {"zh": r"[\u4e00-\u9fff]", "ar": r"[\u0600-\u06ff]", "es": r"[a-záéíóúñ]", "pt": r"[a-záéíóúãõç]"}
 ONE = {"zh": "一", "ar": "واحد", "es": r"\bun[oa]?\b", "pt": r"\bu(?:m|ma)\b"}  # "1 pill" may become "one pill"
 
 
-def protect(line: str, keep: set[str], style: str = TOKENS[0]) -> tuple[str, dict[str, str]]:
-    """'Take 1 pill (5 mg) of Amlodipine' -> 'Take 1 pill (ZX1) of ZX2', {'ZX1': '5 mg', 'ZX2': 'Amlodipine'}."""
-    spans = []
+def protect(line: str, keep: set[str], style: str = TOKENS[0], lang: str = "") -> tuple[str, dict[str, str]]:
+    """'Take 1 pill (5 mg) of Amlodipine' -> 'Take 1 pill (ZX1) of ZX2', {'ZX1': '5 mg', 'ZX2': 'Amlodipine'}.
+    Glossary words for `lang` are swapped too, and come back in the target language."""
+    spans, fixed = [], {}
+    for pattern, target in GLOSSARY.get(lang, []):
+        for m in re.finditer(pattern, line):
+            spans.append(m.span())
+            fixed[m.span()] = target
     for name in sorted(keep, key=len, reverse=True):
         spans += [m.span() for m in re.finditer(rf"(?<![\w-]){re.escape(name)}(?![\w-])", line)]
     for pattern in (DOSE, PHONE, DOCTOR):
@@ -118,7 +136,7 @@ def protect(line: str, keep: set[str], style: str = TOKENS[0]) -> tuple[str, dic
     out, slots, pos = [], {}, 0
     for i, (start, end) in enumerate(chosen, 1):
         token = style.format(i)
-        slots[token] = line[start:end]
+        slots[token] = fixed.get((start, end), line[start:end])
         out.append(line[pos:start] + token)
         pos = end
     return "".join(out) + line[pos:], slots
@@ -156,17 +174,24 @@ def translate_lines(lines: list[str], lang: str, keep: set[str] = frozenset(), s
     if lang == "en":
         return [{"en": l, "text": l, "back": "", "flags": []} for l in lines]
     chosen: list[tuple[str, dict] | None] = [None] * len(lines)
+    for i, line in enumerate(lines):
+        if line in WHOLE_LINES.get(lang, {}):
+            chosen[i] = (WHOLE_LINES[lang][line], {})
+        else:
+            p, slots = protect(line, set(keep), lang=lang)
+            if slots and not re.sub(r"ZX\d+|[\W\d]", "", p):  # nothing left to translate ("Pain medicine")
+                chosen[i] = (p, slots)
     if os.environ.get("ANTHROPIC_API_KEY"):
-        protected = [protect(l, set(keep)) for l in lines]
+        protected = [protect(l, set(keep), lang=lang) for l in lines]
         forward = claude_translate([p for p, _ in protected], lang) or []
         for i, (f, (p, slots)) in enumerate(zip(forward, protected)):
-            if usable(f, slots, lang, p):
+            if chosen[i] is None and usable(f, slots, lang, p):
                 chosen[i] = (f, slots)
     for style in TOKENS:  # offline: each placeholder style in turn, for the lines still without a translation
         todo = [i for i, c in enumerate(chosen) if c is None]
         if not todo:
             break
-        protected = {i: protect(lines[i], set(keep), style) for i in todo}
+        protected = {i: protect(lines[i], set(keep), style, lang) for i in todo}
         for i, options in zip(todo, run(f"en_{lang}", [protected[i][0] for i in todo], CANDIDATES)):
             slots = protected[i][1]
             chosen[i] = next(((o, slots) for o in options if usable(o, slots, lang, protected[i][0])), None)
