@@ -361,9 +361,16 @@ async function transcribe(blob, name) {
   const form = new FormData(); form.append("audio", blob, name); form.append("transcriber", cfg.elevenlabs ? "elevenlabs" : "whisper"); form.append("cleanup", "auto");
   try {
     const { job_id } = await api("/audio/api/jobs", { method: "POST", body: form });
-    for (;;) {
+    for (let misses = 0; ;) {
       await new Promise((r) => setTimeout(r, 1500));
-      const j = await api(`/audio/api/jobs/${job_id}`);
+      // a dropped connection (the server restarting, a busy moment) is retried for about 30 seconds
+      let r;
+      try { r = await fetch(`/audio/api/jobs/${job_id}`); misses = 0; } catch {
+        if (++misses > 20) throw new Error("lost contact with the server. Check that python scripts/run_ai_at_70.py is still running, then upload the audio again.");
+        status.textContent = "Reconnecting to the server…"; continue;
+      }
+      if (r.status === 404) throw new Error("the server was restarted and this recording's job was lost. Upload the audio again.");
+      const j = await r.json();
       status.textContent = j.message || "Working…";
       if (j.status === "error") throw new Error(j.message);
       if (j.status === "done") {
