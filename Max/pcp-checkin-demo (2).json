@@ -1,0 +1,63 @@
+{
+  "questionnaire_version": "1.1.0",
+  "language": "en",
+  "summary_language": "en",
+  "submitted_at": "2026-10-31T00:36:13.061Z",
+  "answers": {
+    "visit_type": "Follow-up visit",
+    "visit_reason": "I am here for a follow-up appointment about my high blood pressure and diabetes. I have been feeling more tired than usual, especially in the afternoons. I am also concerned that my blood sugar might be getting worse.",
+    "top_concern": "I am worried about developing complications from diabetes because my mother had diabetes and eventually developed kidney problems.",
+    "symptom_start": "",
+    "patient_questions": "Do I need to change my medications? What can I do to improve my blood sugar without completely changing my diet? How often should I check my blood pressure?",
+    "conditions": "Type 2 diabetes, hypertension, high cholesterol",
+    "surgeries": "Appendectomy in 2005",
+    "family_history": "Mother: Type 2 diabetes and chronic kidney disease. Father: Hypertension and heart attack at age 68",
+    "medications": "Medication\tDose\tFrequency\nMetformin\t1,000 mg\tTwice daily\nLisinopril\t10 mg\tOnce daily\nAtorvastatin\t20 mg\tOnce daily",
+    "medication_changes": "",
+    "allergies": "Penicillin — causes an itchy rash",
+    "other_clinicians": "Ophthalmologist for annual diabetic eye exams",
+    "symptoms": [
+      "Fever or fatigue",
+      "Painful or frequent urination",
+      "Headache, dizziness, numbness, or weakness",
+      "Other"
+    ],
+    "symptoms_details": "I have been feeling tired around 2 or 3 PM almost every day. I sometimes wake up at night to use the bathroom. I have also been getting mild headaches a few times per week.",
+    "mental_health": "Prefer not to answer",
+    "activity": "I walk about 15 minutes during my lunch break three days per week. I do not have a regular exercise routine outside of work.",
+    "food": "I usually eat cereal or toast for breakfast. I bring a sandwich or leftovers for lunch. Dinner is often rice, chicken, and vegetables. I enjoy traditional family meals and would prefer not to give up foods I grew up eating.",
+    "sleep": "7–8",
+    "work_schedule": "I work Monday through Friday from 7:30 AM to 4 PM. I have limited time for appointments during the school year.",
+    "tobacco": "No",
+    "alcohol": "Monthly",
+    "other_substances": "",
+    "support": "I live with my husband and teenage daughter. My husband usually prepares dinner, and we often eat together as a family.",
+    "barriers": [
+      "Time or work schedule",
+      "Remembering medications or appointments",
+      "Food access"
+    ],
+    "barriers_details": "My biggest challenges are finding time to exercise, remembering to take medications during busy mornings, and preparing healthy meals that my entire family will enjoy.",
+    "preferred_changes": "I would be willing to walk for 20 minutes after dinner with my husband, reduce sugary drinks, and make small changes to our family meals. I would prefer gradual changes instead of a strict diet.",
+    "learning_style": "Simple explanations with a little detail",
+    "goal": "I prefer simple language with specific instructions. I would like to understand why I am taking each medication and what I should do if something goes wrong.",
+    "patient_email": "maria.rodriguez@example.com",
+    "email_patient_consent": [
+      "Yes"
+    ],
+    "caregiver_share_consent": [
+      "Yes"
+    ],
+    "caregiver_name": "Daniel Rodriguez",
+    "caregiver_relationship": "Husband",
+    "caregiver_email": "daniel.rodriguez@example.com",
+    "email_risk_ack": [
+      "I understand"
+    ],
+    "caregiver_risk_ack": [
+      "I understand"
+    ],
+    "consent_name": "Maria Rodriguez",
+    "consent_date": "2026-10-30"
+  }
+}
