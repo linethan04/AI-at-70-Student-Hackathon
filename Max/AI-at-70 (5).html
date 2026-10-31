@@ -2,7 +2,8 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>AI at 70</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-<style>:root{--bg:#f1f8f6;--paper:#fff;--ink:#12303d;--muted:#4f6877;--line:#cde2de;--blue:#1c5d84;--sky:#35a5e0;--teal:#38b6a9;--green:#1d7a55;--green-d:#16633f;--green-soft:#dff2e8;--amber:#7a5200;--amber-soft:#fdf0cc;--red:#b3261e;color-scheme:light}
+<style>:root{--bg:#f1f8f6;--paper:#fff;--ink:#12303d;--muted:#4f6877;--line:#cde2de;--blue:#1c5d84;--sky:#35a5e0;--teal:#38b6a9;--green:#1d7a55;--green-d:#16633f;--green-soft:#dff2e8;--amber:#7a5200;--amber-soft:#fdf0cc;--red:#b3261e;--red-soft:#fbe4e2;
+  --med-old:#fbe0de;--med-old-ink:#9b1c14;--med-new:#d8f0dc;--word-old:#ece3f8;--word-old-ink:#5b2a8c;--word-new:#d9ecfb;color-scheme:light}
 *{box-sizing:border-box}[hidden]{display:none!important}
 body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "Nunito Sans","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;overflow-x:hidden}
 h1,h2,h3,p{margin:0}.muted{color:var(--muted)}.small{font-size:.85rem}
@@ -17,7 +18,7 @@ h1,h2,h3,.bt b,.btn{font-family:"Nunito","Segoe UI",system-ui,sans-serif}
 .env{font-size:.8rem;font-weight:700;color:var(--amber);background:var(--amber-soft);padding:4px 12px;border-radius:6px}
 @media(max-width:640px){.top{padding:10px 16px 16px}.env{display:none}.bt b{font-size:1.4rem}}
 /* step track: dots joined by little pulse lines */
-.track{padding:22px 24px 0;max-width:1080px;margin:0 auto}
+.track{padding:22px 24px 0;max-width:1180px;margin:0 auto}
 .track ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 0;counter-reset:s}
 .track li{counter-increment:s;display:flex;align-items:center;gap:9px;font-weight:700;color:var(--muted);cursor:pointer;padding:4px 0}
 .track li:not(:last-child)::after{content:"";width:46px;height:14px;margin:0 12px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='14' viewBox='0 0 46 14'%3E%3Cpath d='M0 8H15L19 2L24 13L28 5L31 8H46' fill='none' stroke='%23b9d3cf' stroke-width='2' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center}
@@ -26,12 +27,13 @@ h1,h2,h3,.bt b,.btn{font-family:"Nunito","Segoe UI",system-ui,sans-serif}
 .track li.active{color:var(--ink)}.track li.active i{border-color:var(--blue);background:var(--blue);color:#fff}
 .track li.done i{background:var(--green);border-color:var(--green);color:#fff}.track li.done i::before{content:"✓"}.track li.done{color:var(--ink)}
 @media(max-width:760px){.track li:not(:last-child)::after{width:18px;margin:0 6px;background:none;border-top:2px solid #b9d3cf}.track li{font-size:.85rem}}
-.pbanner{display:flex;align-items:center;gap:14px;flex-wrap:wrap;max-width:1032px;margin:20px auto 0;padding:10px 18px;background:#fff;border:1px solid var(--line);border-left:5px solid var(--teal);border-radius:8px}
-@media(max-width:1090px){.pbanner{margin-inline:16px}}
+.pbanner{display:flex;align-items:center;gap:14px;flex-wrap:wrap;max-width:1132px;margin:20px auto 0;padding:10px 18px;background:#fff;border:1px solid var(--line);border-left:5px solid var(--teal);border-radius:8px}
+@media(max-width:1190px){.pbanner{margin-inline:16px}}
 .avatar{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#d9eefb;color:var(--blue);font:800 .95rem "Nunito",sans-serif}
 .pinfo{display:flex;flex-direction:column;min-width:0}.pinfo b{font:800 1.05rem "Nunito",sans-serif}.pinfo span{color:var(--muted);font-size:.88rem}
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin-inline-start:auto}.chip{font-size:.8rem;font-weight:700;padding:3px 11px;border-radius:6px;background:#e8eeed;color:var(--muted)}.chip.ok{background:var(--green-soft);color:var(--green-d)}
-.stage{max-width:1080px;margin:0 auto;padding:34px 24px 70px}
+.stage{max-width:1180px;margin:0 auto;padding:34px 24px 70px}
+@media(max-width:640px){.stage{padding:22px 16px 60px}}
 /* two columns: words on the left, work on the right */
 .split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:52px;align-items:start}
 @media(max-width:860px){.split{grid-template-columns:1fr;gap:22px}}
@@ -40,45 +42,90 @@ h1,h2,h3,.bt b,.btn{font-family:"Nunito","Segoe UI",system-ui,sans-serif}
 .lead{font-size:1.15rem;color:var(--ink);margin-bottom:18px}
 .note{border-left:4px solid var(--teal);padding:2px 0 2px 14px;color:var(--muted);font-size:.98rem}
 .panel{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:14px;box-shadow:0 1px 0 #fff,0 10px 28px rgb(28 93 132/.08)}
-textarea,input[type=text],input[type=password]{width:100%;font:inherit;color:var(--ink);background:#fbfefd;border:1.5px solid #b3cfca;border-radius:8px;padding:13px 15px}
-textarea{resize:vertical;min-height:200px}textarea:focus,input:focus{border-color:var(--sky);outline:0;box-shadow:0 0 0 4px #d9eefb}
+textarea,input[type=text],input[type=tel],select{width:100%;font:inherit;color:var(--ink);background:#fbfefd;border:1.5px solid #b3cfca;border-radius:8px;padding:11px 14px}
+textarea{resize:vertical;min-height:200px}textarea:focus,input:focus,select:focus{border-color:var(--sky);outline:0;box-shadow:0 0 0 4px #d9eefb}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.fields label,.lab{display:grid;gap:4px;font-weight:700;font-size:.9rem;color:var(--muted)}
 .keylab{font:800 1rem "Nunito",sans-serif;color:var(--blue);margin-top:4px}.keylab span{font:400 .85rem "Nunito Sans",sans-serif;color:var(--muted)}
 .drop{display:grid;justify-items:center;gap:12px;padding:34px 16px;border:2px dashed #9cc7c0;border-radius:10px;background:#f6fbfa;text-align:center;transition:background .15s,border-color .15s}
-.drop.over{background:#dcf1fb;border-color:var(--sky)}.drop p{font:800 1.05rem "Nunito",sans-serif;color:var(--blue)}.drop.slim{padding:10px;grid-auto-flow:column;justify-content:center}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border-radius:8px;border:1.5px solid #8fb7b0;background:#fff;color:var(--blue);font-weight:800;font-size:1rem;cursor:pointer;text-decoration:none;transition:background .12s,transform .12s}
+.drop.over{background:#dcf1fb;border-color:var(--sky)}.drop p{font:800 1.05rem "Nunito",sans-serif;color:var(--blue)}.drop.slim{padding:10px;grid-auto-flow:column;justify-content:center;gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:8px;border:1.5px solid #8fb7b0;background:#fff;color:var(--blue);font-weight:800;font-size:1rem;cursor:pointer;text-decoration:none;transition:background .12s,transform .12s}
 .btn:hover:not(:disabled){background:#eaf6f3}.btn:active:not(:disabled){transform:translateY(1px)}
 .btn.primary{background:var(--green);border-color:var(--green);color:#fff}.btn.primary:hover:not(:disabled){background:var(--green-d)}
+.btn.rec{border-color:var(--red);color:var(--red)}.btn.rec.on{background:var(--red);color:#fff}
+.btn.small{min-height:36px;padding:0 14px;font-size:.9rem}
 .btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .info{background:var(--green-soft);color:var(--green-d);font-weight:700;border-radius:6px;padding:6px 14px;font-size:.92rem}
+.warnbox{background:var(--amber-soft);color:var(--amber);font-weight:700;border-radius:8px;padding:10px 14px;font-size:.92rem}
 .submit{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}.submit .btn{min-height:52px}.submit .primary{flex:1;min-width:190px}
 .fine{margin-top:12px;font-size:.88rem;color:var(--muted)}
 .center{min-height:50dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px}.center h2{color:var(--blue);font-size:1.7rem}
 .orb{position:relative;width:70px;height:70px;margin-bottom:8px}.orb::before,.orb span{content:"";position:absolute;inset:0;border-radius:50%;border:5px solid transparent;border-top-color:var(--sky);border-right-color:var(--sky);animation:spin 1.1s linear infinite}.orb span{inset:13px;border-top-color:var(--green);border-right-color:transparent;border-left-color:var(--green);animation-duration:1.6s;animation-direction:reverse}
 @keyframes spin{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-.error-icon{display:grid;place-items:center;width:60px;height:60px;border-radius:50%;background:#fbe4e2;color:var(--red);font-size:2rem;font-weight:800}
-.result-head{display:flex;align-items:center;gap:14px;margin-bottom:18px}.result-head h2{font-size:1.7rem;font-weight:800;color:var(--blue)}
+.error-icon{display:grid;place-items:center;width:60px;height:60px;border-radius:50%;background:var(--red-soft);color:var(--red);font-size:2rem;font-weight:800}
+.result-head{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}.result-head h2{font-size:1.7rem;font-weight:800;color:var(--blue)}
 .back{display:grid;place-items:center;width:44px;height:44px;border-radius:8px;border:1.5px solid #8fb7b0;background:#fff;color:var(--blue);cursor:pointer}
 .back svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-.rgrid{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:22px;align-items:start}@media(max-width:980px){.rgrid{grid-template-columns:1fr}}
-.aside{display:grid;gap:12px;position:sticky;top:12px}@media(max-width:980px){.aside{position:static}}
+/* toolbar above the two views */
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:16px}
+.seg{display:inline-flex;border:1.5px solid #8fb7b0;border-radius:8px;overflow:hidden}.seg button{border:0;background:#fff;color:var(--blue);font:800 .92rem "Nunito",sans-serif;padding:8px 14px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--blue);color:#fff}
+.langs{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.langs b{font-size:.9rem;color:var(--muted);margin-inline-end:4px}
+.langs button{border:1.5px solid #b3cfca;background:#fff;border-radius:999px;padding:5px 13px;font:700 .9rem "Nunito Sans",sans-serif;color:var(--ink);cursor:pointer}
+.langs button[aria-pressed=true]{background:var(--teal);border-color:var(--teal);color:#fff}.langs button:disabled{opacity:.4}
+.rgrid{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:22px;align-items:start}@media(max-width:1020px){.rgrid{grid-template-columns:1fr}}
+.aside{display:grid;gap:12px}
 .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:10px;box-shadow:0 10px 28px rgb(28 93 132/.08)}
-.card h2{font-size:1.05rem;color:var(--blue)}.aside .btn{width:100%}
+.card h2{font-size:1.1rem;color:var(--blue);display:flex;justify-content:space-between;align-items:center;gap:8px}.card h3{font-size:.98rem;color:var(--ink)}
 .status{padding:10px 14px;border-radius:8px;font-weight:700;font-size:.92rem}.status.draft{background:var(--amber-soft);color:var(--amber)}.status.ok{background:var(--green-soft);color:var(--green-d)}
-.rcpt{display:grid;gap:8px;padding-top:10px;border-top:1px solid #e3eeec;overflow-wrap:anywhere;font-size:.92rem}.btns{display:grid;gap:6px}
-.sheet{background:#fff;color:#111;border-radius:4px;box-shadow:0 10px 34px rgb(28 93 132/.14);padding:34px 42px;font:15px/1.5 "Nunito Sans","Segoe UI",system-ui,sans-serif}
-.sheet .letterhead{display:flex;align-items:center;gap:12px;padding-bottom:10px;border-bottom:3px solid var(--teal);margin-bottom:6px}
-.sheet .letterhead img{height:42px;width:auto}.sheet .letterhead b{font:800 1.5rem "Nunito",sans-serif;color:#111;line-height:1.1}.sheet .letterhead small{display:block;font:700 .66rem "Nunito",sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#555}
-.sheet .sub{color:#444;margin:10px 0 12px;font-size:.95rem}
-.sheet h3{margin:14px 0 4px;font:800 1.05rem "Nunito",sans-serif;color:var(--blue);border-bottom:1.5px solid #cfe3de;padding-bottom:3px}
-.sheet p{margin:4px 0}.sheet ol,.sheet ul{margin:4px 0;padding-inline-start:22px}.sheet li{margin-bottom:7px}.sheet .foot{margin-top:14px;color:#666;font-size:.8rem}
+.count{font:700 .85rem "Nunito Sans",sans-serif;color:var(--muted)}
+/* clinician checklist */
+.checks{list-style:none;margin:0;padding:0;display:grid;gap:6px;max-height:560px;overflow:auto;padding-inline-end:4px}
+.checks .group{font:800 .8rem "Nunito",sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.checks label{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:start;padding:8px 10px;border:1px solid #e3eeec;border-radius:8px;font-size:.92rem;cursor:pointer}
+.checks input{width:18px;height:18px;margin-top:3px;accent-color:var(--green)}
+.checks li.done label{background:#f3faf6;border-color:#cfe8da}.checks li.flag label{border-color:#ecd28c;background:#fffaea}
+.checks small{display:block;color:var(--muted);font-size:.8rem}.checks .why{color:var(--amber)}
+.gate{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:.88rem}.gate .pass b{color:var(--green)}.gate .fail b{color:var(--red)}
+details summary{cursor:pointer;font-weight:700;color:var(--blue)}details ul{font-size:.85rem;color:var(--muted);padding-inline-start:18px}
+/* the patient's page */
+.sheetwrap{display:grid;gap:10px}
+.sheet{background:#fff;color:#111;border-radius:4px;box-shadow:0 10px 34px rgb(28 93 132/.14);padding:38px 46px;font:18px/1.55 "Nunito Sans","Segoe UI",system-ui,sans-serif}
+@media(max-width:640px){.sheet{padding:22px 18px;font-size:17px}}
+.sheet .letterhead{display:flex;align-items:center;gap:12px;padding-bottom:10px;border-bottom:3px solid var(--teal);margin-bottom:12px}
+.sheet .letterhead img{height:44px;width:auto}.sheet .letterhead b{font:800 1.7rem "Nunito",sans-serif;color:#111;line-height:1.1}.sheet .letterhead small{display:block;font:700 .7rem "Nunito",sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#555}
+.sheet .who{display:flex;gap:28px;flex-wrap:wrap;font-size:1rem;margin-bottom:6px}.sheet .who span{color:#555}.sheet .who b{font-weight:800}
+.sheet h3{margin:20px 0 6px;font:800 1.3rem "Nunito",sans-serif;color:var(--blue);border-bottom:2px solid #cfe3de;padding-bottom:3px}
+.sheet p{margin:4px 0}.sheet ul{margin:4px 0;padding-inline-start:24px}.sheet li{margin-bottom:9px}
+.sheet .med{list-style:none;margin:0 0 12px;padding:0}.sheet .meds{padding:0}
+.sheet .mhead{font-weight:800;font-size:1.1rem}.sheet .mhow{font-weight:800}.sheet .mhow::before{content:"➜ ";color:var(--teal)}.sheet .mnote{color:#333;font-style:italic}
+.sheet .tag{font:800 .78rem "Nunito",sans-serif;border:2px solid #111;border-radius:4px;padding:0 6px;margin-inline-start:6px;vertical-align:2px}
+.sheet .blank{color:#777}.sheet li.urgent{font-weight:800}.sheet .foot{margin-top:18px;color:#555;font-size:.9rem;border-top:1px solid #ddd;padding-top:8px}
+.sheet .nv{margin-top:8px;font-weight:700;color:var(--amber)}
 .sheet [contenteditable=true]:hover{background:#eaf6fd;outline:1px dashed #6bbbe8}
+del.orig-med{background:var(--med-old);color:var(--med-old-ink);text-decoration-thickness:2px;padding:0 3px;border-radius:3px}
+del.orig-word{background:var(--word-old);color:var(--word-old-ink);text-decoration-thickness:2px;padding:0 3px;border-radius:3px}
+.plain-med{background:var(--med-new);padding:0 3px;border-radius:3px}.plain-word{background:var(--word-new);padding:0 3px;border-radius:3px}
+.sheet:not(.changes) del{display:none}.sheet:not(.changes) .plain-med,.sheet:not(.changes) .plain-word{background:none;padding:0}
+.legend{font-size:.85rem;color:var(--muted)}
 body:not(.approved) .sheet{outline:3px dashed #e4bd57;outline-offset:6px}
+/* sending */
+.send{margin-top:22px}.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tabs button{border:1.5px solid #8fb7b0;background:#fff;color:var(--blue);border-radius:8px 8px 0 0;padding:9px 18px;font:800 1rem "Nunito",sans-serif;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--blue);border-color:var(--blue);color:#fff}
+.pane{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:12px}
+.mail{white-space:pre-wrap;background:#fbfefd;border:1px solid #e3eeec;border-radius:8px;padding:14px;font-size:.95rem;max-height:420px;overflow:auto}
+.script{margin:0;padding-inline-start:26px;display:grid;gap:6px;font-size:1.02rem}.script li.speaking{background:#fff3c4;border-radius:4px}
+.tflags{display:grid;gap:8px}.tflag{border:1px solid #ecd28c;background:#fffaea;border-radius:8px;padding:8px 10px;font-size:.88rem}
+.tflag b{display:block}.tflag span{display:block;color:var(--muted)}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:6;background:var(--ink);color:#fff;padding:12px 22px;border-radius:8px;max-width:calc(100% - 32px);font-weight:700}
 @media print{
   @page{margin:14mm}body{background:#fff}
-  .top,.track,.pbanner,.result-head,.aside,.toast,#s1,#s2,#s3,#working,#error{display:none!important}
+  .top,.track,.pbanner,.result-head,.toolbar,.aside,.send,.toast,.legend,#s1,#s2,#s3,#working,#error{display:none!important}
   .stage{padding:0;max-width:none}.rgrid{display:block}
-  .sheet{box-shadow:none;outline:0!important;padding:0;font-size:11.5pt;line-height:1.4;break-inside:avoid;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .sheet{box-shadow:none;outline:0!important;padding:0;font-size:15pt;line-height:1.45;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .sheet del{display:none!important}.sheet .plain-med,.sheet .plain-word{background:none!important;padding:0}
   body:not(.approved) .stage{display:none}
   body:not(.approved)::before{content:"Not approved by a clinician: printing is blocked.";display:block;font:16pt sans-serif;padding:20mm}
 }
@@ -88,10 +135,10 @@ body:not(.approved) .sheet{outline:3px dashed #e4bd57;outline-offset:6px}
     <img data-logo alt="" width="58" height="43">
     <span class="bt"><b>AI at 70</b><small>Health for all ages</small></span>
   </a>
-  <span class="env">Prototype · fake patient data only</span>
+  <span class="env">Clinician view · fake patient data only</span>
 </header>
 <nav class="track" aria-label="Steps"><ol id="steps">
-  <li data-s="1"><i></i>Check-in</li><li data-s="2"><i></i>Clinician notes</li><li data-s="3"><i></i>Conversation</li><li data-s="4"><i></i>Review and approve</li>
+  <li data-s="1"><i></i>Check-in</li><li data-s="2"><i></i>Clinician note</li><li data-s="3"><i></i>Conversation</li><li data-s="4"><i></i>Review and approve</li><li data-s="5"><i></i>Print, email, call</li>
 </ol></nav>
 <div class="pbanner" id="pbanner" hidden>
   <div class="avatar" id="pbAvatar">?</div>
@@ -102,49 +149,94 @@ body:not(.approved) .sheet{outline:3px dashed #e4bd57;outline-offset:6px}
   <section id="s1" class="screen split">
     <div class="copy">
       <img data-logo class="bigmark" alt="" width="190" height="142">
-      <h1>Let's start with the patient's check-in</h1>
-      <p class="lead">Upload the questionnaire the patient filled out. We use it to write their summary in the language they chose.</p>
-      <p class="note">Drag the file onto the box, or pick it from your computer. You'll move on automatically.</p>
+      <h1>Start with the patient's check-in</h1>
+      <p class="lead">The patient fills in the check-in (in English, Mandarin, Spanish, Portuguese or Arabic) and exports it. Upload it here. It sets their language and who may get the summary.</p>
+      <p class="note">No check-in? Skip it: you can type the patient's name on the next step.</p>
     </div>
-    <div class="work"><div class="panel"><div class="drop" data-for="qFile"><p>Check-in file (.json)</p>
-      <label class="btn primary" for="qFile">Choose file</label><input id="qFile" type="file" accept=".json,application/json" hidden>
-      <div id="qInfo" class="info" hidden></div></div></div></div>
+    <div class="work"><div class="panel">
+      <div class="drop" data-for="qFile"><p>Check-in file (.json)</p>
+        <label class="btn primary" for="qFile">Choose file</label><input id="qFile" type="file" accept=".json,application/json" hidden>
+        <div id="qInfo" class="info" hidden></div></div>
+      <div class="row"><a class="btn" href="/questionnaire" target="_blank" rel="noopener">Open the check-in questionnaire ↗</a>
+        <button class="btn" type="button" data-go="s2">Skip</button></div>
+    </div></div>
   </section>
 
   <section id="s2" class="screen split" hidden>
     <div class="copy">
       <h1>What did you find today?</h1>
-      <p class="lead">Add your notes from the visit: what you assessed, any medicine changes, tests ordered, and the follow-up plan.</p>
-      <p class="note">Type or paste on the right. If your notes are in a .txt file, upload it and we'll move on for you.</p>
+      <p class="lead">Add your note from the visit: assessment, medicine changes, tests ordered, follow-up plan. The summary is written from this note.</p>
+      <p class="note">Type or paste it, upload a .txt or .pdf, or try a sample note.</p>
     </div>
-    <div class="work"><div class="panel"><textarea id="notes" rows="9" placeholder="Assessment, medication changes, tests ordered, follow-up plan…" aria-label="Clinician notes"></textarea>
-      <div class="drop slim" data-for="nFile"><label class="btn" for="nFile">Upload notes (.txt)</label><input id="nFile" type="file" accept=".txt,text/plain" hidden></div></div>
+    <div class="work"><div class="panel">
+      <textarea id="notes" rows="11" placeholder="Assessment, medication changes, tests ordered, follow-up plan…" aria-label="Clinician note"></textarea>
+      <div class="drop slim" data-for="nFile"><label class="btn" for="nFile">Upload note (.txt, .pdf)</label><input id="nFile" type="file" accept=".txt,.pdf,text/plain,application/pdf" hidden>
+        <select id="sample" aria-label="Sample note" style="width:auto"><option value="">Or try a sample note…</option></select></div>
+      <div class="fields">
+        <label>Patient name<input id="pName" type="text" autocomplete="off"></label>
+        <label>Visit date<input id="pDate" type="text" autocomplete="off"></label>
+        <label>Your name and title<input id="clinName" type="text" placeholder="Dr. Lee" autocomplete="off"></label>
+        <label>Office phone<input id="office" type="tel" placeholder="555-0100" autocomplete="off"></label>
+      </div></div>
       <div class="submit"><button class="btn" type="button" data-go="s1">Back</button><button id="next2" class="btn primary" type="button" disabled>Next</button></div></div>
   </section>
 
   <section id="s3" class="screen split" hidden>
     <div class="copy">
-      <h1>Now add the conversation</h1>
-      <p class="lead">Paste the Visit Recorder transcript or upload its file. Then we draft the summary for you to review.</p>
-      <p class="note">Enter your API key once. After that, uploading the transcript starts the draft by itself.</p>
+      <h1>Add the conversation</h1>
+      <p class="lead">Record the visit, upload its audio, or paste a transcript. It's transcribed on this computer, and anything it says that isn't in your note is flagged for you.</p>
+      <p class="note">Optional. The summary itself only uses facts from your note.</p>
     </div>
-    <div class="work"><div class="panel"><textarea id="convo" rows="9" placeholder="[0:00] Clinician: …" aria-label="Visit conversation"></textarea>
-      <div class="drop slim" data-for="tFile"><label class="btn" for="tFile">Upload transcript (.txt)</label><input id="tFile" type="file" accept=".txt,text/plain" hidden></div>
-      <label class="keylab" for="key">Anthropic API key <span>(stays in this browser tab; sent only to Anthropic)</span></label>
-      <input id="key" type="password" autocomplete="off" placeholder="sk-ant-…"></div>
-      <div class="submit"><button class="btn" type="button" data-go="s2">Back</button><button id="go" class="btn primary" type="button" disabled>Create draft summary</button></div>
-      <p class="fine">Nothing is printed or emailed until a clinician approves it.</p></div>
+    <div class="work"><div class="panel">
+      <div class="row"><button id="recBtn" class="btn rec" type="button">● Record visit</button>
+        <label class="btn" for="aFile">Upload audio</label><input id="aFile" type="file" accept="audio/*,.wav,.mp3,.m4a,.webm,.ogg" hidden>
+        <label class="btn" for="tFile">Upload transcript (.txt)</label><input id="tFile" type="file" accept=".txt,text/plain" hidden></div>
+      <div id="aStatus" class="info" hidden></div>
+      <textarea id="convo" rows="9" placeholder="[0:00] Clinician: …" aria-label="Visit conversation"></textarea>
+      <div class="fields">
+        <label>Patient reads at<select id="grade"><option value="5">Grade 5 (needs a lot of help)</option><option value="6">Grade 6</option><option value="7" selected>Grade 7 (reads fairly well)</option></select></label>
+        <label id="claudeWrap" hidden>Writer<select id="claude"><option value="">Offline rewriter</option><option value="1">Claude</option></select></label>
+      </div></div>
+      <div class="submit"><button class="btn" type="button" data-go="s2">Back</button><button id="go" class="btn primary" type="button" disabled>Write the summary</button></div>
+      <p class="fine">Nothing is printed, emailed or read to anyone until a clinician approves it.</p></div>
   </section>
 
-  <section id="working" class="screen center" hidden><div class="orb" aria-hidden="true"><span></span></div><h2>Writing the draft summary…</h2><p class="muted">This usually takes under a minute.</p></section>
+  <section id="working" class="screen center" hidden><div class="orb" aria-hidden="true"><span></span></div><h2 id="workTitle">Writing the summary…</h2><p class="muted" id="workText">Rewriting and checking until a reader at the chosen grade can follow it.</p></section>
   <section id="error" class="screen center" hidden><div class="error-icon" aria-hidden="true">!</div><h2>Something went wrong</h2><p id="errorText" class="muted" role="alert"></p><button id="retry" class="btn primary" type="button">Back</button></section>
 
   <section id="review" class="screen" hidden>
     <div class="result-head"><button id="back" class="back" type="button" aria-label="Go back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <div><h2>Review the summary</h2><p class="muted">Click any text on the page to edit it, then approve.</p></div></div>
+      <div><h2>Review, approve, then send</h2><p class="muted">Left: the page the patient gets. Right: your checklist. Click any sentence on the English page to edit it.</p></div></div>
+    <div class="toolbar">
+      <div class="seg" role="group" aria-label="View"><button id="vPatient" type="button" aria-pressed="true">Patient view</button><button id="vChanges" type="button" aria-pressed="false">Show changes</button></div>
+      <div class="langs" id="langs"><b>Language</b></div>
+    </div>
     <div class="rgrid">
-      <div id="sheet" class="sheet"></div>
-      <aside class="aside"><div id="delivery" class="card"></div><button id="printBtn" class="btn" type="button">Print summary</button></aside>
+      <div class="sheetwrap"><div id="sheet" class="sheet"></div>
+        <p class="legend" id="legend" hidden><del class="orig-med">medical term</del> → <span class="plain-med">plain words</span> &nbsp; <del class="orig-word">hard word</del> → <span class="plain-word">simpler word</span></p></div>
+      <aside class="aside">
+        <div class="card" id="approvalCard"></div>
+        <div class="card"><h2>Please check <span class="count" id="count"></span></h2>
+          <div class="row"><button id="selectAll" class="btn small" type="button">Select all</button><button id="clearAll" class="btn small" type="button">Clear</button></div>
+          <ul class="checks" id="checklist"></ul></div>
+        <div class="card"><h2>Automatic checks</h2><p class="small muted" id="readerLine"></p><ul class="gate" id="gate"></ul>
+          <details id="leftOut"><summary>Left out of the summary</summary><ul></ul></details>
+          <details id="sources"><summary>Sources for word choices</summary><ul></ul></details></div>
+      </aside>
+    </div>
+    <div class="send" id="send">
+      <div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-tab="print">Printout</button><button role="tab" aria-selected="false" data-tab="email">Email</button><button role="tab" aria-selected="false" data-tab="phone">Phone call</button></div>
+      <div class="pane" id="pane-print"><p>The page on the left, in large print. Changes are not shown on paper.</p><div class="row"><button id="printBtn" class="btn primary" type="button">Print patient copy</button></div></div>
+      <div class="pane" id="pane-email" hidden>
+        <div class="fields"><label>Send to<select id="emailTo"></select></label></div>
+        <div><b id="emailSubject"></b></div><div class="mail" id="emailBody"></div>
+        <div class="row"><button id="emailOpen" class="btn primary" type="button">Open email draft</button><button id="emailCopy" class="btn" type="button">Copy text</button></div>
+        <p class="small muted">Opens a ready-to-send draft in your email app. Nothing is sent until you press Send there.</p></div>
+      <div class="pane" id="pane-phone" hidden>
+        <div class="fields"><label>Call<select id="phoneTo"></select></label><label>Phone number<input id="phoneNum" type="tel" placeholder="Their phone number" autocomplete="off"></label></div>
+        <ol class="script" id="script"></ol>
+        <div class="row"><button id="speak" class="btn primary" type="button">▶ Play the message</button><button id="stopSpeak" class="btn" type="button">Stop</button><a id="dial" class="btn" href="#">Call from this device</a><button id="phoneCopy" class="btn" type="button">Copy script</button></div>
+        <p class="small muted">Read the script on the call, or play it on speaker. The voice is your computer's built-in voice for the language. Automatic calling needs a phone service and isn't connected.</p></div>
     </div>
   </section>
 </div>
@@ -156,166 +248,309 @@ const $ = (id) => document.getElementById(id);
 document.querySelectorAll("img[data-logo]").forEach((i) => (i.src = LOGO));
 { const f = document.createElement("link"); f.rel = "icon"; f.href = LOGO; document.head.append(f); }
 const SCREENS = ["s1", "s2", "s3", "working", "error", "review"];
-let cur = "s1";
-const MODEL = "claude-sonnet-5-5";
-const LANGS = { en: "English", es: "Spanish", zh: "Simplified Chinese (Mandarin)", pt: "Brazilian Portuguese", ar: "Arabic", ht: "Haitian Creole" };
-const PRIVATE = ["patient_email", "caregiver_email", "patient_date_of_birth", "consent_name", "consent_date"];
-let q = null, summary = null, lang = "en", approval = null;
+const NATIVE = { en: "English", zh: "中文", es: "Español", pt: "Português", ar: "العربية" };
+const VOICE = { en: "en-US", zh: "zh-CN", es: "es-US", pt: "pt-BR", ar: "ar-SA" };
+let cur = "s1", cfg = { languages: [], samples: [] }, q = null, res = null, doc = null, lang = "en", approval = null;
+const outCache = {};
 
-const SYSTEM = (language) => `You write the one-page after-visit summary a primary care patient takes home.
-Rules:
-- Use ONLY facts in the clinician's notes and the visit conversation. The questionnaire gives context (lifestyle, barriers, goals, preferences) but must never create a diagnosis, medication, test or plan. If the notes and conversation disagree, the clinician's notes win. Never invent doses, dates or numbers.
-- Plain language, about a 6th-grade reading level, warm and respectful, short sentences. Explain any medical term in everyday words. Address the patient as "you".
-- Write everything in ${language}. Keep medication names as written.
-- It must fit on ONE printed page: visit <= 90 words, 3 to 6 next steps (each 'what' <= 30 words, plain action and when), 3 to 5 'life' items (each 'how' <= 40 words), 2 to 4 'help' items.
-- 'life' is a separate section: how the next steps fit THIS patient's real life. Each item has a short 'topic' (e.g. their work schedule, meals, who helps them, a barrier they named, their own goal) and a 'how' with a concrete, realistic tip tied to a specific questionnaire answer and the step it supports. Use their stated barriers, support people, learning style and goal. Never invent details they did not give; if the questionnaire is thin, keep it general and short.
-- 'help': when to call the clinic or seek urgent care. Use only warning signs related to what was discussed plus basics like calling emergency services for chest pain, trouble breathing, or sudden weakness.
-- Reply with ONLY JSON, no markdown fences:
-{"labels":{"your_visit":"","next_steps":"","in_your_life":"","when_to_get_help":"","footer":"(one sentence: reviewed by your care team; this does not replace medical advice)","reviewed_by":"(the words 'Reviewed and approved by')"},"greeting":"","visit":"","steps":[{"what":""}],"life":[{"topic":"","how":""}],"help":[""],"closing":"","email_subject":"","email_intro":"(1-2 friendly sentences introducing the summary)"}`;
+// ---------- small helpers ----------
+function el(tag, attrs = {}, ...kids) { const n = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) { if (v === false || v == null) continue; n.setAttribute(k, v === true ? "" : v); } n.append(...kids.flat().filter((k) => k != null && k !== false)); return n; }
+const toast = (m) => { const t = $("toast"); t.textContent = m; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => (t.hidden = true), 3500); };
+const fail = (m) => { $("errorText").textContent = m; show("error"); };
+const yes = (k) => (q?.answers?.[k] || []).includes("Yes");
+async function api(path, opts = {}) {
+  let r;
+  try { r = await fetch(path, opts); } catch { throw new Error("Can't reach the AI at 70 server. Start it with: python Ethan/ai_at_70/app.py"); }
+  const b = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(b.error || `Server error (${r.status})`);
+  return b;
+}
+const post = (path, body) => api(path, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
 
+// ---------- steps ----------
 const show = (n) => { cur = n; document.body.dataset.screen = n; SCREENS.forEach((s) => ($(s).hidden = s !== n)); scrollTo({ top: 0 }); markSteps(n); };
 function markSteps(screen) {
-  const done = [!!q, !!$("notes").value.trim(), !!$("convo").value.trim(), !!approval];
-  const at = { s1: 0, s2: 1, s3: 2, error: 2 }[screen] ?? 3;
+  const done = [!!q, !!$("notes").value.trim(), !!$("convo").value.trim(), !!approval, false];
+  const at = { s1: 0, s2: 1, s3: 2, error: 2, working: 2 }[screen] ?? (approval ? 4 : 3);
   document.querySelectorAll("#steps li").forEach((li, i) => { li.classList.toggle("done", done[i]); li.classList.toggle("active", i === at); });
 }
-function setBanner() {
-  const a = q?.answers || {}, name = a.patient_full_name || "";
-  $("pbanner").hidden = !q;
-  $("pbName").textContent = q ? name || "Unnamed patient" : "No patient loaded";
-  $("pbAvatar").textContent = name ? name.split(" ").map((w) => w[0]).slice(0, 2).join("").toUpperCase() : "?";
-  $("pbMeta").textContent = q ? `DOB ${a.patient_date_of_birth || "not given"} · Summary language: ${LANGS[q.summary_language || q.language] || q.language}` : "Upload a check-in file to begin";
-  const chip = (t, ok) => el("span", { class: "chip" + (ok ? " ok" : "") }, t);
-  $("pbChips").replaceChildren(...(q ? [chip(yes("email_patient_consent") ? "Patient email: consent" : "Patient email: no consent", yes("email_patient_consent")), chip(yes("caregiver_share_consent") ? "Caregiver email: consent" : "Caregiver email: no consent", yes("caregiver_share_consent"))] : []));
-}
-const fail = (m) => { $("errorText").textContent = m; show("error"); };
-const toast = (m) => { const t = $("toast"); t.textContent = m; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => (t.hidden = true), 3500); };
-const yes = (k) => (q?.answers?.[k] || []).includes("Yes");
-const refresh = () => { $("go").disabled = !(q && ($("notes").value.trim() || $("convo").value.trim())); markSteps(cur); $("next2").disabled = !$("notes").value.trim(); };
-function el(tag, attrs = {}, ...kids) { const n = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v); n.append(...kids); return n; }
+document.querySelectorAll("#steps li").forEach((li, i) => li.addEventListener("click", () => {
+  if (i >= 3) { if (res) { show("review"); if (i === 4) $("send").scrollIntoView({ behavior: "smooth" }); } return; }
+  if (i === 0 || i === 1 || (i === 2 && $("notes").value.trim())) show(["s1", "s2", "s3"][i]);
+}));
+document.querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => show(b.dataset.go)));
+const refresh = () => { $("next2").disabled = !$("notes").value.trim(); $("go").disabled = !$("notes").value.trim(); markSteps(cur); };
+["notes", "convo"].forEach((id) => $(id).addEventListener("input", refresh));
 
+// ---------- 1. check-in ----------
+function patientName() { return $("pName").value.trim() || q?.answers?.patient_full_name || ""; }
+function setBanner() {
+  const a = q?.answers || {}, name = patientName();
+  $("pbanner").hidden = !q && !name;
+  $("pbName").textContent = name || "Unnamed patient";
+  $("pbAvatar").textContent = name ? name.split(" ").map((w) => w[0]).slice(0, 2).join("").toUpperCase() : "?";
+  const l = q?.summary_language || q?.language;
+  $("pbMeta").textContent = q ? `DOB ${a.patient_date_of_birth || "not given"} · Language: ${NATIVE[l] || l || "English"}` : "No check-in loaded";
+  const chip = (t, ok) => el("span", { class: "chip" + (ok ? " ok" : "") }, t);
+  $("pbChips").replaceChildren(...(q ? [chip(yes("email_patient_consent") ? "Patient email: consent" : "Patient email: no consent", yes("email_patient_consent")),
+    chip(yes("caregiver_share_consent") ? `Family (${a.caregiver_name || "caregiver"}): consent` : "Family: no consent", yes("caregiver_share_consent"))] : []));
+}
 $("qFile").addEventListener("change", async (e) => {
   const f = e.target.files[0]; if (!f) return;
   try { const j = JSON.parse(await f.text()); if (!j.answers || !j.language) throw 0; q = j; } catch { q = null; toast("That doesn't look like a check-in export."); }
-  const a = q?.answers || {}, box = $("qInfo"); box.hidden = !q;
-  if (q) box.textContent = "✓ " + f.name + " loaded";
-  setBanner();
-  if (q) show("s2");
-  refresh();
+  $("qInfo").hidden = !q; if (q) $("qInfo").textContent = "✓ " + f.name + " loaded";
+  if (q?.answers?.patient_full_name) $("pName").value = q.answers.patient_full_name;
+  const l = q?.summary_language || q?.language; if (l && NATIVE[l]) lang = l;
+  setBanner(); if (q) show("s2"); refresh();
 });
-$("tFile").addEventListener("change", async (e) => {
-  const f = e.target.files[0]; if (!f) return;
-  $("convo").value = await f.text(); refresh();
-  if ($("key").value.trim()) $("go").click(); else { toast("Enter your API key, then create the draft."); $("key").focus(); }
-});
-$("nFile").addEventListener("change", async (e) => { const f = e.target.files[0]; if (f) { $("notes").value = await f.text(); refresh(); show("s3"); } });
-$("next2").addEventListener("click", () => show("s3"));
-document.querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => show(b.dataset.go)));
-document.querySelectorAll("#steps li").forEach((li, i) => li.addEventListener("click", () => {
-  const to = ["s1", "s2", "s3", "review"][i];
-  if (to === "review" ? summary : i === 0 || (i === 1 && q) || (i === 2 && q && $("notes").value.trim())) show(to);
-}));
-["notes", "convo"].forEach((id) => $(id).addEventListener("input", refresh));
+$("pName").addEventListener("input", setBanner);
 
-$("go").addEventListener("click", async () => {
-  const key = $("key").value.trim();
-  if (!key) return toast("Enter your Anthropic API key first.");
-  lang = q.summary_language || q.language || "en";
-  const answers = Object.fromEntries(Object.entries(q.answers).filter(([k, v]) => !PRIVATE.includes(k) && v !== "" && !(Array.isArray(v) && !v.length)));
-  const first = (q.answers.patient_full_name || "").split(" ")[0];
-  show("working");
+// ---------- 2. clinician note ----------
+$("nFile").addEventListener("change", async (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  const form = new FormData(); form.append("file", f);
+  try { $("notes").value = (await api("/api/read-file", { method: "POST", body: form })).text; refresh(); toast("Note loaded"); } catch (err) { toast(err.message); }
+});
+$("sample").addEventListener("change", async () => {
+  if (!$("sample").value) return;
+  try { $("notes").value = (await api(`/api/samples/${encodeURIComponent($("sample").value)}`)).text; refresh(); } catch (err) { toast(err.message); }
+});
+$("next2").addEventListener("click", () => show("s3"));
+
+// ---------- 3. conversation: record or upload audio -> Visit Recorder (/audio) ----------
+let recorder = null, chunks = [];
+$("recBtn").addEventListener("click", async () => {
+  if (recorder) { recorder.stop(); return; }
   try {
-    const r = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "content-type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-      body: JSON.stringify({ model: MODEL, max_tokens: 2500, system: SYSTEM(LANGS[lang] || "English"),
-        messages: [{ role: "user", content: `Patient first name: ${first}\n\n<questionnaire>${JSON.stringify(answers)}</questionnaire>\n\n<clinician_notes>${$("notes").value.trim() || "None provided"}</clinician_notes>\n\n<visit_conversation>${$("convo").value.trim().slice(0, 60000) || "None provided"}</visit_conversation>` }] }) });
-    const b = await r.json();
-    if (!r.ok) throw new Error(b.error?.message || "Anthropic returned an error (check the API key).");
-    const text = b.content[0].text.trim().replace(/^```(?:json)?|```$/gm, "").trim();
-    summary = JSON.parse(text); render();
-  } catch (e) { fail(e instanceof SyntaxError ? "The summary came back garbled. Please try again." : e.message === "Failed to fetch" ? "Couldn't reach Anthropic. Check your internet connection." : e.message); }
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    recorder = new MediaRecorder(stream); chunks = [];
+    recorder.ondataavailable = (e) => chunks.push(e.data);
+    recorder.onstop = () => { stream.getTracks().forEach((t) => t.stop()); const blob = new Blob(chunks, { type: recorder.mimeType }); recorder = null;
+      $("recBtn").classList.remove("on"); $("recBtn").textContent = "● Record visit"; transcribe(blob, "visit.webm"); };
+    recorder.start(); $("recBtn").classList.add("on"); $("recBtn").textContent = "■ Stop recording";
+  } catch { toast("Couldn't use the microphone. Check the browser's permission."); }
+});
+$("aFile").addEventListener("change", (e) => { const f = e.target.files[0]; if (f) transcribe(f, f.name); });
+$("tFile").addEventListener("change", async (e) => { const f = e.target.files[0]; if (f) { $("convo").value = await f.text(); refresh(); } });
+async function transcribe(blob, name) {
+  const status = $("aStatus"); status.hidden = false; status.textContent = "Uploading audio…";
+  const form = new FormData(); form.append("audio", blob, name); form.append("transcriber", cfg.elevenlabs ? "elevenlabs" : "whisper"); form.append("cleanup", "auto");
+  try {
+    const { job_id } = await api("/audio/api/jobs", { method: "POST", body: form });
+    for (;;) {
+      await new Promise((r) => setTimeout(r, 1500));
+      const j = await api(`/audio/api/jobs/${job_id}`);
+      status.textContent = j.message || "Working…";
+      if (j.status === "error") throw new Error(j.message);
+      if (j.status === "done") {
+        const mmss = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+        $("convo").value = (j.result.turns || []).map((t) => `[${mmss(t.start || 0)}] ${t.role ? t.role[0].toUpperCase() + t.role.slice(1) : t.speaker}: ${t.text}`).join("\n");
+        status.textContent = "✓ Transcribed: check the speakers before you go on"; refresh(); return;
+      }
+    }
+  } catch (err) { status.textContent = "Couldn't transcribe: " + err.message; }
+}
+
+// ---------- write the summary ----------
+$("go").addEventListener("click", async () => {
+  $("workTitle").textContent = "Writing the summary…"; show("working");
+  try {
+    res = await post("/api/summary", { note: $("notes").value, transcript: $("convo").value, questionnaire: q, grade: $("grade").value, claude: !!$("claude").value });
+    doc = res.doc; approval = null; Object.keys(outCache).forEach((k) => delete outCache[k]);
+    document.body.classList.remove("approved");
+    if (!available(lang)) lang = "en";
+    await loadOutputs(); renderReview(); show("review");
+  } catch (e) { fail(e.message); }
 });
 $("retry").addEventListener("click", () => show("s3"));
-$("back").addEventListener("click", () => confirm("Go back? Edits to this summary will be lost.") && show("s3"));
+$("back").addEventListener("click", () => (!approval || confirm("Go back? The approval will be removed.")) && show("s3"));
 
-const ed = (tag, path, text, extra = {}) => el(tag, { contenteditable: approval ? "false" : "true", "data-p": path, spellcheck: "true", ...extra }, text || "");
-
-function render() { approval = null; document.body.classList.remove("approved"); drawSheet(); renderDelivery(); show("review"); }
-
-function drawSheet() {
-  const L = summary.labels || {}, sheet = $("sheet");
-  sheet.dir = lang === "ar" ? "rtl" : "ltr"; sheet.lang = lang;
-  sheet.replaceChildren(el("div", { class: "letterhead" }, el("img", { src: LOGO, alt: "" }), el("div", {}, el("b", {}, "AI at 70"), el("small", {}, "Health for all ages"))), ed("p", "greeting", summary.greeting, { class: "sub" }),
-    ed("h3", "labels.your_visit", L.your_visit), ed("p", "visit", summary.visit),
-    ed("h3", "labels.next_steps", L.next_steps), el("ol", {}, ...summary.steps.map((s, i) => el("li", {}, ed("span", `steps.${i}.what`, s.what)))),
-    ed("h3", "labels.in_your_life", L.in_your_life),
-    el("ul", {}, ...(summary.life || []).map((l, i) => el("li", {}, ed("strong", `life.${i}.topic`, l.topic), ": ", ed("span", `life.${i}.how`, l.how)))),
-    ed("h3", "labels.when_to_get_help", L.when_to_get_help), el("ul", {}, ...summary.help.map((h, i) => el("li", {}, ed("span", `help.${i}`, h)))),
-    ed("p", "closing", summary.closing), ed("p", "labels.footer", L.footer, { class: "foot" }),
-    ...(approval ? [el("p", { class: "foot" }, approvalLine())] : []));
-}
-const approvalLine = () => `${summary.labels.reviewed_by || "Reviewed and approved by"}: ${approval.by} · ${approval.date}`;
-
-function readSheet() {
-  const s = structuredClone(summary);
-  document.querySelectorAll("#sheet [data-p]").forEach((n) => { const p = n.dataset.p.split("."), last = p.pop(); p.reduce((o, k) => o[k], s)[last] = n.textContent.trim(); });
-  return s;
-}
-
-function recipients() { // consent must be given AND the risk acknowledgement ticked AND an address entered
-  const a = q.answers, out = [];
-  if (yes("email_patient_consent") && a.patient_email && (a.email_risk_ack || []).length) out.push({ role: "patient", name: a.patient_full_name || "", email: a.patient_email });
-  if (yes("caregiver_share_consent") && a.caregiver_email && a.caregiver_name && (a.caregiver_risk_ack || []).length) out.push({ role: "caregiver", name: a.caregiver_name, email: a.caregiver_email });
+// ---------- outputs in the chosen language ----------
+const available = (code) => (cfg.languages.find((l) => l.code === code) || {}).ready;
+function people() { // who may get the summary: the patient, and family only with consent (check-in)
+  const a = q?.answers || {}, name = patientName(), out = [{ key: "patient", name, rel: "", email: yes("email_patient_consent") && (a.email_risk_ack || []).length ? a.patient_email || "" : "" }];
+  if (yes("caregiver_share_consent") && a.caregiver_name) out.push({ key: "family", name: a.caregiver_name, rel: a.caregiver_relationship || "family", email: (a.caregiver_risk_ack || []).length ? a.caregiver_email || "" : "" });
   return out;
 }
+const person = (key) => people().find((p) => p.key === key) || people()[0];
+async function loadOutputs(key = $("phoneTo").value || $("emailTo").value || (people()[1] ? "family" : "patient")) {
+  const p = person(key), ck = `${lang}|${p.key}|${JSON.stringify(doc).length}`;
+  if (!outCache[ck]) {
+    outCache[ck] = await post("/api/outputs", { doc, lang, patient: patientName(), recipient: p.name, relationship: p.rel, clinician: $("clinName").value, office_phone: $("office").value });
+  }
+  return outCache[ck];
+}
+async function current(key) { try { return await loadOutputs(key); } catch (e) { toast(e.message); return null; } }
 
-function emailText(s, r) {
-  const L = s.labels, who = r.role === "patient" ? r.name.split(" ")[0] : r.name;
-  return [`${who},`, r.role === "caregiver" ? `(${q.answers.patient_full_name})` : "", s.email_intro, "",
-    L.your_visit, s.visit, "", L.next_steps, ...s.steps.map((x, i) => `${i + 1}. ${x.what}`), "",
-    L.in_your_life, ...s.life.map((x) => `- ${x.topic}: ${x.how}`), "", L.when_to_get_help, ...s.help.map((x) => `- ${x}`), "", s.closing, "", L.footer, approval ? approvalLine() : ""]
-    .filter((x, i, arr) => x !== "" || arr[i - 1] !== "").join("\n");
+// ---------- review: the patient's page ----------
+function segs(list, editable, path) {
+  const showOrig = $("vChanges").getAttribute("aria-pressed") === "true";
+  const kids = list.map((s) => s.k === "med" || s.k === "word" ? el("span", {}, s.o ? el("del", { class: "orig-" + s.k }, s.o) : null, s.o ? " " : null, el("span", { class: "plain-" + s.k }, s.t)) : el("span", {}, s.t));
+  return el("span", { "data-p": path, contenteditable: editable ? "true" : null, spellcheck: "true" }, ...kids);
+}
+async function drawSheet() {
+  const o = await current(), L = o?.labels || {}, sheet = $("sheet"), en = lang === "en", editable = en && !approval;
+  sheet.dir = o?.dir || "ltr"; sheet.lang = lang;
+  sheet.classList.toggle("changes", en && $("vChanges").getAttribute("aria-pressed") === "true");
+  $("legend").hidden = !(en && sheet.classList.contains("changes"));
+  const tr = !en && o ? o.page : null, tag = (t) => t ? el("span", { class: "tag" }, t) : null;
+  const meds = doc.medicines.map((m, i) => el("li", { class: "med" },
+    el("div", { class: "mhead" }, tr ? tr.medicines[i].head.replace(/\.$/, "") : (m.category ? `${m.category} (${m.name})` : m.name), tag(tr ? tr.medicines[i].change : m.change)),
+    el("div", { class: "mhow" }, tr ? (tr.medicines[i].instruction || el("span", { class: "blank" }, L.how + ": ____________")) : (m.instruction.length ? segs(m.instruction, editable, `m.${i}.instruction`) : el("span", { class: "blank" }, "How to take: ____________"))),
+    (tr ? tr.medicines[i].note : m.note.length) ? el("div", { class: "mnote" }, tr ? tr.medicines[i].note : segs(m.note, editable, `m.${i}.note`)) : null));
+  sheet.replaceChildren(
+    el("div", { class: "letterhead" }, el("img", { src: LOGO, alt: "" }), el("div", {}, el("b", {}, L.title || "Your visit summary"), el("small", {}, "AI at 70 · Health for all ages"))),
+    el("div", { class: "who" }, el("div", {}, el("span", {}, (L.patient || "Patient") + ": "), el("b", {}, patientName() || "______________")),
+      el("div", {}, el("span", {}, (L.date || "Visit date") + ": "), el("b", {}, $("pDate").value || new Date().toLocaleDateString()))),
+    el("h3", {}, L.visit || "Your visit"),
+    el("p", {}, ...(tr ? tr.visit.map((t) => t + " ") : doc.visit.map((v, i) => [segs(v, editable, `v.${i}`), " "]))),
+    doc.medicines.length ? el("h3", {}, L.medicines || "Your medicines") : null, doc.medicines.length ? el("ul", { class: "meds" }, ...meds) : null,
+    doc.steps.length ? el("h3", {}, L.next || "What to do next") : null,
+    doc.steps.length ? el("ul", {}, ...doc.steps.map((s, i) => el("li", { class: s.urgent ? "urgent" : null }, tr ? tr.steps[i].text : segs(s.segs, editable, `s.${i}`)))) : null,
+    el("div", { class: "foot" }, el("p", {}, `${L.questions || "Questions? Call your doctor's office"}: ${$("office").value || "____________"}`),
+      el("p", {}, `${L.reviewed || "Reviewed by"}: ${approval ? approval.by + " · " + approval.date : "____________"}`),
+      o?.not_verified ? el("p", { class: "nv" }, L.not_verified || o.not_verified) : null));
+  sheet.querySelectorAll("[contenteditable=true]").forEach((n) => n.addEventListener("blur", () => editLine(n)));
+}
+function editLine(n) { // a clinician edit replaces that sentence with what they typed
+  const text = n.textContent.trim(), [part, i, field] = n.dataset.p.split(".");
+  const target = part === "v" ? doc.visit : part === "s" ? doc.steps[i].segs : doc.medicines[i][field];
+  const before = target.map((s) => s.t).join("").trim(); if (text === before) return;
+  const fresh = [{ t: text, k: "text" }];
+  if (part === "v") doc.visit[i] = fresh; else if (part === "s") doc.steps[i].segs = fresh; else doc.medicines[i][field] = fresh;
+  Object.keys(outCache).forEach((k) => delete outCache[k]); toast("Edit saved. Email, call and translations will use it.");
 }
 
-function renderDelivery() {
-  markSteps("review");
-  const rs = recipients(), d = $("delivery"), locked = !!approval;
-  $("printBtn").disabled = !locked;
-  const status = el("div", { class: "status " + (locked ? "ok" : "draft") }, locked ? `Approved by ${approval.by} on ${approval.date}. Ready to print and email.` : "Draft: waiting for clinician approval. Printing and email are locked.");
-  const name = el("input", { type: "text", id: "clin", placeholder: "Clinician full name and title", autocomplete: "off" });
-  const approve = el("button", { class: "btn primary", type: "button" }, "Approve summary");
-  approve.onclick = () => {
-    if (!name.value.trim()) return toast("Enter the clinician's name to approve.");
-    if (!confirm("I have read this summary, it is accurate, and it may be given to the patient.")) return;
-    summary = readSheet(); approval = { by: name.value.trim(), date: new Date().toLocaleString() };
-    document.body.classList.add("approved"); drawSheet(); renderDelivery(); toast("Approved. Print and email are now unlocked.");
-  };
-  const edit = el("button", { class: "btn", type: "button" }, "Edit again (removes approval)");
-  edit.onclick = () => { approval = null; document.body.classList.remove("approved"); drawSheet(); renderDelivery(); };
-  const rows = rs.map((r) => {
-    const open = el("button", { class: "btn primary", type: "button" }, `Open email to ${r.role}`);
-    const copy = el("button", { class: "btn", type: "button" }, "Copy text");
-    open.disabled = copy.disabled = !locked;
-    open.onclick = () => { const s = readSheet(); location.href = `mailto:${r.email}?subject=${encodeURIComponent(s.email_subject || "")}&body=${encodeURIComponent(emailText(s, r))}`; };
-    copy.onclick = async () => { try { await navigator.clipboard.writeText(emailText(readSheet(), r)); toast("Email text copied"); } catch { toast("Couldn't copy."); } };
-    return el("div", { class: "rcpt" }, el("div", {}, el("b", {}, `${r.role === "patient" ? "Patient" : "Caregiver"}: `), `${r.name} <${r.email}>`), el("div", { class: "btns" }, open, copy));
-  });
-  d.replaceChildren(el("h2", {}, "Clinician approval"), status,
-    ...(locked ? [edit] : [name, approve]),
-    el("h2", {}, "Email"),
-    ...(rs.length ? [...rows, el("p", { class: "muted small" }, "These open a ready-to-send draft in your email app. Nothing is sent until you press Send there.")]
-      : [el("p", {}, "⛔ No email consent on file (or the privacy acknowledgement is missing), so no emails can be created.")]));
+// ---------- review: clinician side ----------
+function checkItems(o) {
+  const items = res.checklist.map((c) => ({ ...c }));
+  res.cross_checks.forEach((x) => items.unshift({ group: "Inputs disagree", kind: "question", original: x, flag: "check before approving" }));
+  if (o && lang !== "en") {
+    items.push({ group: `Translation (${NATIVE[lang]})`, kind: "question", original: `${o.not_verified}. I have checked it, or a qualified reviewer will before it is sent.`, flag: o.engine });
+    o.flags.forEach((f) => items.push({ group: `Translation (${NATIVE[lang]})`, kind: "translation", original: f.en, plain: f.text, detail: f.back, flag: f.flags.slice(1).join("; ") + ` (${f.part})` }));
+  }
+  return items;
 }
+async function drawChecklist() {
+  const o = await current(), items = checkItems(o), list = $("checklist");
+  list.replaceChildren(...items.flatMap((c, i) => {
+    const head = i === 0 || c.group !== items[i - 1].group ? [el("li", { class: "group" }, c.group)] : [];
+    const body = c.kind === "translation" ? [el("b", {}, c.plain), el("small", {}, "English: " + c.original), el("small", {}, "Back-translated: " + c.detail)]
+      : c.kind === "medicine" ? [el("b", {}, c.original), c.plain ? el("small", {}, c.plain) : null, el("small", {}, "How to take: " + c.detail)]
+      : c.kind === "med" || c.kind === "word" ? [c.original ? el("del", { class: "orig-" + c.kind }, c.original) : "Definition:", " → ", el("span", { class: "plain-" + c.kind }, c.plain)]
+      : c.kind === "keep" ? [el("b", {}, c.original), " → ", el("span", { class: "plain-med" }, c.plain)] : [c.original];
+    return [...head, el("li", { class: c.flag ? "flag" : null }, el("label", {}, el("input", { type: "checkbox", disabled: !!approval, checked: !!approval }),
+      el("span", {}, ...body, c.source ? el("small", {}, "Source: " + c.source) : null, c.flag ? el("small", { class: "why" }, "⚠ " + c.flag) : null)))];
+  }));
+  list.querySelectorAll("input").forEach((b) => b.addEventListener("change", updateCount));
+  updateCount();
+}
+const boxes = () => [...$("checklist").querySelectorAll("input[type=checkbox]")];
+function updateCount() {
+  const b = boxes(), done = b.filter((x) => x.checked).length;
+  $("count").textContent = `${done} of ${b.length}`;
+  b.forEach((x) => x.closest("li").classList.toggle("done", x.checked));
+  const approve = $("approveBtn"); if (approve) approve.disabled = done < b.length;
+}
+$("selectAll").addEventListener("click", () => { if (approval) return; boxes().forEach((b) => (b.checked = true)); updateCount(); });
+$("clearAll").addEventListener("click", () => { if (approval) return; boxes().forEach((b) => (b.checked = false)); updateCount(); });
+function drawChecks() {
+  $("readerLine").textContent = `${res.reader} Written by: ${res.origin}.`;
+  $("gate").replaceChildren(...res.checks.map((c) => el("li", { class: c.ok ? "pass" : "fail" }, el("b", {}, c.ok ? "✓ " : "✗ "), `${c.name}: ${c.detail}`)));
+  $("leftOut").querySelector("ul").replaceChildren(...res.left_out.map((x) => el("li", {}, `${x.text} (${x.reason})`)));
+  $("sources").querySelector("ul").replaceChildren(...res.sources.map((s) => el("li", {}, s.url ? el("a", { href: s.url, target: "_blank", rel: "noopener" }, s.name) : s.name)));
+}
+function drawApproval() {
+  const card = $("approvalCard");
+  const status = el("div", { class: "status " + (approval ? "ok" : "draft") }, approval ? `Approved by ${approval.by} on ${approval.date}. Print, email and call are unlocked.` : "Draft: tick every item, then approve. Print, email and call are locked.");
+  if (approval) {
+    const edit = el("button", { class: "btn", type: "button" }, "Edit again (removes approval)");
+    edit.onclick = () => { approval = null; document.body.classList.remove("approved"); renderReview(); };
+    card.replaceChildren(el("h2", {}, "Clinician approval"), status, edit);
+  } else {
+    const name = el("input", { type: "text", id: "approver", placeholder: "Your full name and title", value: $("clinName").value, autocomplete: "off" });
+    const approve = el("button", { class: "btn primary", type: "button", id: "approveBtn", disabled: true }, "Approve summary");
+    approve.onclick = () => {
+      if (!name.value.trim()) return toast("Enter your name to approve.");
+      if (!confirm(`I have read this summary${lang !== "en" ? " and its " + NATIVE[lang] + " translation" : ""}, it is accurate, and it may be given to the patient and the people they chose.`)) return;
+      approval = { by: name.value.trim(), date: new Date().toLocaleString() }; document.body.classList.add("approved");
+      renderReview(); toast("Approved. Print, email and call are unlocked."); $("send").scrollIntoView({ behavior: "smooth" });
+    };
+    card.replaceChildren(el("h2", {}, "Clinician approval"), status, name, approve);
+  }
+  updateCount();
+}
+function drawLangs() {
+  $("langs").replaceChildren(el("b", {}, "Language"), ...cfg.languages.map((l) => {
+    const b = el("button", { type: "button", "aria-pressed": String(l.code === lang), disabled: !l.ready, title: l.ready ? l.name : l.name + ": model not installed" }, NATIVE[l.code] || l.name);
+    b.onclick = async () => {
+      if (l.code === lang) return;
+      if (approval && !confirm("Changing the language removes the approval. Continue?")) return;
+      approval = null; document.body.classList.remove("approved"); lang = l.code;
+      $("langs").querySelectorAll("button").forEach((x) => (x.disabled = true)); toast(l.code === "en" ? "English" : `Translating into ${l.name}…`);
+      await renderReview();
+    };
+    return b;
+  }));
+}
+async function renderReview() { drawLangs(); await drawSheet(); await drawChecklist(); drawChecks(); drawApproval(); await drawSend(); markSteps("review"); }
+["vPatient", "vChanges"].forEach((id) => $(id).addEventListener("click", () => {
+  $("vPatient").setAttribute("aria-pressed", String(id === "vPatient")); $("vChanges").setAttribute("aria-pressed", String(id === "vChanges"));
+  if (id === "vChanges" && lang !== "en") toast("Changes are shown on the English page.");
+  drawSheet();
+}));
 
-$("printBtn").addEventListener("click", () => approval ? print() : toast("A clinician must approve the summary before it can be printed."));
-markSteps("s1");
-document.body.dataset.screen = "s1";
+// ---------- send: print, email, phone ----------
+document.querySelectorAll(".tabs button").forEach((t) => t.addEventListener("click", () => {
+  document.querySelectorAll(".tabs button").forEach((x) => x.setAttribute("aria-selected", String(x === t)));
+  ["print", "email", "phone"].forEach((p) => ($("pane-" + p).hidden = p !== t.dataset.tab));
+}));
+async function drawSend() {
+  const ps = people(), fill = (sel) => { const v = sel.value; sel.replaceChildren(...ps.map((p) => el("option", { value: p.key }, p.key === "patient" ? `${p.name || "The patient"} (patient)` : `${p.name} (${p.rel})`))); if (v) sel.value = v; else if (ps[1]) sel.value = "family"; };
+  fill($("emailTo")); fill($("phoneTo"));
+  const locked = !approval;
+  ["printBtn", "emailOpen", "emailCopy", "speak", "phoneCopy"].forEach((id) => ($(id).disabled = locked));
+  $("dial").classList.toggle("disabled", locked);
+  const e = await current($("emailTo").value), p = person($("emailTo").value);
+  if (e) {
+    $("emailSubject").textContent = `${p.email ? "To: " + p.email + " · " : "No email address with consent · "}Subject: ${e.email.subject}`;
+    $("emailBody").textContent = e.email.body + (approval ? `\n\n${e.labels.reviewed}: ${approval.by} · ${approval.date}` : "");
+    $("emailBody").dir = e.dir; $("emailOpen").disabled = locked || !p.email;
+  }
+  const c = await current($("phoneTo").value);
+  if (c) { $("script").dir = c.dir; $("script").replaceChildren(...c.phone.map((line) => el("li", {}, line))); }
+}
+$("emailTo").addEventListener("change", drawSend); $("phoneTo").addEventListener("change", drawSend);
+$("printBtn").addEventListener("click", () => (approval ? print() : toast("Approve the summary first.")));
+$("emailOpen").addEventListener("click", async () => {
+  const e = await current($("emailTo").value), p = person($("emailTo").value);
+  location.href = `mailto:${p.email}?subject=${encodeURIComponent(e.email.subject)}&body=${encodeURIComponent($("emailBody").textContent)}`;
+});
+const copy = async (t) => { try { await navigator.clipboard.writeText(t); toast("Copied"); } catch { toast("Couldn't copy."); } };
+$("emailCopy").addEventListener("click", () => copy($("emailBody").textContent));
+$("phoneCopy").addEventListener("click", () => copy([...$("script").children].map((li) => li.textContent).join("\n")));
+$("dial").addEventListener("click", (ev) => { ev.preventDefault(); if (!approval) return toast("Approve the summary first."); const n = $("phoneNum").value.replace(/[^\d+]/g, ""); if (!n) return toast("Enter their phone number."); location.href = "tel:" + n; });
+$("speak").addEventListener("click", () => {
+  if (!approval) return toast("Approve the summary first.");
+  speechSynthesis.cancel();
+  const lines = [...$("script").children], voice = speechSynthesis.getVoices().find((v) => v.lang.replace("_", "-").startsWith(VOICE[lang].slice(0, 2)));
+  if (!voice && lang !== "en") toast(`No ${NATIVE[lang]} voice on this computer: add one in the system's speech settings.`);
+  lines.forEach((li) => { const u = new SpeechSynthesisUtterance(li.textContent); u.lang = VOICE[lang]; if (voice) u.voice = voice; u.rate = 0.85;
+    u.onstart = () => { lines.forEach((x) => x.classList.remove("speaking")); li.classList.add("speaking"); }; u.onend = () => li.classList.remove("speaking"); speechSynthesis.speak(u); });
+});
+$("stopSpeak").addEventListener("click", () => { speechSynthesis.cancel(); [...$("script").children].forEach((x) => x.classList.remove("speaking")); });
+
+// ---------- start ----------
 document.querySelectorAll(".drop").forEach((d) => {
   const input = $(d.dataset.for);
   ["dragenter", "dragover"].forEach((ev) => d.addEventListener(ev, (e) => { e.preventDefault(); d.classList.add("over"); }));
   ["dragleave", "drop"].forEach((ev) => d.addEventListener(ev, (e) => { e.preventDefault(); d.classList.remove("over"); }));
   d.addEventListener("drop", (e) => { if (e.dataTransfer.files.length) { input.files = e.dataTransfer.files; input.dispatchEvent(new Event("change")); } });
 });
-
+$("pDate").value = new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+api("/api/config").then((c) => {
+  cfg = c; $("claudeWrap").hidden = !c.claude;
+  $("sample").append(...c.samples.map((s) => el("option", { value: s }, s.replace(/^synthetic_/, "").replaceAll("_", " "))));
+}).catch((e) => toast(e.message));
+markSteps("s1"); document.body.dataset.screen = "s1"; refresh();
 </script></body></html>

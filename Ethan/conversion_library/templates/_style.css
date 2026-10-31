@@ -134,3 +134,5 @@ del.orig-word { background: var(--word-old); color: var(--word-old-ink); text-de
 p.reader { margin: 0 0 6px; font-size: 13.5px; }
 
 .med-note { font-size: 14pt; margin: 2px 0 0 1.4em; }
+.check-actions { display: flex; gap: 8px; margin: 4px 0 8px; }
+.btn.small { padding: 4px 12px; font-size: 0.9rem; }

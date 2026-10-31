@@ -6,7 +6,7 @@
 {% endif %}
 <div class="actions no-print">
   <button class="btn" id="print" type="button" disabled onclick="window.print()">Print patient copy</button>
-  <label class="toggle"><input type="checkbox" id="show-changes" checked> Show changes on screen</label>
+  <label class="toggle"><input type="checkbox" id="show-changes" checked> Show changes on screen (untick for the patient's view)</label>
   <span class="legend">
     <del class="orig-med">medical term</del> → <span class="plain-med">plain meaning</span>
     &nbsp; <del class="orig-word">hard word</del> → <span class="plain-word">simpler word</span>
@@ -27,6 +27,9 @@
     boxes.forEach(b => b.closest("li").classList.toggle("done", b.checked));
   };
   boxes.forEach(b => b.addEventListener("change", update));
+  const setAll = (on) => () => { boxes.forEach(b => (b.checked = on)); update(); };
+  document.getElementById("select-all")?.addEventListener("click", setAll(true));
+  document.getElementById("clear-all")?.addEventListener("click", setAll(false));
   const toggle = document.getElementById("show-changes"), result = document.getElementById("result");
   if (toggle) toggle.addEventListener("change", () => result.classList.toggle("show-changes", toggle.checked));
   update();

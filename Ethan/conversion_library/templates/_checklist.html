@@ -26,6 +26,8 @@
 
   <h3>Please check <span class="count" id="count">0 of {{ checklist | length }}</span></h3>
   <p class="hint">Tick each item once you agree with it. Printing unlocks when all are ticked.</p>
+  <p class="check-actions"><button type="button" class="btn secondary small" id="select-all">Select all</button>
+    <button type="button" class="btn secondary small" id="clear-all">Clear</button></p>
   <ul class="checklist" id="checklist">
     {% for c in checklist %}
     {% if loop.first or c.group != loop.previtem.group %}<li class="group">{{ c.group }}</li>{% endif %}

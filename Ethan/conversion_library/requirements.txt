@@ -7,3 +7,5 @@ wordfreq
 python-dotenv
 flask
 openpyxl
+sentencepiece
+ctranslate2

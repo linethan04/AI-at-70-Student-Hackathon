@@ -1189,10 +1189,13 @@ source given in <approved_words>, or "model" if none (it will be flagged).
 the note doesn't contain. Numbers, doses and times stay exactly as written.
 - left_out: what the note says that you left out, with a short reason. clinician_flags: anything \
 unclear or missing (a dose or schedule).
+- If a <visit_conversation> or <questionnaire> is given, it is context only: never take a diagnosis, \
+medicine, dose or plan from it. Anything in it that disagrees with the note (another medicine, a different \
+dose, an allergy) goes in clinician_flags.
 """
 
 
-def claude_summary(note: str, grade: int) -> Summary:
+def claude_summary(note: str, grade: int, context: str = "") -> Summary:
     import anthropic
     from pydantic import BaseModel
 
@@ -1219,7 +1222,8 @@ def claude_summary(note: str, grade: int) -> Summary:
     info = {m: lookup(m, tries=1) for m in note_medicines(note)}
     med_info = "\n".join(f"{m}: {i['why']} [{i['url']}]" for m, i in info.items() if i.get("found"))
     messages = [{"role": "user", "content": f"<approved_words>\n{chr(10).join(approved)}\n</approved_words>\n\n"
-                 f"<medicine_info>\n{med_info}\n</medicine_info>\n\n<clinician_note>\n{note}\n</clinician_note>"}]
+                 f"<medicine_info>\n{med_info}\n</medicine_info>\n\n<clinician_note>\n{note}\n</clinician_note>"
+                 + (f"\n\n{context}" if context else "")}]
     client = anthropic.Anthropic()
 
     def make(_level: int) -> Summary:
@@ -1250,9 +1254,11 @@ def claude_summary(note: str, grade: int) -> Summary:
     return best_of_tries(note, make, grade)
 
 
-def summarize_note(note: str, use_claude: bool = False, grade: int = READER_GRADE) -> Summary:
+def summarize_note(note: str, use_claude: bool = False, grade: int = READER_GRADE, context: str = "") -> Summary:
+    """context: the visit conversation and check-in answers, for Claude (the offline writer uses the note only;
+    ai_at_70's cross-check compares them with the note)."""
     if use_claude:
-        return claude_summary(note, grade)
+        return claude_summary(note, grade, context)
     return best_of_tries(note, lambda level: offline_summary(note, level, grade), grade)
 
 
