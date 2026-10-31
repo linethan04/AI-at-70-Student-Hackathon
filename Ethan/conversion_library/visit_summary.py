@@ -26,25 +26,30 @@ Other checks: every medicine in the note is listed, every number is in the summa
 import argparse
 import re
 import sys
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import date
 from pathlib import Path
 
 import textstat
 from wordfreq import zipf_frequency
 
-from convert_note import DOSING_WORDS, OUTPUT, analyze, convert, drug_names, lay_dictionary
-from drug_info import lookup
+from convert_note import DOSING_WORDS, OUTPUT, analyze, convert, drug_names, lay_dictionary, medical_vocab
+from drug_info import UK_NAMES, lookup
 from make_printout import (FLAG_OFF, FLAG_ON, INDEX, WHEN_TO_CALL, WORD_OFF, WORD_ON, jinja, make_printout,
                            marked_text, strip_markers, split_sections, tidy_item)
-from reader import READER_GRADE, WORD, assess, describe, gloss, is_known
+from reader import DOCTOR_TALK, READER_GRADE, WORD, assess, describe, doctor_talk, gloss, is_known
 
 HERE = Path(__file__).resolve().parent
 KINDS = ("med", "word", "keep", "drug")
 EVERYDAY_ZIPF = 3.5   # single words at least this common aren't counted as leftover jargon ("hypertension" is 3.4)
 MAX_TRIES = 6
 MARKUP = re.compile(r"\[\[([^\]|]*)\|([^\]|]*)\|([^\]|]*)\|([^\]|]*)\]\]")
-NAME_SUFFIXES = ("acid", "sodium", "potassium", "inhaler", "cream", "patch", "spray", "drops", "gel", "xl", "sr")
+NAME_SUFFIXES = ("acid", "sodium", "potassium", "succinate", "tartrate", "hydrochloride", "hcl", "inhaler", "cream", "patch",
+                 "spray", "drops", "gel", "xl", "sr", "er", "la", "cr")
+SALTS = {"succinate", "tartrate", "hydrochloride", "hcl", "sodium", "potassium", "calcium", "magnesium", "iron", "zinc",
+         "chloride", "carbonate", "citrate", "sulfate", "oxygen", "alcohol", "nicotine", "caffeine", "glucose"}  # only a
+# medicine when the note gives it a dose ("calcium 600 mg"), not in "low sodium diet" or "metoprolol succinate"
+UNDECIDED = re.compile(r"\b(?:discuss|consider|may|might|could|possible|possibly|think about)\b[^.\n]*$", re.I)
 FORM_VERBS = [(r"inhaler|puff|spray|nebuli", "Use"), (r"cream|ointment|gel|emollient|patch|lotion", "Put on"),
               (r"drops?\b", "Use")]
 MED_LINE_START = re.compile(r"^(?:start|stop|increase|decrease|reduce|lower|raise|restart|continue|keep taking|take|"
@@ -54,8 +59,17 @@ VERBS = ("treat", "prevent", "relieve", "reduce", "lower", "control", "decrease"
 USE_STOPWORDS = {"certain", "types", "type", "people", "adults", "children", "mild", "moderate", "severe", "other",
                  "conditions", "condition", "symptoms", "risk", "such", "with", "that", "from", "have", "been",
                  "caused", "used", "also", "your", "body", "some", "medications", "medication", "treatment"}
-CATEGORIES = [  # first match wins; checked against the use that fits the note, then the whole MedlinePlus text
-    (r"blood clots?|anticoagul|blood thinner", "Blood thinner"),
+CLASSES = [  # MedlinePlus "is in a class of medications called ..." -> what a patient would call it
+    (r"diuretic|water pill", "Water pill"), (r"antibiotic", "Infection medicine"), (r"anticoagulant", "Blood thinner"),
+    (r"statin|HMG-CoA", "Cholesterol medicine"), (r"proton[- ]pump inhibitor", "Stomach medicine"),
+    (r"antidepressant|serotonin|SSRI", "Mood medicine"), (r"bisphosphonate", "Bone medicine"),
+    (r"corticosteroid", "Steroid medicine"), (r"NSAID|nonsteroidal anti-inflammatory", "Pain medicine"),
+    (r"cholinesterase inhibitor", "Memory medicine"), (r"bronchodilator", "Breathing medicine"),
+    (r"analgesic", "Pain medicine"), (r"antiviral", "Virus medicine"),
+]
+CATEGORIES = [  # the earliest match in the text wins: the reason in the note, then the use that fits the note, then MedlinePlus
+    (r"rate control|heart rate|rhythm", "Heart rate medicine"),
+    (r"blood clots?|anticoagul|blood thinner|stroke prevention|prevent(?:ing)? (?:a )?stroke", "Blood thinner"),
     (r"high blood pressure|hypertension", "Blood pressure medicine"),
     (r"diabetes|blood sugar|glucose", "Blood sugar medicine"),
     (r"cholesterol", "Cholesterol medicine"),
@@ -71,9 +85,11 @@ CATEGORIES = [  # first match wins; checked against the use that fits the note, 
     (r"seizure|epilep", "Seizure medicine"),
     (r"swelling and redness|corticosteroid|steroid", "Steroid medicine"),
     (r"pain|fever|arthritis|aches", "Pain medicine"),
-    (r"diuretic|water pill|fluid|urine", "Water pill"),
+    (r"diuretic|water pill|edema|excess fluid", "Water pill"),
+    (r"prostat", "Prostate medicine"),
+    (r"alzheimer|dementia|memory", "Memory medicine"),
     (r"heart|angina", "Heart medicine"),
-    (r"vitamin|supplement", "Vitamin"),
+    (r"vitamin|supplement|calcium", "Supplement"),
     (r"nausea|vomit", "Nausea medicine"),
     (r"constipation|bowel", "Bowel medicine"),
 ]
@@ -99,9 +115,39 @@ EASIER = {
     "chronic": "long-lasting", "bilateral": "on both sides", "recheck": "check again", "consider": "think about",
     "symptoms": "signs", "symptom": "sign", "analgesia": "pain relief", "prophylactic": "to prevent it",
     "supportive": "helpful", "urgently": "right away", "thereafter": "after that", "infective": "infection",
+    "elevated": "high", "increased": "more", "decreased": "less", "nightly": "each night", "renal": "kidney",
+    "cardiac": "heart", "pulmonary": "lung", "hepatic": "liver", "oral": "by mouth", "monitor": "check",
+    "indicated": "needed", "recommended": "suggested", "advised": "told", "mild": "a little", "mildly": "a little",
+    "resolved": "gone", "seek": "get", "annual": "yearly", "significant": "large", "significantly": "a lot",
+    "abdominal": "belly", "therapy": "treatment", "respiratory": "breathing", "complaint": "problem", "episode": "bout",
+    "noted": "seen", "intake": "amount",
 }
+def split_list(m: re.Match) -> str:
+    """'Call 911 if you have A, B, C, or D (x, y, z).' (too long) -> 'Call 911 if you have A, B or C. Also call 911 for D (x, y, z).'"""
+    head, items = m.group(1), m.group(2).rstrip(". ")
+    parts = [p for p in re.split(r",\s*(?:or\s+|and\s+)?(?![^()]*\))", items) if p]
+    if len((head + items).split()) <= 18 or len(parts) < 3:
+        return m.group(0)
+    first, rest = parts[:-1] if len(parts) <= 4 else parts[:3], parts[-1:] if len(parts) <= 4 else parts[3:]
+    verb = head[: -len(" if you have ")]
+    join = lambda xs: xs[0] if len(xs) == 1 else ", ".join(xs[:-1]) + " or " + xs[-1]
+    return f"{head}{join(first)}. Also {verb[0].lower() + verb[1:]} for {join(rest)}."
+
+
+def follow_up(m: re.Match) -> str:
+    """'follow-up with Dr. Patel, heart doctor, in 2 weeks' -> 'Go to your follow-up visit in 2 weeks with Dr. Patel
+    (heart doctor)'"""
+    who, dept, when = m.group(1), m.group(2), m.group(3)
+    return f"Go to your follow-up visit {when} with {who}" + (f" ({dept.strip()})" if dept else "")
+
+
 # Note shorthand in the next-steps bullets -> how a person would say it (model knowledge).
 STEP_RULES = [
+    (r"^safety[- ]?net(?:ting)?(?: advice)?:\s*", ""),
+    (r"^lifestyle (?:a partial change|modifications?|changes?):\s*", ""),
+    (r"^(?:follow[- ]?up|come back|return|review) with ((?-i:Dr)\.? [A-Za-z-]+)(?:,\s*([^,]+?))?,? (in \d+ \w+)(?=\.|$)", follow_up),
+    (r"^come back (\d+ (?:days?|weeks?|months?|years?))\b,?", r"Go to your next visit in \1."),
+    (r"^(Go to your next visit in [^.]+\.) ?sooner\b", r"\1 Come back sooner"),
     (r"^(?:advised|told|recommended|suggested)(?: to)?\s+", ""),
     (r"^to\s+", ""),
     (r"^can\s+", "You can "),
@@ -134,7 +180,8 @@ STEP_RULES = [
     # follow-up: say when and with whom, not why
     (r"^(?:come back|follow[- ]?up|return|review)( (?:in|after) \d+ (?:days?|weeks?|months?))"
      r"(?: (?:with|to see) ((?-i:Dr)\.? [A-Za-z-]+|(?:your )?[a-z ]+?doctor))?(?:,\s*((?-i:[A-Z][A-Za-z ]+?)),?)?"
-     r"(?:,? to (?:check|recheck|review|discuss|see how|assess|reassess|monitor|look at|go over|follow up on)\b[^.]*)?"
+     r"(?:,? (?:to (?:check|recheck|review|discuss|see how|assess|reassess|monitor|look at|go over|follow up on)\b|for (?:a |an |your )?"
+     r"[\w ]*?(?:check|review)\b)[^.]*)?"
      r"(?=\.|$)",
      lambda m: f"Go to your follow-up visit{m.group(1)}" + (f" with {m.group(2)}" if m.group(2) else "")
                + (f" ({m.group(3)})" if m.group(3) else "")),
@@ -146,6 +193,39 @@ STEP_RULES = [
     (r"\bif (\w+) not going away\b", r"if the \1 does not go away"),
     (r"\bdoes not go away or worse\b", "does not go away, gets worse,"),
     (r"\bor new symptoms\b", "or you have new symptoms"),
+    # when to get help: who to call, then "if you have ..."
+    (r"^(911|999|111|988)\b", r"Call \1"),
+    (r"^((?:call|ring) (?:911|999|988|111)) for\b", r"\1 if you have"),
+    (r"^if (?!you\b)(.+?), ((?:call|ring|go|get|come|return)\b.+?)\.?$", lambda m: f"{m.group(2)[0].upper() + m.group(2)[1:]} if "
+     + ("" if re.match(r"(?:you|your|there|it|the|symptoms?|not|we)\b", m.group(1), re.I) else "you have ") + f"{m.group(1)}."),
+    (r"^(?:return|come back)(?: or call)? if\b", "Call us or come back if"),
+    (r"^call if\b", "Call us if"),
+    (r"\bif gain\b", "if you gain"),
+    (r"\bif not improving\b", "if you are not better"),
+    (r"^((?:call|ring)(?: us| \d{3})?(?: or come back| or go to the emergency room)?|come back|go to the emergency room(?: or call \d{3})?|"
+     r"get [^,]*?|Call us or come back) if (?!you\b|your\b|it\b|the\b|not\b|needed\b|there\b|we\b)", r"\1 if you have "),
+    (r"\bif you have (fever|high fever)\b", r"if you have a \1"),
+    (r"\bsymptoms? (?:>|more than) ?(\d+ \w+)", r"symptoms that last more than \1"),
+    (r"^(.+? if you have )(.+)$", split_list),
+    # tests and scans: what will happen
+    (r"^(an? [^.]*?(?:scan|ultrasound|x-ray|mammogram)\b(?: \([^)]*\))?)(?: (?:is )?(?:ordered|due|today|booked))?\.?$",
+     lambda m: f"You will get {m.group(1)[0].lower() + m.group(1)[1:]}."),
+    # everyday wording
+    (r"(\d+) minutes? walking\b", r"walk \1 minutes"),
+    (r"\bat pharmacy\b", "at the pharmacy"),
+    (r"\b(at|to) next visit\b", r"\1 your next visit"),
+    (r", (bring the numbers)\b", r". Bring the numbers"),
+    (r"^eat less salt, less than\b", "Eat less salt: less than"),
+    (r"(\d(?:\.\d+)?) ?L\b", r"\1 liters"),
+    (r"(\d+(?:\.\d+)?) g\b(?= a day| each day| per day)", r"\1 grams"),
+    (r"\bhigh cholesterol and other blood fats\b", "high cholesterol"),
+    (r",?\s*(?:hemodynamically|haemodynamically) stable\b", ""),
+    (r", new\b(?= and|\.|$)", ""),
+    (r", no signs of anything serious\b", ". There are no signs of anything serious"),
+    (r", ((?-i:[A-Za-z]+)) for (fever or pain|fever|pain)\b", r", and take \1 for \2"),
+    (r"\bstage \d+,?\s*", ""),
+    (r"\bhave (very bad|sudden|bad) headache\b", r"have a \1 headache"),
+    (r"\bdue to\b", "because of"),
 ]
 PURPOSE_RULES = [(r"\bmild to moderate\s+", ""), (r"\bcertain\s+", "")]
 
@@ -159,6 +239,7 @@ class Segment:
     plain: str = ""                # plain words for the patient
     source: str = ""
     flag: str = ""
+    defined: bool = False          # plain is an explanation of the term, not a swap ("a disease in which...")
 
 
 @dataclass
@@ -167,7 +248,7 @@ class Medicine:
     purpose: list[Segment]         # what it does, plain words (MedlinePlus)
     instruction: list[Segment]     # "Take 1000 mg twice a day, with meals." from the note ([] = not in the note)
     source: str = ""               # MedlinePlus drug page
-    change: str = ""               # "New", "Higher dose", "Lower dose", "New dose", "Stop" or ""
+    change: str = ""               # "New", "Higher dose", "Lower dose", "New dose", "Stopped" or ""
     flags: list[str] = field(default_factory=list)
     category: str = ""             # "Blood pressure medicine": what the patient calls it (from MedlinePlus)
     note: list[Segment] = field(default_factory=list)  # "This may be causing the swelling in both legs."
@@ -240,6 +321,10 @@ def to_segments(item: str, findings: list) -> list[Segment]:
         f, shown = findings[int(m.group(3))], m.group(2)
         if f.kind == "medication":
             seg = Segment(shown, "drug", "", "note")
+        elif f.kind == "abbreviation" and lay_dictionary()[0].get(f.text, {}).get("kind") == "lab_test" and not f.replace_with:
+            seg = Segment(shown, "keep", f.explain or "", f.source)  # "TSH": a lab name stays as on the report
+        elif not f.replace_with and f.explain and " " not in f.text and is_known(f.text):
+            seg = Segment(shown)  # an everyday word a source happens to define ("fainting"): keep the word
         elif f.source == "MedlinePlus Lab Tests" and not f.replace_with:
             seg = Segment(shown, "keep", f.explain or "", f.source)
         elif not (f.replace_with or f.explain):
@@ -247,7 +332,8 @@ def to_segments(item: str, findings: list) -> list[Segment]:
         else:
             seg = Segment(f.text, "word" if f.kind == "wording" else "med",
                           shown if f.replace_with else (f.explain or ""),
-                          MODEL if f.source and "model knowledge" in f.source else (f.source or ""))
+                          MODEL if f.source and "model knowledge" in f.source else (f.source or ""),
+                          defined=not f.replace_with)
         seg.flag = f.flag or ""
         segments.append(seg)
         pos = m.end()
@@ -296,7 +382,7 @@ def rewrite(item: list[Segment], rules: list) -> list[Segment]:
         if m.start() > pos:
             out.append(Segment(text[pos:m.start()]))
         t = shown.get(m.group(0)) or next(v for k, v in shown.items() if k.lower() == m.group(0).lower())
-        out.append(Segment(t.text, t.kind, m.group(0) if t.kind in ("med", "word") else t.plain, t.source, t.flag))
+        out.append(replace(t, plain=m.group(0) if t.kind in ("med", "word") else t.plain))
         pos = m.end()
     if pos < len(text):
         out.append(Segment(text[pos:]))
@@ -327,23 +413,27 @@ def easier_word(word: str, grade: int) -> tuple[str, str] | None:
         return entry["plain"], entry["source"]
     if w in EASIER and all(is_known(x, grade) for x in WORD.findall(EASIER[w])):
         return EASIER[w], MODEL
-    g = gloss(w, grade)
+    medical = w in lay_dictionary()[1] or w in medical_vocab() or w.rstrip("s") in medical_vocab()
+    g = None if medical else gloss(w, grade)
     if g:
         return g, LWV
     return None
 
 
-def familiar(item: list[Segment], grade: int, skip: set[str]) -> list[Segment]:
-    """Swap words the reader may not know for ones they would; marked as 'hard word -> simpler word'."""
+def familiar(item: list[Segment], grade: int, skip: set[str], unknown: bool = True) -> list[Segment]:
+    """Swap doctor words ("severe" -> "very bad") and, if unknown is set, words the reader may not know, for words
+    they would say; marked as 'hard word -> simpler word'."""
     out = []
     for s in item:
         if s.kind == "text":
             pos = 0
             for m in WORD.finditer(s.text):
                 w = m.group(0)
-                if w.lower() in skip or is_known(w, grade) or w[:1].isupper() and m.start() > 0 and s.text[m.start() - 2:m.start()] != ". ":
+                talk = w.lower() in EASIER and DOCTOR_TALK.fullmatch(w)
+                if w.lower() in skip or not talk and (not unknown or is_known(w, grade)) \
+                        or w[:1].isupper() and m.start() > 0 and s.text[m.start() - 2:m.start()] != ". ":
                     continue
-                easier = easier_word(w, grade)
+                easier = (EASIER[w.lower()], MODEL) if talk else easier_word(w, grade)
                 if not easier:
                     continue
                 plain, source = easier
@@ -354,6 +444,10 @@ def familiar(item: list[Segment], grade: int, skip: set[str]) -> list[Segment]:
                 pos = m.end()
             out.append(Segment(s.text[pos:]))
         elif s.kind == "med" and s.plain:
+            for w in WORD.findall(s.plain):  # "an acute infection" -> "a sudden infection"
+                if w.lower() in EASIER and DOCTOR_TALK.fullmatch(w):
+                    s = replace(s, plain=re.sub(rf"\b{re.escape(w)}\b", EASIER[w.lower()], s.plain),
+                                flag=s.flag or "no standard source (model knowledge, verify)")
             words = WORD.findall(s.plain)
             hard = [w for w in words if not is_known(w, grade) and w.lower() not in skip]
             for w in hard:  # a definition that itself has a hard word (not a word-list gloss inside MedlinePlus text)
@@ -446,7 +540,7 @@ def dose_after(text: str, start: int) -> str:
     """'1000 mg BID with meals (currently ...)' -> '1000 mg BID with meals': up to the next break."""
     rest = text[start:]
     end = len(rest)
-    for pattern in (r"[,;\n(]", r"\s-\s", r"\.\s", r"\.$", r"\s(?:and|then stop|if)\s"):
+    for pattern in (r"[;\n(]|,(?!\s*then\b)", r"\s-\s", r"\.\s", r"\.$", r"\s(?:and|then stop|if)\s"):
         m = re.search(pattern, rest)
         if m:
             end = min(end, m.start())
@@ -456,20 +550,27 @@ def dose_after(text: str, start: int) -> str:
 def instruction_for(name: str, dose: str, change: str, keep_taking: bool, when: str) -> tuple[list[Segment], bool]:
     """('Take 1 pill (1000 mg) twice a day, with meals.', pill count assumed?) from the note's dose;
     [] if the note has none."""
-    if change == "Stop":
+    if change == "Stopped":
         return [Segment("Stop taking this.")], False
     if when:  # "to start in 24-48 hours if symptoms not improving" (delayed prescription)
         segs = rewrite(plain_segments(when), STEP_RULES)
         return capitalize(segs + [Segment(".")]), False
     if not dose:
         return [], False
-    verb = next((v for p, v in FORM_VERBS if re.search(p, name, re.I)), "Take")
+    verb = next((v for p, v in FORM_VERBS if re.search(p, name + " " + dose, re.I)), "Take")
     if keep_taking:
         verb = "Keep using" if verb == "Use" else "Keep taking"
+    dose = re.sub(r"\bx\s?(\d+)\s*(days?|weeks?|months?)\b", r"for \1 \2", dose)  # "BID x 5 days"
     dose = re.sub(r"(\d)\s?x\b", r"\1 times", dose)
+    dose = re.sub(r"\bthen back to\b", "then go back to", dose)
+    dose = re.sub(r"\bnightly\b", "each night", dose)
+    dose = re.sub(r"^(\d+(?:\.\d+)?\s?(?:mg|mcg|micrograms?))\s+(\d+ puffs?)\b", r"\2 (\1)", dose)  # "100mcg 2 puffs"
     dose = re.sub(r"\s*/\s*(day|week|month|hour|night)\b", r" a \1", dose)
     dose = ORAL_AMOUNT.sub(lambda m: f"{m.group(1)} {m.group(2).lower()}", dose)  # "5mg" -> "5 mg"
-    one_pill = verb in ("Take", "Keep taking") and len(ORAL_AMOUNT.findall(dose)) == 1  # "5 mg" -> "1 pill (5 mg)"
+    # "5 mg" -> "1 pill (5 mg)"; not for grams (1 g of paracetamol is 2 tablets) or combinations ("49/51 mg")
+    amounts = ORAL_AMOUNT.findall(dose)
+    one_pill = (verb in ("Take", "Keep taking") and len(amounts) == 1 and amounts[0][1].lower().startswith("m")
+                and not re.search(r"\d\s*/\s*\d+(?:\.\d+)?\s*(?:mg|mcg|g|IU|units)\b|(?:mg|mcg|g)\s*/\s*\d|\+", dose, re.I))
     if one_pill:
         dose = ORAL_AMOUNT.sub(lambda m: f"1 pill ({m.group(1)} {m.group(2).lower()})", dose)
     segs = rewrite(plain_segments(dose), STEP_RULES + [(r"\bdaily\b", "each day"), (r"\bweekly\b", "once a week")])
@@ -482,16 +583,28 @@ def instruction_for(name: str, dose: str, change: str, keep_taking: bool, when: 
             s.plain = s.plain[0].lower() + s.plain[1:]
         elif s.kind == "text" and s.text[:2].istitle():
             s.text = s.text[0].lower() + s.text[1:]
-    return [Segment(f"{verb} ")] + [Segment(with_meals.sub(r", \1", s.text)) if s.kind == "text" else s
-                                    for s in segs] + [Segment(".")], one_pill
+    segs = [Segment(re.sub(r"(?<=\)), (?=at bedtime|in the morning)", " ", with_meals.sub(r", \1", s.text))) if s.kind == "text"
+            else s for s in segs]  # "twice a day, with meals"; "1 pill (0.4 mg) at bedtime"
+    return [Segment(f"{verb} ")] + segs + [Segment(".")], one_pill
 
 
-def category_for(purpose: str, why: str) -> str:
-    for text in (purpose, why):
-        for pattern, name in CATEGORIES:
-            if re.search(pattern, text or "", re.I):
-                return name
-    return "Medicine"
+def category_for(purpose: str, why: str, reason: str = "", form: str = "") -> str:
+    """What a patient would call it. The reason the note gives ("for rate control") wins, then the drug class
+    MedlinePlus names ("diuretics"), then the use that fits the note, then the first use MedlinePlus lists."""
+    if re.search(r"inhaler|puff|inhal", form, re.I):
+        return "Breathing medicine"  # an inhaler's MedlinePlus page may be the nasal spray (beclomethasone)
+
+    def earliest(text: str) -> str:
+        hits = [(m.start(), name) for pattern, name in CATEGORIES for m in [re.search(pattern, text or "", re.I)] if m]
+        return min(hits)[1] if hits else ""
+
+    if earliest(reason):
+        return earliest(reason)
+    drug_class = re.search(r"class of medications called ([^.]+)", why or "")
+    for pattern, name in CLASSES if drug_class else []:
+        if re.search(pattern, drug_class.group(1), re.I):
+            return name
+    return earliest(purpose) or earliest(why) or "Medicine"
 
 
 def find_medicines(note: str, level: int, grade: int) -> tuple[list[Medicine], set[str]]:
@@ -502,6 +615,7 @@ def find_medicines(note: str, level: int, grade: int) -> tuple[list[Medicine], s
     medicines = []
     for key in sorted(names, key=lambda n: note.lower().find(n)):
         shown_name, dose, change, keep_taking, when, in_plan, dose_from_meds = None, "", "", False, "", False, False
+        reason, undecided = "", ""
         for kind, _, body in parts:
             for m in re.finditer(rf"\b{re.escape(key)}\b", body, re.I):
                 suffix = re.match(r"\s+(%s)\b" % "|".join(NAME_SUFFIXES), body[m.end():], re.I)
@@ -513,17 +627,24 @@ def find_medicines(note: str, level: int, grade: int) -> tuple[list[Medicine], s
                 has_dose = bool(found) and bool(re.search(r"\d", found) or DOSING_WORDS.search(plain))
                 line_start = body.rfind("\n", 0, m.start()) + 1
                 before = body[line_start:m.start()]
+                if kind in ("plan", "found_plan") and UNDECIDED.search(before):
+                    # "discuss trial taper of omeprazole to 20 mg": not a decision; keep the current dose, ask
+                    undecided = body[line_start:body.find("\n", end) if "\n" in body[end:] else len(body)].strip()
+                    continue
                 if kind in ("plan", "found_plan"):
                     in_plan = True
+                    for_what = re.search(r"\bfor ([a-z][a-z ]+?)\s*(?:[.,;(]|$)", body[end:body.find("\n", end) if "\n" in body[end:]
+                                                                                    else len(body)])
+                    reason = for_what.group(1) if for_what else reason
                     if re.search(r"\b(?:instead of|stop|discontinue)\s*$", before, re.I):
-                        change = "Stop"
-                    elif re.search(r"\b(?:decrease|reduce|lower)\b", before, re.I) and change != "Stop":
+                        change = "Stopped"
+                    elif re.search(r"\b(?:decrease|reduce|lower)\b", before, re.I) and change != "Stopped":
                         change = "Lower dose"
-                    elif re.search(r"\b(?:increase|raise)\b", before, re.I) and change != "Stop":
+                    elif re.search(r"\b(?:increase|raise)\b", before, re.I) and change != "Stopped":
                         change = "Higher dose"
-                    elif re.search(r"\bchange\b", before, re.I) and change != "Stop":
+                    elif re.search(r"\bchange\b", before, re.I) and change != "Stopped":
                         change = "New dose"
-                    elif re.search(r"\b(?:start|script|prescribed|advised|commence)\b", before, re.I) and change != "Stop":
+                    elif re.search(r"\b(?:start|script|prescribed|advised|commence)\b", before, re.I) and change != "Stopped":
                         change = "New"
                     if re.search(r"\bcontinue\b", before, re.I):
                         keep_taking = True
@@ -552,12 +673,16 @@ def find_medicines(note: str, level: int, grade: int) -> tuple[list[Medicine], s
             flags.append("\"1 pill\" assumed from the dose in the note: confirm the tablet strength")
         if not instruction:
             flags.append("how to take it is not in the note: fill in the blank line or add it to the note")
+        if undecided:
+            flags.append(f"the plan says \"{undecided}\": not shown as a change; edit it if this was decided")
         purpose = rewrite(plain_segments(purpose_text), PURPOSE_RULES) if purpose_text else []
         if level >= 2:  # a condition MedlinePlus only defines at length stays as its name here
             purpose = [Segment(x.text) if x.kind == "med" and x.plain and len(x.plain.split()) > 4 else x for x in purpose]
-        category = category_for(purpose_text, info.get("why", "")) if info.get("found") else ""
+        category = category_for(purpose_text, info.get("why", ""), reason, f"{shown_name} {dose}")
+        category = "" if category == "Medicine" else category
         if category:
-            flags.append(f"called \"{category}\" from its MedlinePlus page: check that is why this patient takes it")
+            flags.append(f"called \"{category}\" from " + ("the note" if reason and category_for("", "", reason) != "Medicine"
+                         else "its MedlinePlus page") + ": check that is why this patient takes it")
         medicines.append(Medicine(shown_name or key, purpose, instruction, info.get("url", ""),
                                   change if in_plan else "", flags, category))
     return medicines, names
@@ -570,6 +695,22 @@ def note_medicines(note: str) -> set[str]:
     for w in re.findall(r"[A-Za-z][A-Za-z-]{3,}", note):
         if w.lower() in drug_names() and zipf_frequency(w.lower(), "en") < 4.5 and w.lower() not in lab_tests:
             found.add(w.lower())
+    for uk in sorted(UK_NAMES, key=len, reverse=True):  # "alendronic acid", "Clenil"
+        if re.search(rf"\b{re.escape(uk)}\b", note, re.I) and not any(uk in f.split() for f in found if f != uk):
+            found = {f for f in found if f not in uk.split()} | {uk}
+    found |= {m.group(1).lower() for m in re.finditer(r"\b(vitamin [A-Z]\d{0,2})\s+\d", note, re.I)}  # "vitamin D 1000 IU"
+    # A substance is a medicine only with a dose ("calcium 600 mg"), not in "low sodium diet" or "metoprolol succinate".
+    found = {f for f in found if f not in SALTS or re.search(rf"\b{f}\b[^.\n]{{0,20}}?\d", note, re.I)
+             and not re.search(rf"\w+ {f}\b", note, re.I) or re.search(rf"^\s*(?:meds|medications)\s*:.*\b{f}\b", note, re.I | re.M)}
+    # Vaccines are given in the clinic or listed as next steps, not taken at home.
+    found = {f for f in found if not lookup(f, online=False).get("why", "").startswith("Why get vaccinated")}
+    # Combinations stay together: "sacubitril/valsartan", "calcium + vitamin D".
+    for f in sorted(found):
+        combo = re.search(rf"\b{re.escape(f)}\s*[/+]\s*([A-Za-z][A-Za-z -]*?)(?=\s+\d|\s*[,.;\n]|$)", note, re.I | re.M)
+        second = combo.group(1).lower().split()[0] if combo else ""
+        if combo and f in found and (second in drug_names() or second == "vitamin" or second in UK_NAMES):
+            words = set(re.findall(r"[a-z0-9-]+", combo.group(0).lower()))
+            found = {g for g in found if not set(g.split()) <= words} | {combo.group(0).lower()}
     # Only mentioned as an allergy ("Allergies: latex", "allergic to penicillin"): not a medicine they take.
     lines = note.lower().splitlines()
     return {m for m in found if not all(re.search(r"allerg|nkda|intoleran|reaction to", l)
@@ -589,15 +730,32 @@ def first_to_second(text: str) -> str:
 def lower_first(text: str) -> str:
     i = len(text) - len(text.lstrip(f" {FLAG_ON}{WORD_ON}"))
     word = re.match(r"\w+", text[i:])
-    if word and not word.group(0).isupper() and not re.match(r"[A-Z]\w*[A-Z0-9]", word.group(0)):
+    if word and (word.group(0) == "A" or not word.group(0).isupper()) and not re.match(r"[A-Z]\w*[A-Z0-9]", word.group(0)):
         return text[:i] + text[i].lower() + text[i + 1:]
     return text
 
 
+PRESENTS = re.compile(r"^.*?\b(?:presents?|presented|presenting|came in|comes in|here|seen|complains|c/o)"
+                      r"(?: today)?(?: with| for| of)\s+", re.I)
+AGE_SEX = re.compile(r"^\s*\d+[- ]?(?:(?:y/?o|yo|years?[- ]old|year old)[- ]?(?:M|F|male|female|man|woman)?|"
+                     r"(?-i:M|F)|male|female|man|woman)\b[,:.]?\s*", re.I)
+
+
 def came_in_for(pc: str) -> str:
-    """'Headache' -> 'You came in because of a headache.'; 'I have a cough' -> 'You came in because you have a cough.'"""
+    """'Headache' -> 'You came in because of a headache.'; 'I have a cough' -> 'You came in because you have a cough.';
+    '82F presents with 3 days of dysuria' -> 'You came in because of 3 days of pain when you pass urine.'"""
     pc = first_to_second(pc).rstrip(". ")
+    plain = strip_markers(pc)
+    if PRESENTS.match(plain):  # history sentence: keep only what they came in with
+        cut = PRESENTS.match(plain).end()
+        pos = next(i for i in range(len(pc) + 1) if len(strip_markers(pc[:i])) >= cut)
+        pc = pc[pos:]
+    elif AGE_SEX.match(plain) and AGE_SEX.match(plain).end():
+        pc = pc[AGE_SEX.match(plain).end():]
+    pc = re.sub(r"^\s*\d+[- ](?:week|month|day|year)\s+(?=follow)", "", pc, flags=re.I)  # "6-week follow-up"
     start = strip_markers(pc).strip().lower()
+    if re.search(r"\b(?:visit|check-?up|physical)\b", start) and not start.startswith(("follow", "you ")):
+        return f"You came in for {'' if start.startswith(('a ', 'an ', 'your ', 'the ')) else 'your '}{lower_first(pc)}."
     if start.startswith(("you ", "your ", "you've ", "you're ", "you'd ")):
         return f"You came in because {lower_first(pc)}."
     if start.startswith(("follow", "review", "check")):
@@ -643,24 +801,48 @@ def offline_summary(note: str, level: int, grade: int) -> Summary:
     if reason:
         overview.append(came_in_for(reason[0]))
         used.add(id(reason[0]))
-    found = by_key.get("found", []) + by_key.get("found_plan", [])[:2]
+        left_out.append({"text": strip_markers(reason[0]), "reason": "the note's wording (said more simply in Your visit)"})
+    # "Fall risk: refer to PT..." (assessment and plan by problem): the problem is a finding, the rest a step.
+    labels, actions = [], []
+    for item in by_key.get("found_plan", []):
+        label, sep, rest = item.partition(": ")
+        if sep and len(strip_markers(label).split()) <= 6 and strip_markers(rest).strip():
+            labels.append(label)
+            actions.append(rest)
+            if not re.search(r"vaccin|immuni|screening|medications?|meds\b|labs?\b|health maintenance|prevent|counsel|"
+                             r"use\b|follow", strip_markers(label), re.I):
+                labels[-1] = label
+            else:
+                labels.pop()
+        else:
+            actions.append(item)
+    if labels:
+        found_plan_found, found_plan_rest = labels, actions
+    else:
+        found_plan_found, found_plan_rest = by_key.get("found_plan", [])[:2], by_key.get("found_plan", [])[2:]
+    found = by_key.get("found", []) + found_plan_found
     overview += findings_sentences(found, overview[0] if overview else "", medicines, names, p.findings)
     for item in found:
         used.add(id(item))
+    left_out += [{"text": strip_markers(i), "reason": "the note's wording (said more simply in Your visit)"}
+                 for i in by_key.get("found", []) + by_key.get("found_plan", [])]
     if len(overview) < 2 and len(reason) > 1:
         overview.append(reason[1])
         used.add(id(reason[1]))
 
     # What to do next: plan (medicine lines are in "Your medicines"), follow-up, when to get help (last)
-    plan = by_key.get("plan", []) + by_key.get("found_plan", [])[2:]
+    plan = by_key.get("plan", []) + found_plan_rest
     follow = by_key.get("followup", [])
-    for i in plan + follow:
+    for i in plan + follow + by_key.get("found_plan", []):
         used.add(id(i))
     med_lines = [i for i in plan if is_medicine_line(i, names)]
     # The clinician documenting consent or advice given isn't a step for the patient.
     record = [i for i in plan + follow if CLINICIAN_RECORD.search(strip_markers(i))]
     left_out += [{"text": strip_markers(i), "reason": "clinician's record, not a step for the patient"} for i in record]
     plan = [i for i in plan if i not in record]
+    undecided = [i for i in plan if re.match(r"\W*(?:discuss|consider|think about)\b", strip_markers(i), re.I)]
+    left_out += [{"text": strip_markers(i), "reason": "not decided yet (the plan says to discuss or consider it)"} for i in undecided]
+    plan = [i for i in plan if i not in undecided]
     follow = [i for i in follow if i not in record]
     left_out += [{"text": strip_markers(i), "reason": "covered in Your medicines"} for i in med_lines]
     urgent_items = [i for i in follow if WHEN_TO_CALL.search(strip_markers(i))]
@@ -669,7 +851,7 @@ def offline_summary(note: str, level: int, grade: int) -> Summary:
         steps = [q for i in steps for part in split_more(i) for q in split_long(part)]
         urgent_items = [q for i in urgent_items for q in split_long(i)]
         overview = [q for i in overview for part in split_more(i) for q in split_long(part)]
-    max_steps = 8 if level < 4 else 5
+    max_steps = 10 if level < 4 else 6
     if len(steps) > max_steps:
         left_out += [{"text": strip_markers(i), "reason": "cut to keep the summary short"} for i in steps[max_steps:]]
         steps = steps[:max_steps]
@@ -687,37 +869,67 @@ def offline_summary(note: str, level: int, grade: int) -> Summary:
     step_segs = [direct_step(capitalize(rewrite(to_segments(tidy_item(i), p.findings), STEP_RULES))) for i in steps]
     if level >= 1:
         step_segs = definitions_apart(step_segs, same_item=True)
-    if level >= 3:  # words the reader may not know -> words they would
-        skip = {w.lower() for m in medicines for w in WORD.findall(m.name)}
-        overview_segs = [capitalize(familiar(i, grade, skip)) for i in overview_segs]
-        step_segs = [capitalize(familiar(i, grade, skip)) for i in step_segs]
-        for m in medicines:
-            m.purpose = familiar(m.purpose, grade, skip)
-            m.instruction = familiar(m.instruction, grade, skip)
+    # Doctor words ("severe", "elevated") always; other words the reader may not know from try 4.
+    skip = {w.lower() for m in medicines for w in WORD.findall(m.name)}
+    overview_segs = [capitalize(familiar(i, grade, skip, unknown=level >= 3)) for i in overview_segs]
+    step_segs = [capitalize(familiar(i, grade, skip, unknown=level >= 3)) for i in step_segs]
+    for m in medicines:
+        m.purpose = familiar(m.purpose, grade, skip, unknown=level >= 3)
+        m.instruction = familiar(m.instruction, grade, skip, unknown=level >= 3)
     urgent = {len(step_segs) - len(urgent_items) + k for k in range(len(urgent_items))}
     return Summary(overview_segs, medicines, step_segs, "Offline rewriter (rules + dictionaries + reader word list)",
                    urgent, left_out, grade=grade)
 
 
 CLINICIAN_RECORD = re.compile(r"\b(understands?|happy with (?:the )?(?:plan|management)|agrees? with|agreeable|"
-                             r"consent(?:ed)?|safety[- ]?net(?:ting)?|advice given|questions answered)\b", re.I)
+                             r"consent(?:ed)?|safety[- ]?net(?:ting)?(?: advice)? (?:given|discussed|provided)|advice given|"
+                             r"questions answered)\b|^(?:repeat|recheck|review|discuss|reassess)\b.*\bat (?:the |your )?next visit",
+                             re.I)
 LAB_VERBS = re.compile(r"^(?:check|order|obtain|get|draw|repeat|do|send|arrange)\b", re.I)
 WHEN = re.compile(r"\b(today|tomorrow|this week|next week|before (?:your|the) next visit|in \d+ (?:days?|weeks?|months?))\b", re.I)
 
 
+def is_lab(s: Segment) -> bool:
+    """A lab test named in the note: 'BMP', 'TSH', 'CBC' (-> 'blood count tests'), 'urine microalbumin'."""
+    entry = lay_dictionary()[1].get(s.text.lower()) or lay_dictionary()[0].get(s.text) or {}
+    return s.kind == "keep" and "Lab Tests" in (s.source or "") or s.kind in ("med", "keep") and (
+        entry.get("kind") == "lab_test" or bool(re.search(r"\btests?\b", s.plain)) and s.text.isupper())
+
+
 def direct_step(item: list[Segment]) -> list[Segment]:
-    """Lab steps -> 'Go to the lab today for a blood test (BMP) and a urine test (microalbumin).'"""
+    """Lab steps -> 'Go to the lab today for a blood test (BMP) and a urine test (microalbumin).';
+    'TSH, CBC, BMP today' -> 'Go to the lab today for blood tests (TSH, CBC and BMP).' Not why (CLAUDE.md)."""
+    labs = {k for k, e in lay_dictionary()[0].items() if e.get("kind") == "lab_test"}
+    split = []
+    for s in item:  # lab names the converter left as plain text ("TSH" has nothing to explain)
+        if s.kind != "text":
+            split.append(s)
+            continue
+        pos = 0
+        for m in re.finditer(r"\b[A-Z][A-Za-z0-9]{1,5}\b", s.text):
+            if m.group(0) in labs:
+                split += [Segment(s.text[pos:m.start()]), Segment(m.group(0), "keep", "", "MedlinePlus Lab Tests")]
+                pos = m.end()
+        split.append(Segment(s.text[pos:]))
+    item = [s for s in split if s.kind != "text" or s.text]
     text = clean(item)
-    tests = [s for s in item if s.kind == "keep" and "Lab Tests" in (s.source or "")]
-    if tests and LAB_VERBS.match(text.strip()):
+    tests = [s for s in item if is_lab(s)]
+    first = next((i for i, s in enumerate(item) if is_lab(s)), 0)
+    starts_with_test = tests and not re.sub(r"[\W\d]", "", clean(item[:first]))
+    if tests and (LAB_VERBS.match(text.strip()) or starts_with_test or re.match(r"^to check\b", text.strip(), re.I)):
         when = WHEN.search(text)
+        kinds = {}
+        for t in tests:
+            kind = "urine test" if re.search(r"urine|\bUA\b", t.plain + t.text, re.I) else "blood test"
+            kinds.setdefault(kind, []).append(re.sub(r"^(urine|blood)\s+", "", t.text, flags=re.I))
         out = [Segment("Go to the lab" + (f" {when.group(1)}" if when else "") + " for ")]
-        for i, t in enumerate(tests):
-            kind = "urine test" if re.search(r"urine", t.plain + t.text, re.I) else \
-                "blood test" if re.search(r"blood", t.plain, re.I) else "test"
-            name = re.sub(r"^(urine|blood)\s+", "", t.text, flags=re.I)
-            sep = "" if i == 0 else (" and " if i == len(tests) - 1 else ", ")
-            out += [Segment(f"{sep}a {kind} ("), Segment(name, "keep", "", t.source, t.flag), Segment(")")]
+        for i, (kind, tnames) in enumerate(kinds.items()):
+            out.append(Segment(("" if i == 0 else " and ") + (f"a {kind} (" if len(tnames) == 1 else f"{kind}s (")))
+            for j, name in enumerate(tnames):
+                src = next(t for t in tests if t.text.endswith(name))
+                out += [Segment("" if j == 0 else (" and " if j == len(tnames) - 1 else ", ")),
+                        Segment(name, "keep", "", src.source, src.flag)]
+            out.append(Segment(")"))
         return out + [Segment(".")]
     return item
 
@@ -787,9 +999,12 @@ def definitions_apart(items: list[list[Segment]], same_item: bool = False) -> li
             plain = tidy_definition(re.sub(r"\s*\(([^)]*)\)", r", or \1,", x.plain) if x.kind == "keep" else x.plain) \
                 if x.kind in ("med", "keep") else ""
             known = all(is_known(w) for w in WORD.findall(x.text)) and not re.fullmatch(r"[A-Z0-9]{2,6}", x.text.strip())
-            if x.kind in ("med", "keep") and len(plain.split()) > 5 and re.match(r"(a|an|the)\b", plain, re.I) and known:
+            is_definition = x.kind == "keep" or x.defined
+            if is_definition:
+                plain = essence(plain)
+            if is_definition and len(plain.split()) > 5 and re.match(r"(a|an|the)\b", plain, re.I) and known:
                 new_item.append(Segment(x.text if not x.text[:1].isupper() or x.text.isupper() else x.text[0].lower() + x.text[1:]))
-            elif x.kind in ("med", "keep") and len(plain.split()) > 5 and re.match(r"(a|an|the)\b", plain, re.I):
+            elif is_definition and len(plain.split()) > 5 and re.match(r"(a|an|the)\b", plain, re.I):
                 name = x.text if not x.text.isupper() or len(x.text) <= 5 else x.text.lower()
                 new_item.append(Segment(name, "keep", "", x.source, x.flag))
                 extra.append([Segment(f"{name[0].upper() + name[1:]} is "), Segment("", "med", plain.strip(" ,"), x.source,
@@ -804,13 +1019,28 @@ def definitions_apart(items: list[list[Segment]], same_item: bool = False) -> li
     return out if same_item else out[:5]
 
 
+DEFINITION_RULES = [  # the essence of a definition: "a group of lung diseases that make..." -> "a lung disease that makes..."
+    (r"^(a|an) (?:group|type|kind|set) of (\w+) (disease|condition|problem)s that (\w+)\b",
+     lambda m: f"{m.group(1)} {m.group(2)} {m.group(3)} that {m.group(4) if m.group(4).endswith('s') else verb3(m.group(4))}"),
+    (r"^(a|an) (?:group|type|kind) of (\w+ )?(diseases|conditions|problems)\b", lambda m: f"{m.group(1)} {m.group(2) or ''}{m.group(3)[:-1]}"),
+]
+
+
+def essence(definition: str) -> str:
+    """A definition cut to its main idea, one short phrase."""
+    text = definition.strip(" ,.")
+    for pattern, new in DEFINITION_RULES:
+        text = re.sub(pattern, new, text, flags=re.I)
+    return shorten(text, 12) if len(text.split()) > 8 else text
+
+
 def define_once(items: list[list[Segment]]) -> list[list[Segment]]:
     """Explain a term the first time; after that use its name ("type 2 diabetes")."""
     seen, out = set(), []
     for item in items:
         new = []
         for x in item:
-            if x.kind == "med" and x.text.lower() in seen and len(x.plain.split()) > 4:
+            if x.kind == "med" and x.defined and x.text.lower() in seen and len(x.plain.split()) > 4:
                 x = Segment(x.text if x.text.isupper() else x.text[0].lower() + x.text[1:])
             elif x.kind == "med":
                 seen.add(x.text.lower())
@@ -856,8 +1086,10 @@ def leftover_jargon(summary: Summary) -> list[str]:
     """Medical words or abbreviations still in the patient's text (outside medicine names)."""
     kept = {s.text.lower() for s in summary.terms() if s.kind in ("keep", "drug")}
     left = set()
-    for f in analyze(patient_text(summary)):
+    for f in analyze(re.sub(r"\([^)]*\)", "", patient_text(summary))):  # names in parentheses are kept on purpose
         word = f.text.lower()
+        if f.kind == "phrase" and f.text.lower() in (f.replace_with or "").lower():
+            continue  # already the everyday phrase ("heat packs")
         if f.kind == "medication" or word in kept or any(word in k for k in kept):
             continue
         if f.kind == "wording" or (f.kind == "term" and not f.replace_with and f.explain):
@@ -878,6 +1110,8 @@ def reader_skip(summary: Summary) -> set[str]:
         skip |= {w.lower() for w in WORD.findall(m.name)}
     text = patient_text(summary)
     skip |= {m.group(1).lower() for m in re.finditer(r"\bDr\.? ([A-Z][a-z]+)", text)}  # "Dr. Lee"
+    for names in re.findall(r"\(([^)]*)\)", text):  # names kept for reference after the plain words: "(echocardiogram)"
+        skip |= {w.lower() for w in WORD.findall(names) if not is_known(w)}
     return skip
 
 
@@ -893,12 +1127,16 @@ def check(summary: Summary, note: str, grade: int) -> Summary:
     listed = " ".join(m.name.lower() for m in summary.medicines)
     missing_meds = sorted(m for m in note_medicines(note) if m not in listed and m not in text.lower())
     jargon = leftover_jargon(summary)
+    talk = doctor_talk(text)
+    summary.readability["doctor_talk"] = talk
     summary.checks = [
         {"name": "Reader knows the words", "ok": reader["ok_words"],
          "detail": f"{reader['known_per_100']} of every 100 words (target 98)"
                    + (f"; might not know: {', '.join(reader['unknown'][:6])}" if reader["unknown"] else "")},
         {"name": "Reader can follow the sentences", "ok": reader["ok_sentences"],
          "detail": f"{reader['avg_sentence']} words on average, longest {reader['max_sentence']} (limits 13 and 20)"},
+        {"name": "Reader hears everyday talk, not doctor talk", "ok": not talk,
+         "detail": "sounds like a person talking" if not talk else "still sounds like a note: " + ", ".join(talk)},
         {"name": "Medicines listed", "ok": not missing_meds,
          "detail": "every medicine in the note is listed" if not missing_meds else "missing: " + ", ".join(missing_meds)},
         {"name": "Numbers kept", "ok": not missing_numbers,
@@ -928,7 +1166,7 @@ follow-up visit in 4 weeks with Dr. Lee (Internal Medicine)."
 
 - overview: 2 sentences (3 at most): why you came in, then what the doctor found, without repeating it.
 - medicines: every medicine in the note. category: what a patient would call it, from <medicine_info> \
-("Blood pressure medicine", "Blood thinner"). name: exactly as written in the note. how_to_take: one direct \
+or the reason the note gives ("Blood pressure medicine", "Blood thinner", "Heart rate medicine"). name: exactly as written in the note. how_to_take: one direct \
 instruction from the note, starting with a verb, with the amount in parentheses: "Take 1 pill (5 mg) each \
 day." Only say "1 pill" for tablets with a single amount, and list it in clinician_flags to confirm. Empty \
 if the note doesn't say. note: only if the note links a problem to this medicine.
@@ -936,6 +1174,14 @@ if the note doesn't say. note: only if the note links a problem to this medicine
 says when to get help sooner or call 911/999.
 - The reader reads at about a grade {grade} level: use words most children know by grade {grade}, \
 explain any other word, one idea per sentence, sentences under 15 words. Respectful, never childish.
+- Say it the way you would say it out loud to the patient, not the way the note says it. Knowing every \
+word isn't enough: "worsening breathlessness" uses common words but is doctor talk; say "your breathing \
+has gotten worse". Use everyday verbs, not clinical nouns or qualifiers: "trouble breathing" (not \
+"shortness of breath"), "very bad" (not "severe"), "a bladder infection" (not "acute cystitis"), "You will \
+be sent to a heart doctor." (not "referral to cardiology"). Drop qualifiers that don't change what the \
+patient does ("stage 2", "hemodynamically stable"; list them in left_out). Lead with plain words; a name the patient will hear \
+again goes in parentheses after: "a heart scan (echocardiogram)", "blood tests (TSH, CBC and BMP)". \
+Definitions: only the main idea, one short phrase.
 - Every medical term or abbreviation is written [[original|plain words|med|source]], where the plain \
 words say what it means. Hard everyday words: [[original|simpler words|word|source]]. source: the \
 source given in <approved_words>, or "model" if none (it will be flagged).

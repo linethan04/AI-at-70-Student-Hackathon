@@ -1,0 +1,19 @@
+CC: Follow-up for CHF. Increased dyspnea on exertion and ankle edema x 1 week.
+
+HPI: 76 y/o M with HFrEF (EF 30%), CAD s/p CABG, AFib on anticoagulation. Reports 3 lb weight gain over 5 days, 2-pillow orthopnea, PND x2. Admits to dietary indiscretion (ate out several times). Adherent to meds per wife.
+
+Meds: furosemide 40 mg daily, carvedilol 12.5 mg BID, sacubitril/valsartan 49/51 mg BID, spironolactone 25 mg daily, warfarin 5 mg daily (INR goal 2-3).
+
+Exam: BP 118/72, HR 68 irregularly irregular, SpO2 95% RA. JVP 10 cm. Bibasilar crackles. 2+ pitting edema bilaterally to knees.
+
+Labs: K 4.6, Cr 1.3 (baseline 1.2), INR 2.4.
+
+Assessment: Acute on chronic systolic heart failure exacerbation, likely due to dietary sodium excess.
+
+Plan:
+- Increase furosemide to 40 mg BID x 3 days, then back to 40 mg daily.
+- Daily weights; call if gain > 2 lb in a day or 5 lb in a week.
+- Low sodium diet, < 2 g/day. Fluid restriction 1.5 L/day.
+- BMP in 1 week to monitor K and renal function.
+- F/u with Dr. Patel, Cardiology, in 2 weeks.
+- Go to ED if dyspnea at rest, chest pain, or syncope.

@@ -2,6 +2,7 @@
 
     python Ethan/conversion_library/run_tests.py            # word-swap layer only
     python Ethan/conversion_library/run_tests.py --claude   # + Claude rewrite (needs ANTHROPIC_API_KEY)
+    python Ethan/conversion_library/run_tests.py --summaries  # only the visit summaries (samples + primary care notes)
 
 Per note it records what was found (abbreviations, terms, medications, other jargon), how much
 came from a standard plain-language source, what was flagged, and SMOG before/after; then builds
@@ -10,6 +11,7 @@ medicine name went missing. Writes output/test_report.md plus a review copy and 
 """
 
 import argparse
+import html
 import json
 from collections import Counter
 from pathlib import Path
@@ -18,31 +20,33 @@ from statistics import mean
 from convert_note import MAX_GRADE, OUTPUT, TARGET_GRADE, convert_file, summarize
 from make_printout import ONE_PAGE_WORDS, make_printout, render_page
 from reader import READER_GRADE
-from visit_summary import render_page as render_summary, summarize_note
+from visit_summary import patient_text, render_page as render_summary, summarize_note
 
 PRIMARY_CARE = ("primock57/", "mtsamples/general_medicine", "mtsamples/office", "mtsamples/soap")  # not hospital discharges
 
 HERE = Path(__file__).resolve().parent
 TEST_NOTES = HERE / "test_notes"
+SAMPLES = HERE / "samples"
 
 
 def summary_tests() -> list[str]:
     """The patient visit summary (visit_summary.py) on every primary care note."""
     results = []
-    for path in sorted(TEST_NOTES.glob("*/*.txt")):
-        rel = f"{path.parent.name}/{path.stem}"
-        if not rel.startswith(PRIMARY_CARE):
-            continue
+    paths = sorted(SAMPLES.glob("*.txt")) + [p for p in sorted(TEST_NOTES.glob("*/*.txt"))
+                                              if f"{p.parent.name}/{p.stem}".startswith(PRIMARY_CARE)]
+    for path in paths:
         s = summarize_note(path.read_text())
         (OUTPUT / f"{path.stem}.summary.html").write_text(render_summary(s))
         r = s.readability
         results.append({"collection": path.parent.name, "note": path.stem, "known": r["reader"]["known_per_100"],
+                        "doctor_talk": r.get("doctor_talk", []), "first_line": patient_text(s).split("\n")[0],
                         "max_sentence": r["reader"]["max_sentence"], "reader_ok": s.reading_ok, "ready": s.ready,
                         "unknown": r["reader"]["unknown"], "smog": r["smog"], "smog_note": r["smog_note"],
                         "tries": len(s.tries), "words": r["reader"]["words"], "medicines": len(s.medicines),
                         "no_instruction": sum(1 for m in s.medicines if not m.instruction),
                         "failed": [c["name"] for c in s.checks if not c["ok"]]})
     (OUTPUT / "summary_results.json").write_text(json.dumps(results, indent=1))
+    write_index(results)
     lines = ["## Patient visit summary (primary care notes)", ""]
     for collection in sorted({r["collection"] for r in results}):
         rs = [r for r in results if r["collection"] == collection]
@@ -51,6 +55,9 @@ def summary_tests() -> list[str]:
         lines += [f"### {collection} ({len(rs)} notes)", "",
                   f"- Reader check passed (grade {READER_GRADE}: knows 98+ of 100 words, short sentences): {len(ok)} of {len(rs)}",
                   f"- Every check passed (reader, medicines, numbers, no jargon): {sum(1 for r in rs if r['ready'])} of {len(rs)}",
+                  f"- Sounds like everyday talk (no doctor wording left): {sum(1 for r in rs if not r['doctor_talk'])} of {len(rs)}",
+                  "- Doctor wording most often left: " + (", ".join(f"{w} ({n})" for w, n in Counter(
+                      w for r in rs for w in r["doctor_talk"]).most_common(10)) or "none"),
                   f"- Words the reader knows: {mean(r['known'] for r in rs):.1f} of 100 on average "
                   f"(lowest {min(r['known'] for r in rs)})",
                   "- Tries needed (notes that passed): " + ", ".join(
@@ -65,6 +72,26 @@ def summary_tests() -> list[str]:
     return lines
 
 
+def write_index(results: list[dict]) -> None:
+    """output/summaries.html: every summary with its checks, to open and read one by one."""
+    rows = []
+    for r in results:
+        status = "pass" if r["ready"] else "check"
+        rows.append(f"<tr class='{status}'><td>{html.escape(r['collection'])}</td>"
+                    f"<td><a href='{html.escape(r['note'])}.summary.html'>{html.escape(r['note'])}</a></td>"
+                    f"<td>{'all checks pass' if r['ready'] else html.escape(', '.join(r['failed']))}</td>"
+                    f"<td>{r['known']}</td><td>{html.escape(', '.join(r['doctor_talk'])) or '-'}</td>"
+                    f"<td>{html.escape(r['first_line'])}</td></tr>")
+    passed = sum(1 for r in results if r["ready"])
+    (OUTPUT / "summaries.html").write_text(
+        "<!doctype html><meta charset='utf-8'><title>Visit summaries</title><style>body{font:15px system-ui;margin:24px}"
+        "table{border-collapse:collapse}td,th{border-bottom:1px solid #ddd;padding:6px 10px;text-align:left;vertical-align:top}"
+        "tr.pass td:nth-child(3){color:#176b2c}tr.check td:nth-child(3){color:#a33}</style>"
+        f"<h1>Visit summaries</h1><p>{passed} of {len(results)} pass every check. Click a note to open its summary "
+        "and clinician checklist.</p><table><tr><th>collection</th><th>note</th><th>checks</th><th>words known /100</th>"
+        "<th>doctor wording left</th><th>Your visit (first sentence)</th></tr>" + "".join(rows) + "</table>")
+
+
 def scored(rows: list[dict], key: str) -> list[float]:
     return [r[key] for r in rows if r[key] is not None]  # SMOG needs 3+ sentences
 
@@ -76,7 +103,14 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Run the converter on all test notes.")
     parser.add_argument("--claude", action="store_true")
     parser.add_argument("--limit", type=int, help="only the first N notes per collection")
+    parser.add_argument("--summaries", action="store_true", help="only the visit summaries (faster)")
     args = parser.parse_args()
+    if args.summaries:
+        lines = summary_tests()
+        (OUTPUT / "summary_report.md").write_text("\n".join(lines) + "\n")
+        print("\n".join(lines))
+        print(f"Open: {OUTPUT / 'summaries.html'}")
+        return
 
     rows, flags, unsourced = [], Counter(), Counter()
     for collection in sorted(p for p in TEST_NOTES.iterdir() if p.is_dir()):

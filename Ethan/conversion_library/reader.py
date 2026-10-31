@@ -7,6 +7,9 @@ Instead of a readability formula, the check asks what a person needs to follow a
      finds people follow a text comfortably when they know about 98% of its words; below 95% they
      struggle. Medicine names, numbers and words explained in the text don't count against it.
   2. How much they must hold in mind: short sentences, one idea each.
+  3. Whether it sounds like everyday talk. Knowing each word isn't enough: "worsening breathlessness" uses
+     known words but is doctor talk; a person would say "your breathing has gotten worse". DOCTOR_TALK lists
+     the words and phrases clinicians write but patients don't say (names in parentheses don't count).
 The result reads like a person would say it: "would know 98 of every 100 words; might not know
 'exacerbation'; longest sentence 14 words".
 
@@ -31,6 +34,19 @@ UNITS = {"mg", "mcg", "ml", "g", "kg", "mmol", "iu", "x", "mls", "hrs", "hr"}
 MAX_SENTENCE_WORDS = 20   # longest sentence
 AVG_SENTENCE_WORDS = 13   # average sentence
 WORD = re.compile(r"[A-Za-z][A-Za-z'-]*")
+# Clinician wording: what the note says, not what a person says (model knowledge). Checked outside parentheses.
+DOCTOR_TALK = re.compile(r"\b(" + "|".join([
+    r"worsening", r"breathlessness", r"shortness of breath", r"short of breath", r"dyspno?ea", r"exacerbations?",
+    r"productive", r"sputum", r"presenting", r"complaint", r"onset", r"acute", r"chronic", r"severe(?:ly)?",
+    r"elevated", r"increased", r"decreased", r"significant(?:ly)?", r"monitor(?:ing)?", r"indicated", r"recommended",
+    r"advised", r"evaluation", r"assessment", r"referral", r"refer(?:red)?", r"regimen", r"intake", r"dietary",
+    r"oral(?:ly)?", r"nightly", r"prior to", r"due to", r"secondary to", r"consistent with", r"unremarkable",
+    r"bilateral(?:ly)?", r"o?edema", r"syncope", r"mild(?:ly)?", r"moderate", r"resolved", r"episodes?", r"denies",
+    r"noted", r"therapy", r"management", r"modifications?", r"lifestyle", r"cessation", r"adherence", r"compliance",
+    r"ambulat\w*", r"commence", r"discontinue", r"initiate", r"titrat\w*", r"taper", r"renal", r"hepatic", r"cardiac",
+    r"pulmonary", r"respiratory", r"gastrointestinal", r"abdominal", r"etiology", r"prognosis", r"hemodynamic\w*",
+    r"f/u", r"RTC", r"PRN", r"symptoms? >", r"x \d+ days?", r"as directed", r"physio", r"seek",
+]) + r")\b", re.I)
 
 
 @lru_cache(maxsize=1)
@@ -126,6 +142,12 @@ def assess(text: str, skip: set[str] = frozenset(), grade: int = READER_GRADE) -
     }
 
 
+def doctor_talk(text: str) -> list[str]:
+    """Clinician wording left in the text ("worsening", "severe"), outside parentheses (names kept for reference)."""
+    outside = re.sub(r"\([^)]*\)", "", text)
+    return sorted({m.group(0).lower() for m in DOCTOR_TALK.finditer(outside)})
+
+
 def describe(r: dict) -> str:
     """The check in plain words, for the clinician."""
     text = f"A reader at grade {r['grade']} would likely know {r['known_per_100']} of every 100 words"
@@ -135,5 +157,7 @@ def describe(r: dict) -> str:
 
 
 if __name__ == "__main__":
-    result = assess(" ".join(sys.argv[1:]) or sys.stdin.read())
-    print(describe(result))
+    text = " ".join(sys.argv[1:]) or sys.stdin.read()
+    print(describe(assess(text)))
+    if doctor_talk(text):
+        print("Sounds like doctor talk: " + ", ".join(doctor_talk(text)))

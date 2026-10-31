@@ -62,6 +62,13 @@
   "url": "https://medlineplus.gov/druginfo/meds/a682627.html",
   "why": "Spironolactone is used to treat certain patients with hyperaldosteronism (the body produces too much aldosterone, a naturally occurring hormone); low potassium levels; heart failure; and in patients with edema (fluid retention) caused by various conditions, including liver, or kidney disease. It is also used alone or with other medications to treat high blood pressure. Spironolactone is in a class of medications called aldosterone receptor antagonists. It causes the kidneys to eliminate unneeded water and sodium from the body into the urine but reduces the loss of potassium from the body. High blood pressure is a common condition and when not treated, can cause damage to the brain, heart, blood vessels, kidneys and other parts of the body. Damage to these organs may cause heart disease, a heart attack, heart failure, stroke, kidney failure, loss of vision, and other problems. In addition to taking medication, making lifestyle changes will also help to control your blood pressure. These changes include eating a diet that is low in fat and salt, maintaining a healthy weight, exercising at least 30 minutes most days, not smoking, and using alcohol in moderation."
  },
+ "alendronate": {
+  "found": true,
+  "query": "alendronate",
+  "title": "Alendronate",
+  "url": "https://medlineplus.gov/druginfo/meds/a601011.html",
+  "why": "Alendronate is used to treat and prevent osteoporosis (a condition in which the bones become thin and weak and break easily) and Paget's disease of bone (a condition in which the bones are soft and weak and may be deformed, painful, or easily broken). Alendronate is in a class of medications called bisphosphonates. It works by preventing bone breakdown and increasing bone density (thickness)."
+ },
  "alimta": {
   "found": true,
   "query": "alimta",
@@ -241,6 +248,13 @@
   "found": false,
   "query": "barium"
  },
+ "beclomethasone": {
+  "found": true,
+  "query": "beclomethasone",
+  "title": "Beclomethasone Nasal Spray",
+  "url": "https://medlineplus.gov/druginfo/meds/a681047.html",
+  "why": "Beclomethasone nasal spray is used to relieve symptoms of sneezing, runny, stuffy, or itchy nose (rhinitis) caused by hay fever, other allergies, or vasomotor (nonallergic) rhinitis. It is also used to prevent nasal polyps (swelling of the lining of the nose) after nasal polyp removal surgery. Beclomethasone nasal spray should not be used to treat symptoms (e.g., sneezing, stuffy, runny, itchy nose) caused by the common cold. Beclomethasone nasal spray is in a class of medications called corticosteroids. It works by blocking the release of certain natural substances that cause allergy symptoms."
+ },
  "benadryl": {
   "found": true,
   "query": "benadryl",
@@ -305,6 +319,10 @@
   "found": false,
   "query": "calcium"
  },
+ "calcium + vitamin d": {
+  "found": false,
+  "query": "calcium and vitamin d"
+ },
  "cardizem": {
   "found": true,
   "query": "cardizem",
@@ -318,6 +336,13 @@
   "title": "Doxazosin",
   "url": "https://medlineplus.gov/druginfo/meds/a693045.html",
   "why": "Doxazosin is used to: treat benign prostatic hyperplasia (BPH; enlarged prostate that can cause difficulty urinating, painful urination or increased urinary frequency or urgency). treat high blood pressure. Doxazosin is in a class of medications called alpha-blockers. It relieves the symptoms of BPH by relaxing the muscles of the bladder and prostate to allow urine to flow more easily. It lowers blood pressure by relaxing the blood vessels so that blood can flow more easily through the body."
+ },
+ "carvedilol": {
+  "found": true,
+  "query": "carvedilol",
+  "title": "Carvedilol",
+  "url": "https://medlineplus.gov/druginfo/meds/a697042.html",
+  "why": "Carvedilol is used to treat heart failure (condition in which the heart cannot pump enough blood to all parts of the body) and high blood pressure. It also is used to improve survival after a heart attack. Carvedilol is in a class of medications called beta-blockers. It works by relaxing blood vessels and slowing heart rate to improve blood flow and decrease blood pressure"
  },
  "cefazolin": {
   "found": true,
@@ -392,6 +417,10 @@
   "title": "Loratadine",
   "url": "https://medlineplus.gov/druginfo/meds/a697038.html",
   "why": "Loratadine is used to treat allergy symptoms: sneezing runny nose itching of the nose or throat red, itchy, or watery eyes Loratadine is in a class of medications called antihistamines. It works by blocking the action of histamine, a substance in the body that causes allergic symptoms."
+ },
+ "clenil": {
+  "found": false,
+  "query": "clenil"
  },
  "clindamycin": {
   "found": true,
@@ -575,6 +604,27 @@
   "title": "Valsartan",
   "url": "https://medlineplus.gov/druginfo/meds/a697015.html",
   "why": "Valsartan is used in adults and in children 1 year of age and older alone or in combination with other medications to treat high blood pressure. It is also used in adults to treat heart failure (condition in which the heart is unable to pump enough blood to the rest of the body) and to improve survival after a heart attack. Valsartan is in a class of medications called angiotensin II receptor antagonists. It works by blocking the action of certain natural substances that tighten the blood vessels, allowing the blood to flow more smoothly and the heart to pump more efficiently. High blood pressure is a common condition and when not treated, can cause damage to the brain, heart, blood vessels, kidneys and other parts of the body. Damage to these organs may cause heart disease, a heart attack, heart failure, stroke, kidney failure, loss of vision, and other problems. In addition to taking medication, making lifestyle changes will also help to control your blood pressure. These changes include eating a diet that is low in fat and salt, maintaining a healthy weight, exercising at least 30 minutes most days, not smoking, and using alcohol in moderation."
+ },
+ "diprivan": {
+  "found": true,
+  "query": "diprivan",
+  "title": "Propofol Injection",
+  "url": "https://medlineplus.gov/druginfo/meds/a625006.html",
+  "why": "Propofol is used to begin and maintain general anesthesia (you are unconscious and unaware of what is happening) during surgery in adults and children. It is also used to provide sedation (you are relaxed, sleepy or in some cases asleep) in adults during surgical or other medical procedures. Propofol is also used to provide sedation for adults in intensive care units that are receiving mechanical ventilation (a machine that takes over the work of breathing). Propofol is in a class of medications called anesthetic agents. It works by changing the activity of certain substances in the brain."
+ },
+ "donepezil": {
+  "found": true,
+  "query": "donepezil",
+  "title": "Donepezil",
+  "url": "https://medlineplus.gov/druginfo/meds/a697032.html",
+  "why": "Donepezil is used to treat Alzheimer's disease (AD; a brain disease that affects memory, thinking, and behavior). Donepezil is in a class of medications called cholinesterase inhibitors. It works by increasing the amount of a certain naturally occurring substance in the brain that play a role in mental function."
+ },
+ "doripenem": {
+  "found": true,
+  "query": "doripenem",
+  "title": "Doripenem Injection",
+  "url": "https://medlineplus.gov/druginfo/meds/a608015.html",
+  "why": "Doripenem injection is used to treat serious infections of the urinary tract, kidney, and abdomen that are caused by bacteria. Doripenem injection is not approved by the Food and Drug Administration (FDA) to treat pneumonia that developed in people who were on a ventilator in a hospital. Doripenem injection is in a class of medications called carbapenem antibiotics. It works by killing bacteria. Antibiotics such as doripenem injection will not work for colds, flu, or other viral infections. Taking antibiotics when they are not needed increases your risk of getting an infection later that resists antibiotic treatment."
  },
  "doxycycline": {
   "found": true,
@@ -891,6 +941,13 @@
   "url": "https://medlineplus.gov/druginfo/meds/a697040.html",
   "why": "Levofloxacin is used to treat certain infections caused by bacteria. Levofloxacin is also used to prevent anthrax (a serious infection that may be spread on purpose as part of a bioterror attack) in people who may have been exposed to anthrax germs in the air, and to treat and prevent plague (a serious infection that may be spread on purpose as part of a bioterror attack.) Levofloxacin is in a class of antibiotics called fluoroquinolones. It works by killing bacteria that cause infections. Antibiotics such as levofloxacin will not work for colds, flu, or other viral infections. Using antibiotics when they are not needed increases your risk of getting an infection later that resists antibiotic treatment."
  },
+ "levothyroxine": {
+  "found": true,
+  "query": "levothyroxine",
+  "title": "Levothyroxine",
+  "url": "https://medlineplus.gov/druginfo/meds/a682461.html",
+  "why": "Levothyroxine is used to treat hypothyroidism (condition where the thyroid gland does not produce enough thyroid hormone). It is also used with surgery and radioactive iodine therapy to treat thyroid cancer. Levothyroxine is in a class of medications called hormones. It works by replacing thyroid hormone that is normally produced by the body. Without thyroid hormone, your body cannot function properly, which may result in poor growth, slow speech, lack of energy, excessive tiredness, constipation, weight gain, hair loss, dry, thick skin, increased sensitivity to cold, joint and muscle pain, heavy or irregular menstrual periods, and depression. When taken correctly, levothyroxine reverses these symptoms."
+ },
  "levoxyl": {
   "found": true,
   "query": "levoxyl",
@@ -1007,6 +1064,13 @@
   "url": "https://medlineplus.gov/druginfo/meds/a682019.html",
   "why": "Methotrexate is used to treat severe psoriasis (a skin disease in which red, scaly patches form on some areas of the body). Methotrexate is also used to treat rheumatoid arthritis (RA; a condition in which the body attacks its own joints, causing pain, swelling, and loss of function). Methotrexate is also used in children to treat polyarticular juvenile idiopathic arthritis (PJIA; a type of childhood arthritis that affects five or more joints during the first six months of the condition, causing pain, swelling, and loss of function). Methotrexate is also used in combination with other chemotherapy medications to treat acute lymphoblastic leukemia (ALL; also called acute lymphoblastic leukemia and acute lymphatic leukemia; a type of cancer that begins in the white blood cells) and non-Hodgkin's lymphoma (NHL; a type of cancer that begins in a type of white blood cells that normally fights infection) that has returned or did not respond to other medications. and Methotrexate is also used alone or combination with other chemotherapy medications to treat mycosis fungoides, a type of cutaneous T-cell lymphoma ([CTCL], a group of cancers of the immune system that first appear as skin rashes). Methotrexate is in a class of medications called antimetabolites. Methotrexate treats cancer by slowing the growth of cancer cells. Methotrexate treats psoriasis by slowing the growth of skin cells to stop scales from forming. Methotrexate may treat rheumatoid arthritis and polyarticular juvenile idiopathic arthritis by decreasing the activity of the immune system."
  },
+ "metoprolol": {
+  "found": true,
+  "query": "metoprolol",
+  "title": "Metoprolol",
+  "url": "https://medlineplus.gov/druginfo/meds/a682864.html",
+  "why": "Metoprolol is used to treat high blood pressure, angina (chest pain) and heart failure. Metoprolol also is used to improve survival after a heart attack . Metoprolol is in a class of medications called beta blockers. It works by relaxing blood vessels and slowing heart rate to improve blood flow and decrease blood pressure."
+ },
  "metronidazole": {
   "found": true,
   "query": "metronidazole",
@@ -1084,6 +1148,13 @@
   "url": "https://medlineplus.gov/druginfo/meds/a694007.html",
   "why": "Gabapentin capsules, tablets, and oral solution are used along with other medications to help control certain types of seizures in people who have epilepsy. Gabapentin capsules, tablets, and oral solution are also used to relieve the pain of postherpetic neuralgia (PHN; the burning, stabbing pain or aches that may last for months or years after an attack of shingles). Gabapentin extended-release tablets (Horizant) are used to treat restless legs syndrome (RLS; a condition that causes discomfort in the legs and a strong urge to move the legs, especially at night and when sitting or lying down). Gabapentin is in a class of medications called anticonvulsants. Gabapentin treats seizures by decreasing abnormal excitement in the brain. Gabapentin relieves the pain of PHN by changing the way the body senses pain. It is not known exactly how gabapentin works to treat restless legs syndrome."
  },
+ "nexium": {
+  "found": true,
+  "query": "nexium",
+  "title": "Esomeprazole",
+  "url": "https://medlineplus.gov/druginfo/meds/a699054.html",
+  "why": "Esomeprazole is used to treat gastroesophageal reflux disease (GERD; a condition where stomach acid flows back into the esophagus (tube between the stomach and throat)) reduce the chance of ulcers (sores in the lining of the stomach or intestine) in people taking nonsteroidal anti-inflammatory drugs (NSAIDs) treat and prevent the return of stomach ulcers caused by a certain type of bacteria (H. pylori) in adults. conditions where the stomach produces too much acid, such as Zollinger-Ellison syndrome heartburn Esomeprazole is in a class of medications called proton pump inhibitors. It works by decreasing the amount of acid made in the stomach."
+ },
  "nitrofurantoin": {
   "found": true,
   "query": "nitrofurantoin",
@@ -1140,6 +1211,10 @@
   "url": "https://medlineplus.gov/druginfo/meds/a693050.html",
   "why": "Prescription omeprazole is used alone or with other medications to treat the symptoms of gastroesophageal reflux disease (GERD), a condition in which backward flow of acid from the stomach causes heartburn and possible injury of the esophagus (the tube between the throat and stomach) in adults and children 1 year of age and older. Prescription omeprazole is used to treat damage from GERD in adults and children 1 month of age and older. Prescription omeprazole is used to allow the esophagus to heal and prevent further damage to the esophagus in adults and children 1 year of age and older with GERD. Prescription omeprazole is also used to treat conditions in which the stomach produces too much acid such as Zollinger-Ellison syndrome in adults. Prescription omeprazole is also used to treat ulcers (sores in the lining of the stomach or intestine) and it is also used with other medications to treat and prevent the return of ulcers caused by a certain type of bacteria (H. pylori) in adults. Nonprescription (over-the-counter) omeprazole is used to treat frequent heartburn (heartburn that occurs at least 2 or more days a week) in adults. Omeprazole is in a class of medications called proton-pump inhibitors. It works by decreasing the amount of acid made in the stomach."
  },
+ "orapred": {
+  "found": false,
+  "query": "orapred"
+ },
  "oxazepam": {
   "found": true,
   "query": "oxazepam",
@@ -1161,12 +1236,38 @@
   "url": "https://medlineplus.gov/druginfo/meds/a601246.html",
   "why": "Pantoprazole is used to treat gastroesophageal reflux disease (GERD; a condition where stomach acid flows back into the esophagus (tube between the stomach and throat)). conditions where the stomach produces too much acid, such as Zollinger-Ellison syndrome Pantoprazole is in a class of medications called proton-pump inhibitors.It works by decreasing the amount of acid made in the stomach."
  },
+ "paracetamol/ibuprofen": {
+  "found": false,
+  "query": "paracetamol and ibuprofen"
+ },
+ "paracetamol/nsaids": {
+  "found": false,
+  "query": "paracetamol and nsaids"
+ },
+ "paracetamol/nsaids regular": {
+  "found": false,
+  "query": "paracetamol and nsaids regular"
+ },
  "percocet": {
   "found": true,
   "query": "percocet",
   "title": "Acetaminophen",
   "url": "https://medlineplus.gov/druginfo/meds/a681004.html",
   "why": "Acetaminophen is used to relieve mild to moderate pain and to reduce fever. Acetaminophen is in a class of medications called analgesics (pain relievers) and antipyretics (fever reducers). It works by changing the way the body senses pain and by cooling the body."
+ },
+ "plavix": {
+  "found": true,
+  "query": "plavix",
+  "title": "Clopidogrel",
+  "url": "https://medlineplus.gov/druginfo/meds/a601040.html",
+  "why": "Clopidogrel is used to prevent repeat heart attacks or strokes in people who have had a stroke, heart attack, severe chest pain or peripheral arterial disease (poor blood flow in the blood vessels that bring blood to your legs). Clopidogrel is in a class of medications called antiplatelet medications. It works by preventing platelets (a type of blood cell) from collecting and forming clots that may cause a heart attack or stroke."
+ },
+ "potassium": {
+  "found": true,
+  "query": "potassium",
+  "title": "Potassium",
+  "url": "https://medlineplus.gov/druginfo/meds/a601099.html",
+  "why": "Potassium is essential for the proper functioning of the heart, kidneys, muscles, nerves, and digestive system. Usually the food you eat supplies all of the potassium you need. However, certain diseases (e.g., kidney disease and gastrointestinal disease with vomiting and diarrhea) and drugs, especially diuretics ('water pills'), remove potassium from the body. Potassium supplements are taken to replace potassium losses and prevent potassium deficiency. This medication is sometimes prescribed for other uses; ask your doctor or pharmacist for more information."
  },
  "prednisolone": {
   "found": true,
@@ -1182,9 +1283,44 @@
   "url": "https://medlineplus.gov/druginfo/meds/a601102.html",
   "why": "Prednisone is used alone or with other medications to treat the symptoms of low corticosteroid levels (lack of certain substances that are usually produced by the body and are needed for normal body functioning). Prednisone is also used to treat other conditions in patients with normal corticosteroid levels. These conditions include certain types of arthritis; severe allergic reactions; multiple sclerosis (a disease in which the nerves do not function properly); lupus (a disease in which the body attacks many of its own organs); and certain conditions that affect the lungs, skin, eyes, kidneys blood, thyroid, stomach, and intestines. Prednisone is also sometimes used to treat the symptoms of certain types of cancer. Prednisone is in a class of medications called corticosteroids. It works to treat patients with low levels of corticosteroids by replacing steroids that are normally produced naturally by the body. It works to treat other conditions by reducing swelling and redness and by changing the way the immune system works."
  },
+ "premarin": {
+  "found": true,
+  "query": "premarin",
+  "title": "Estrogen",
+  "url": "https://medlineplus.gov/druginfo/meds/a682922.html",
+  "why": "Estrogen may be used for the following: to treat hot flushes ('hot flashes'; sudden strong feelings of heat and sweating) in women who are experiencing menopause ('change of life', the end of monthly menstrual periods) to treat vaginal dryness, itching, or burning to prevent osteoporosis (a condition in which the bones become thin and weak and break easily) in women who are experiencing or have experienced menopause to relieve symptoms of low estrogen in young women who do not produce enough estrogen naturally to relieve the symptoms of certain types of breast and prostate (a male reproductive gland) cancer Estrogen is in a class of medications called hormones. It works by replacing estrogen that is normally produced by the body."
+ },
+ "prevacid": {
+  "found": true,
+  "query": "prevacid",
+  "title": "Lansoprazole",
+  "url": "https://medlineplus.gov/druginfo/meds/a695020.html",
+  "why": "Prescription lansoprazole is used to treat gastroesophageal reflux disease (GERD; a condition where stomach acid flows back into the esophagus (tube between the stomach and throat)) treat and prevent ulcers (sores in the lining of the stomach or intestine) treat conditions where the stomach produces too much acid, such as Zollinger-Ellison syndrome treat and prevent the return of stomach ulcers caused by a certain type of bacteria (H. pylori) in adults treat heartburn Lansoprazole is in a class of medications called proton pump inhibitors. It works by decreasing the amount of acid made in the stomach."
+ },
+ "prilosec": {
+  "found": true,
+  "query": "prilosec",
+  "title": "Omeprazole",
+  "url": "https://medlineplus.gov/druginfo/meds/a693050.html",
+  "why": "Prescription omeprazole is used alone or with other medications to treat the symptoms of gastroesophageal reflux disease (GERD), a condition in which backward flow of acid from the stomach causes heartburn and possible injury of the esophagus (the tube between the throat and stomach) in adults and children 1 year of age and older. Prescription omeprazole is used to treat damage from GERD in adults and children 1 month of age and older. Prescription omeprazole is used to allow the esophagus to heal and prevent further damage to the esophagus in adults and children 1 year of age and older with GERD. Prescription omeprazole is also used to treat conditions in which the stomach produces too much acid such as Zollinger-Ellison syndrome in adults. Prescription omeprazole is also used to treat ulcers (sores in the lining of the stomach or intestine) and it is also used with other medications to treat and prevent the return of ulcers caused by a certain type of bacteria (H. pylori) in adults. Nonprescription (over-the-counter) omeprazole is used to treat frequent heartburn (heartburn that occurs at least 2 or more days a week) in adults. Omeprazole is in a class of medications called proton-pump inhibitors. It works by decreasing the amount of acid made in the stomach."
+ },
+ "procrit": {
+  "found": true,
+  "query": "procrit",
+  "title": "Epoetin Alfa, Injection",
+  "url": "https://medlineplus.gov/druginfo/meds/a692034.html",
+  "why": "Epoetin alfa injection products are used to treat anemia (a lower than normal number of red blood cells) in people with chronic kidney failure (condition in which the kidneys slowly and permanently stop working over a period of time). Epoetin alfa injection products are also used to treat anemia caused by chemotherapy in people with certain types of cancer or caused by zidovudine (AZT, Retrovir, in Trizivir, in Combivir), a medication used to treat human immunodeficiency virus (HIV). Epoetin alfa injection products are also used before and after certain types of surgery to decrease the chance that blood transfusions (transfer of one person's blood to another person's body) will be needed because of blood loss during surgery. Epoetin alfa injection products should not be used to decrease the risk that transfusions will be needed in people who are having surgery on their hearts or blood vessels. Epoetin alfa injection products also should not be used to treat people who are able and willing to donate blood before surgery so that this blood can be replaced in their bodies during or after surgery. Epoetin alfa injection products cannot be used in place of a red blood cell transfusion to treat severe anemia and has not been shown to improve tiredness or poor well-being that may be caused by anemia. Epoetin alfa products are in a class of medications called erythropoiesis-stimulating agents (ESAs). They work by causing the bone marrow (soft tissue inside the bones where blood is made) to make more red blood cells."
+ },
  "prothrombin": {
   "found": false,
   "query": "prothrombin"
+ },
+ "proventil": {
+  "found": true,
+  "query": "proventil",
+  "title": "Albuterol Oral Inhalation",
+  "url": "https://medlineplus.gov/druginfo/meds/a682145.html",
+  "why": "Albuterol is used to prevent and treat difficulty breathing, wheezing, shortness of breath, coughing, and chest tightness caused by lung diseases such as asthma and chronic obstructive pulmonary disease (COPD; a group of diseases that affect the lungs and airways). Albuterol inhalation aerosol and powder for oral inhalation is also used to prevent breathing difficulties during exercise. Albuterol inhalation aerosol (Proair HFA, Proventil HFA, Ventolin HFA) is used in adults and children 4 years of age and older. Albuterol powder for oral inhalation (Proair Respiclick) is used in children 12 years of age and older. Albuterol solution for oral inhalation is used in adults and children 2 years of age and older. Albuterol is in a class of medications called bronchodilators. It works by relaxing and opening air passages to the lungs to make breathing easier."
  },
  "prozac": {
   "found": true,
@@ -1199,6 +1335,13 @@
   "title": "Quinine",
   "url": "https://medlineplus.gov/druginfo/meds/a682322.html",
   "why": "Quinine is used alone or with other medications to treat malaria (a serious or life-threatening illness that is spread by mosquitos in certain parts of the world). Quinine should not be used to prevent malaria. Quinine is in a class of medications called antimalarials. It works by killing the organisms that cause malaria."
+ },
+ "ramipril": {
+  "found": true,
+  "query": "ramipril",
+  "title": "Ramipril",
+  "url": "https://medlineplus.gov/druginfo/meds/a692027.html",
+  "why": "Ramipril is used alone or in combination with other medications: to treat high blood pressure to reduce the risk of heart attack, stroke, or death in patients at risk for these problems to improve survival in patients with heart failure after a heart attack Ramipril is in a class of medications called angiotensin-converting enzyme (ACE) inhibitors. It works by decreasing certain chemicals that tighten the blood vessels, so blood flows more smoothly and the heart can pump blood more efficiently. High blood pressure is a common condition and when not treated, can cause damage to the brain, heart, blood vessels, kidneys, and other parts of the body. Damage to these organs may cause heart disease, a heart attack, heart failure, stroke, kidney failure, loss of vision, and other problems. In addition to taking medication, making lifestyle changes will also help to control your blood pressure. These changes include eating a diet that is low in fat and salt, maintaining a healthy weight, exercising at least 30 minutes most days, not smoking, and using alcohol in moderation."
  },
  "reglan": {
   "found": true,
@@ -1228,12 +1371,41 @@
   "url": "https://medlineplus.gov/druginfo/meds/a682579.html",
   "why": "Methocarbamol is used with rest, physical therapy, and other measures to relax muscles and relieve pain and discomfort caused by strains, sprains, and other muscle injuries. Methocarbamol is in a class of medications called muscle relaxants. It works by slowing activity in the nervous system to allow the body to relax"
  },
+ "sacubitril": {
+  "found": false,
+  "query": "sacubitril"
+ },
+ "sacubitril/valsartan": {
+  "found": true,
+  "query": "sacubitril and valsartan",
+  "title": "Valsartan and Sacubitril",
+  "url": "https://medlineplus.gov/druginfo/meds/a615039.html",
+  "why": "The combination of valsartan and sacubitril is usually used in combination with other medications to lower the risk of death and hospitalization in adults with certain types of heart failure. The combination of valsartan and sacubitril is also used to treat certain types of heart failure in children 1 year of age and older. Valsartan is in a class of medications called angiotensin II receptor antagonists. It works by blocking the action of certain natural substances that tighten the blood vessels, allowing the blood to flow more smoothly and the heart to pump more efficiently. Sacubitril is in a class of medications called neprilysin inhibitors. It works to help control blood volume."
+ },
+ "selenium": {
+  "found": false,
+  "query": "selenium"
+ },
  "seroquel": {
   "found": true,
   "query": "seroquel",
   "title": "Quetiapine",
   "url": "https://medlineplus.gov/druginfo/meds/a698019.html",
   "why": "Quetiapine is used to treat schizophrenia (a mental illness that affects how a person thinks, feels and behaves), bipolar disorder (a disease that causes depression, mania, and other abnormal moods) and major depressive disorder. Quetiapine is in a class of medications called atypical antipsychotics. It works by changing the activity of certain natural substances in the brain."
+ },
+ "sertraline": {
+  "found": true,
+  "query": "sertraline",
+  "title": "Sertraline",
+  "url": "https://medlineplus.gov/druginfo/meds/a697048.html",
+  "why": "Sertraline is used to treat depression, obsessive-compulsive disorder (bothersome thoughts that won't go away and the need to perform certain actions over and over), panic attacks (sudden, unexpected attacks of extreme fear and worry about these attacks), posttraumatic stress disorder (disturbing psychological symptoms that develop after a frightening experience), and social anxiety disorder (extreme fear of interacting with others or performing in front of others that interferes with normal life). It is also used to relieve the symptoms of premenstrual dysphoric disorder, (mood swings, irritability, bloating, and breast tenderness). Sertraline is in a class of antidepressants called selective serotonin reuptake inhibitors (SSRIs). It works by increasing the amounts of serotonin, a natural substance in the brain that helps maintain mental balance."
+ },
+ "shingrix": {
+  "found": true,
+  "query": "shingrix",
+  "title": "Zoster Vaccine, Recombinant",
+  "url": "https://medlineplus.gov/druginfo/meds/a618023.html",
+  "why": "Why get vaccinated? Zoster vaccine, recombinant may prevent herpes zoster (Shingles). Shingles happens when a prior infection with the herpes zoster virus becomes active again. This may happen when we age or our immune system is weakened by a condition or medications. Shingles may cause a painful rash to appear (typically on one side of the body). Zoster vaccine does not contain live virus. The vaccine works by helping your immune system to respond to the varicella zoster virus in your body and protect you from getting shingles."
  },
  "simvastatin": {
   "found": true,
@@ -1249,12 +1421,44 @@
   "url": "https://medlineplus.gov/druginfo/meds/a601068.html",
   "why": "Levodopa and carbidopa is used to treat the symptoms of Parkinson's disease and Parkinson's-like symptoms that may develop after encephalitis (swelling of the brain) or injury to the nervous system caused by carbon monoxide poisoning or manganese poisoning. Levodopa is in a class of medications called central nervous system agents. It works by being converted to dopamine in the brain (the natural substance that is low in Parkinson's and causes the symptoms of tremor, stiffness, and slowness of movement). Carbidopa is in a class of medications called decarboxylase inhibitors. It works by preventing levodopa from being broken down before it reaches the brain. This allows for a lower dose of levodopa, which causes less nausea and vomiting."
  },
+ "singulair": {
+  "found": true,
+  "query": "singulair",
+  "title": "Montelukast",
+  "url": "https://medlineplus.gov/druginfo/meds/a600014.html",
+  "why": "Montelukast is used to prevent wheezing, difficulty breathing, chest tightness, and coughing caused by asthma in adults and children 12 months of age and older. Montelukast is also used to prevent bronchospasm (breathing difficulties) during exercise in adults and children 6 years of age and older. Montelukast is also used to treat the symptoms of seasonal (occurs only at certain times of the year), allergic rhinitis (a condition associated with sneezing and stuffy, runny or itchy nose) in adults and children 2 years of age and older, and perennial (occurs all year round) allergic rhinitis in adults and children 6 months of age and older. Montelukast should be used to treat seasonal or perennial allergic rhinitis only in adults and children who cannot be treated with other medications. Montelukast is in a class of medications called leukotriene receptor antagonists (LTRAs). It works by blocking the action of substances in the body that cause the symptoms of asthma and allergic rhinitis."
+ },
+ "sodium": {
+  "found": false,
+  "query": "sodium"
+ },
+ "solu-medrol": {
+  "found": true,
+  "query": "solu-medrol",
+  "title": "Methylprednisolone Injection",
+  "url": "https://medlineplus.gov/druginfo/meds/a601157.html",
+  "why": "Methylprednisolone injection is used to treat severe allergic reactions. Methylprednisolone injection is used in the management of multiple sclerosis (a disease in which the nerves do not function properly), lupus (a disease in which the body attacks many of its own organs), gastrointestinal disease, and certain types of arthritis. Methylprednisolone injection is also used to treat certain conditions that affect the blood, skin, eyes, nervous system, thyroid, kidneys, and lungs. It is sometimes used in combination with other medications to treat symptoms of low corticosteroid levels (lack of certain substances that are usually produced by the body and are needed for normal body functioning). Methylprednisolone injection is in a class of medications called corticosteroids. It works to treat people with low levels of corticosteroids by replacing steroids that are normally produced naturally by the body. It also works to treat other conditions by reducing swelling and redness and by changing the way the immune system works."
+ },
  "soma": {
   "found": true,
   "query": "soma",
   "title": "Carisoprodol",
   "url": "https://medlineplus.gov/druginfo/meds/a682578.html",
   "why": "Carisoprodol is used with rest, physical therapy, and other measures to relax muscles and relieve pain and discomfort caused by strains, sprains, and other muscle injuries. Carisoprodol is in a class of medications called skeletal muscle relaxants. It works by acting in the brain and nervous system to allow the muscles to relax."
+ },
+ "spiriva": {
+  "found": true,
+  "query": "spiriva",
+  "title": "Tiotropium Oral Inhalation",
+  "url": "https://medlineplus.gov/druginfo/meds/a604018.html",
+  "why": "Tiotropium is used to prevent wheezing, shortness of breath, coughing, and chest tightness in patients with chronic obstructive pulmonary disease (COPD, a group of diseases that affect the lungs and airways) such as chronic bronchitis (swelling of the air passages that lead to the lungs) and emphysema (damage to air sacs in the lungs). Tiotropium is in a class of medications called bronchodilators. It works by relaxing and opening the air passages to the lungs to make breathing easier."
+ },
+ "spironolactone": {
+  "found": true,
+  "query": "spironolactone",
+  "title": "Spironolactone",
+  "url": "https://medlineplus.gov/druginfo/meds/a682627.html",
+  "why": "Spironolactone is used to treat certain patients with hyperaldosteronism (the body produces too much aldosterone, a naturally occurring hormone); low potassium levels; heart failure; and in patients with edema (fluid retention) caused by various conditions, including liver, or kidney disease. It is also used alone or with other medications to treat high blood pressure. Spironolactone is in a class of medications called aldosterone receptor antagonists. It causes the kidneys to eliminate unneeded water and sodium from the body into the urine but reduces the loss of potassium from the body. High blood pressure is a common condition and when not treated, can cause damage to the brain, heart, blood vessels, kidneys and other parts of the body. Damage to these organs may cause heart disease, a heart attack, heart failure, stroke, kidney failure, loss of vision, and other problems. In addition to taking medication, making lifestyle changes will also help to control your blood pressure. These changes include eating a diet that is low in fat and salt, maintaining a healthy weight, exercising at least 30 minutes most days, not smoking, and using alcohol in moderation."
  },
  "synthroid": {
   "found": true,
@@ -1263,12 +1467,30 @@
   "url": "https://medlineplus.gov/druginfo/meds/a682461.html",
   "why": "Levothyroxine is used to treat hypothyroidism (condition where the thyroid gland does not produce enough thyroid hormone). It is also used with surgery and radioactive iodine therapy to treat thyroid cancer. Levothyroxine is in a class of medications called hormones. It works by replacing thyroid hormone that is normally produced by the body. Without thyroid hormone, your body cannot function properly, which may result in poor growth, slow speech, lack of energy, excessive tiredness, constipation, weight gain, hair loss, dry, thick skin, increased sensitivity to cold, joint and muscle pain, heavy or irregular menstrual periods, and depression. When taken correctly, levothyroxine reverses these symptoms."
  },
+ "tamsulosin": {
+  "found": true,
+  "query": "tamsulosin",
+  "title": "Tamsulosin",
+  "url": "https://medlineplus.gov/druginfo/meds/a698012.html",
+  "why": "Tamsulosin is used to treat benign prostatic hyperplasia (BPH; enlarged prostate that can cause difficulty urinating, painful urination or increased urinary frequency or urgency). Tamsulosin is in a class of medications called alpha blockers. It works by relaxing the muscles in the prostate and bladder so that urine can flow easily."
+ },
  "terazosin": {
   "found": true,
   "query": "terazosin",
   "title": "Terazosin",
   "url": "https://medlineplus.gov/druginfo/meds/a693046.html",
   "why": "Terazosin is used to: treat benign prostatic hyperplasia (BPH; enlarged prostate that can cause difficulty urinating, painful urination or increased urinary frequency or urgency). treat high blood pressure. Terazosin is in a class of medications called alpha-blockers. It relieves the symptoms of BPH by relaxing the muscles of the bladder and prostate. It lowers blood pressure by relaxing the blood vessels so that blood can flow more easily through the body. High blood pressure is a common condition, and when not treated it can cause damage to the brain, heart, blood vessels, kidneys and other parts of the body. Damage to these organs may cause heart disease, a heart attack, heart failure, stroke, kidney failure, loss of vision, and other problems. In addition to taking medication, making lifestyle changes will also help to control your blood pressure. These changes include eating a diet that is low in fat and salt, maintaining a healthy weight, exercising at least 30 minutes most days, not smoking, and using alcohol in moderation."
+ },
+ "thiamine": {
+  "found": true,
+  "query": "thiamine",
+  "title": "Thiamine (Vitamin B1)",
+  "url": "https://medlineplus.gov/druginfo/meds/a682586.html",
+  "why": "Thiamine (vitamin B1) is used as a dietary supplement when the amount of thiamine in the diet is not enough. People most at risk for thiamine deficiency are older adults, those who are dependent on alcohol, or who have HIV/AIDS, diabetes, malabsorption syndrome (problems absorbing food), or have had bariatric surgery (an operation that helps you lose weight by making changes to your digestive system). Thiamine is used to treat beriberi (tingling and numbness in feet and hands, muscle loss, and poor reflexes caused by a lack of thiamine in the diet) and to treat and prevent Wernicke-Korsakoff syndrome (tingling and numbness in hands and feet, memory loss, confusion caused by a lack of thiamine in the diet). Thiamine is in a class of medications called vitamins. It is needed by the body to turn foods into energy, which is important for the growth, development, and function of cells."
+ },
+ "thrombin": {
+  "found": false,
+  "query": "thrombin"
  },
  "timoptic": {
   "found": true,
@@ -1305,6 +1527,10 @@
   "url": "https://medlineplus.gov/druginfo/meds/a682337.html",
   "why": "Triamterene is used alone or with other medications to treat edema (fluid retention; excess fluid held in body tissues) caused by various conditions, including liver and heart disease. Triamterene is in a class of medications called diuretics ('water pills'). It causes the kidneys to eliminate unneeded water and sodium from the body into the urine, but reduces the loss of potassium."
  },
+ "triamterene/hydrochlorothiazide": {
+  "found": false,
+  "query": "triamterene and hydrochlorothiazide"
+ },
  "tucks": {
   "found": false,
   "query": "tucks"
@@ -1315,6 +1541,20 @@
   "title": "Acetaminophen",
   "url": "https://medlineplus.gov/druginfo/meds/a681004.html",
   "why": "Acetaminophen is used to relieve mild to moderate pain and to reduce fever. Acetaminophen is in a class of medications called analgesics (pain relievers) and antipyretics (fever reducers). It works by changing the way the body senses pain and by cooling the body."
+ },
+ "unasyn": {
+  "found": true,
+  "query": "unasyn",
+  "title": "Ampicillin and Sulbactam Injection",
+  "url": "https://medlineplus.gov/druginfo/meds/a693021.html",
+  "why": "The combination of ampicillin and sulbactam injection is used to treat certain infections caused by bacteria, including infections of the skin, female reproductive organs, and abdomen (stomach area). Ampicillin is in a class of medications called penicillin-like antibiotics. It works by stopping the growth of bacteria. Sulbactam is in a class of medications called beta-lactamase inhibitors. It works by preventing bacteria from destroying ampicillin. Antibiotics such as ampicillin and sulbactam injection will not work for colds, flu, or other viral infections. Using antibiotics when they are not needed increases your risk of getting an infection later that resists antibiotic treatment."
+ },
+ "vancomycin": {
+  "found": true,
+  "query": "vancomycin",
+  "title": "Vancomycin",
+  "url": "https://medlineplus.gov/druginfo/meds/a604038.html",
+  "why": "Vancomycin is used to treat colitis (inflammation of the intestine caused by certain bacteria) that may occur after taking an antibiotic. Vancomycin is in a class of medications called glycopeptide antibiotics. It works by killing bacteria in the intestines. Vancomycin will not kill bacteria in any other part of the body when taken by mouth. Antibiotics such as vancomycin will not work for colds, flu, or other viral infections. Taking antibiotics when they are not needed increases your risk of getting an infection later that resists antibiotic treatment."
  },
  "vasotec": {
   "found": true,
@@ -1333,6 +1573,24 @@
  "vicodin": {
   "found": false,
   "query": "vicodin"
+ },
+ "vitamin c": {
+  "found": true,
+  "query": "vitamin c",
+  "title": "Ascorbic Acid (Vitamin C)",
+  "url": "https://medlineplus.gov/druginfo/meds/a682583.html",
+  "why": "Ascorbic acid (vitamin C) is used as a dietary supplement when the amount of ascorbic acid in the diet is not enough. People most at risk for ascorbic acid deficiency are those with a limited variety of food in their diet, or who have intestinal malabsorption problems from cancer or kidney disease. Ascorbic acid is also used to prevent and treat scurvy (a disease that causes fatigue, gum swelling, joint pain, and poor wound healing from a lack of vitamin C in the body). Ascorbic acid is in a class of medications called antioxidants. It is needed by the body to help wounds heal, to enhance the absorption of iron from plant foods, and to support the immune system. It works as an antioxidant to protect your cells against free radicals, which may play a role in heart disease, cancer and other diseases."
+ },
+ "vitamin d": {
+  "found": false,
+  "query": "vitamin d"
+ },
+ "warfarin": {
+  "found": true,
+  "query": "warfarin",
+  "title": "Warfarin",
+  "url": "https://medlineplus.gov/druginfo/meds/a682277.html",
+  "why": "Warfarin is used to: prevent and treat blood clots prevent complications in people with certain types of irregular heartbeat, people with prosthetic (replacement or mechanical) heart valves, and people who have had a heart attack or stroke. Warfarin is in a class of medications called anticoagulants ('blood thinners'). It works by decreasing the clotting ability of the blood."
  },
  "wellbutrin": {
   "found": true,
@@ -1383,11 +1641,25 @@
   "url": "https://medlineplus.gov/druginfo/meds/a603008.html",
   "why": "Zonisamide is used in combination with other medications to treat certain types of seizures. Zonisamide is in a class of medications called anticonvulsants. It works by decreasing abnormal electrical activity in the brain."
  },
+ "zosyn": {
+  "found": true,
+  "query": "zosyn",
+  "title": "Piperacillin and Tazobactam Injection",
+  "url": "https://medlineplus.gov/druginfo/meds/a694003.html",
+  "why": "Piperacillin and tazobactam injection is used to treat certain infections caused by bacteria. Piperacillin is in a class of medications called penicillin antibiotics. It works by killing bacteria that cause infection. Tazobactam is in a class called beta-lactamase inhibitor. It works by preventing bacteria from destroying piperacillin. Antibiotics such as piperacillin and tazobactam injection will not work for colds, flu, or other viral infections. Taking or using antibiotics when they are not needed increases your risk of getting an infection later that resists antibiotic treatment."
+ },
  "zyrtec": {
   "found": true,
   "query": "zyrtec",
   "title": "Cetirizine",
   "url": "https://medlineplus.gov/druginfo/meds/a623043.html",
   "why": "Cetirizine is used to treat allergy symptoms: sneezing runny nose itching of the nose or throat red, itchy, or watery eyes Cetirizine is also used to treat urticaria (hives; itchy raised red bumps on skin). Cetirizine is in a class of medications called antihistamines. It works by blocking the action of histamine, a substance in the body that causes allergic symptoms. Cetirizine is also available in combination with pseudoephedrine. This monograph only includes information about the use of cetirizine alone. If you are taking the cetirizine and pseudoephedrine combination product, read the information on the package label or ask your doctor or pharmacist for more information."
+ },
+ "zyvox": {
+  "found": true,
+  "query": "zyvox",
+  "title": "Linezolid",
+  "url": "https://medlineplus.gov/druginfo/meds/a602004.html",
+  "why": "Linezolid is used to treat certain infections caused by bacteria. Linezolid is in a class of antibacterials called oxazolidinones. It works by stopping the growth of bacteria. Antibiotics such as linezolid will not work for colds, flu, and other viral infections. Using antibiotics when they are not needed increases your risk of getting an infection later that resists antibiotic treatment."
  }
 }

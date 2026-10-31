@@ -103,6 +103,16 @@ def term_pattern() -> re.Pattern:
 
 
 @lru_cache(maxsize=1)
+@lru_cache(maxsize=1)
+def phrase_patterns() -> list[tuple[re.Pattern, str]]:
+    """Whole clinical phrases -> everyday phrases ("worsening breathlessness" -> "your breathing has gotten worse"),
+    longest first; keys starting with "~" are regular expressions."""
+    phrases = simple_words().get("phrases", {})
+    keys = sorted(phrases, key=len, reverse=True)
+    return [(re.compile(rf"(?<![\w-])(?:{k[1:] if k.startswith('~') else re.escape(k)})(?![\w-])", re.I), phrases[k])
+            for k in keys]
+
+
 def simple_term_pattern() -> re.Pattern:
     terms = sorted(simple_words()["terms"], key=len, reverse=True)
     return re.compile(r"\b(" + "|".join(map(re.escape, terms)) + r")\b", re.IGNORECASE)
@@ -115,7 +125,7 @@ class Finding:
     text: str                 # exactly as written in the note
     start: int
     end: int
-    kind: str                 # abbreviation | term | wording (everyday, non-medical) | medication | jargon
+    kind: str                 # abbreviation | term | phrase (whole clinical phrase) | wording (everyday, non-medical) | medication | jargon
     replace_with: str | None = None   # plain wording to put in the text (None = keep)
     explain: str | None = None        # plain explanation for the word list
     source: str | None = None
@@ -205,6 +215,17 @@ def analyze(note: str) -> list[Finding]:
             findings.append(f)
             for i in range(f.start, f.end):
                 taken[i] = True
+
+    # 0. Whole clinical phrases, said the way a person would say them (model knowledge, flagged). A standard
+    # source's plain wording for the exact same phrase still wins.
+    matches = [m for pattern, _ in phrase_patterns() for m in pattern.finditer(note)]
+    plain_of = {id(pattern): plain for pattern, plain in phrase_patterns()}
+    for m in sorted(matches, key=lambda m: (m.start() - m.end(), m.start())):  # longest match wins
+        entry = terms.get(m.group(0).lower(), {})
+        if entry.get("standard") and entry.get("plain"):
+            continue  # a standard source's plain word for this exact phrase (an explanation alone doesn't count)
+        claim(Finding(m.group(0), m.start(), m.end(), "phrase", replace_with=m.expand(plain_of[id(m.re)]),
+                      source=simple["source"], flag="no standard source"))
 
     # 1. Multi-word and single terms with a standard plain word or explanation.
     for m in term_pattern().finditer(note):

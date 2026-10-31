@@ -1,0 +1,22 @@
+Chief complaint: Elevated BP readings at pharmacy.
+
+History: 69-year-old male, previously healthy, noted BP 160s/90s on three occasions at pharmacy kiosk. Asymptomatic. No headache, visual changes, chest pain. Former smoker, quit 10 yrs ago. Drinks 2 beers nightly.
+
+Vitals: BP 162/94 (repeat 158/92), HR 76, BMI 31.
+Exam unremarkable.
+
+Labs today: BMP normal, lipid panel LDL 142.
+
+Assessment:
+1. Essential hypertension, stage 2, newly diagnosed.
+2. Hyperlipidemia.
+3. Obesity.
+
+Plan:
+- Start lisinopril 10 mg once daily.
+- Start atorvastatin 20 mg nightly.
+- Home BP monitoring twice daily, bring log to next visit.
+- Lifestyle modification: reduce sodium, limit alcohol to 1 drink/day, 30 min walking 5 days/week.
+- Recheck BMP in 2 weeks (potassium and creatinine after ACE inhibitor start).
+- Follow up in 4 weeks.
+- Seek emergency care for severe headache, chest pain, or sudden weakness.

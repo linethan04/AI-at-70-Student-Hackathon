@@ -33,7 +33,7 @@ UK_NAMES = {  # British Approved Name -> US name used by RxNorm / MedlinePlus
     "co-codamol": "acetaminophen and codeine", "co-amoxiclav": "amoxicillin and clavulanate",
     "frusemide": "furosemide", "glyceryl trinitrate": "nitroglycerin", "adrenaline": "epinephrine",
     "lignocaine": "lidocaine", "colecalciferol": "cholecalciferol", "beclometasone": "beclomethasone",
-    "budesonide/formoterol": "budesonide and formoterol", "ibuprofen gel": "ibuprofen",
+    "budesonide/formoterol": "budesonide and formoterol", "ibuprofen gel": "ibuprofen", "clenil": "beclomethasone",
 }
 FAILED: set[str] = set()
 HEADERS = {"User-Agent": "AI-at-70-hackathon/1.0 (https://github.com/linethan04/AI-at-70-Student-Hackathon; educational)"}
@@ -49,7 +49,7 @@ def save() -> None:
 
 
 def fetch(name: str) -> dict:
-    query = UK_NAMES.get(name, name)
+    query = re.sub(r"\s*[/+]\s*", " and ", UK_NAMES.get(name, name))  # "sacubitril/valsartan" -> "... and valsartan"
     with httpx.Client(timeout=10, headers=HEADERS) as client:
         ids = client.get(RXNAV, params={"name": query, "search": 2}).json().get("idGroup", {}).get("rxnormId", [])
         if not ids:
