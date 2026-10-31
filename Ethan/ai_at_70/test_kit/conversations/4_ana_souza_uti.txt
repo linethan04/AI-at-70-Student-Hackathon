@@ -1,0 +1,5 @@
+[0:00] Clinician: Mrs. Souza, tell me about the burning.
+[0:08] Patient: It burns when I pass urine, and I need to go all the time. Sometimes I take ibuprofen.
+[0:19] Clinician: You have a bladder infection. Take nitrofurantoin, one hundred milligrams twice a day for five days.
+[0:31] Clinician: Drink more fluids. We sent your urine to the lab and will call if the antibiotic needs to change.
+[0:43] Clinician: Call us if you get a fever, pain in your side, vomiting, or confusion.

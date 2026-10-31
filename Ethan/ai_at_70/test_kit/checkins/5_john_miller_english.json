@@ -1,0 +1,30 @@
+{
+  "questionnaire_version": "1.2.0",
+  "submitted_at": "2026-10-31T09:00:00Z",
+  "language": "en",
+  "summary_language": "en",
+  "answers": {
+    "patient_full_name": "John Miller",
+    "patient_date_of_birth": "1949-01-30",
+    "visit_type": "Sick visit",
+    "visit_reason": "My heart has been racing on and off for two weeks.",
+    "top_concern": "Is my heart OK?",
+    "conditions": "High blood pressure, type 2 diabetes (diet), enlarged prostate",
+    "medications": "losartan 50 mg, tamsulosin 0.4 mg",
+    "allergies": "None",
+    "support": "I live alone.",
+    "learning_style": "Simple explanations with a little detail",
+    "patient_email": "john.miller@example.com",
+    "email_patient_consent": [
+      "Yes"
+    ],
+    "email_risk_ack": [
+      "I understand"
+    ],
+    "caregiver_share_consent": [
+      "No"
+    ],
+    "consent_name": "John Miller",
+    "consent_date": "2026-10-31"
+  }
+}

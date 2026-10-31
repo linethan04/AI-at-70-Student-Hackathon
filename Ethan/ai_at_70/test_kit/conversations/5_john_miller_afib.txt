@@ -1,0 +1,5 @@
+[0:00] Clinician: Mr. Miller, your heart is beating fast and irregularly. This is called atrial fibrillation.
+[0:12] Patient: Is that dangerous?
+[0:19] Clinician: It raises your chance of a stroke, so I am starting apixaban, five milligrams twice a day.
+[0:31] Clinician: I am also starting metoprolol to slow your heart rate. We will do blood tests today and a heart scan.
+[0:43] Clinician: Come back in one week. Call nine one one for chest pain, fainting, or signs of a stroke.
