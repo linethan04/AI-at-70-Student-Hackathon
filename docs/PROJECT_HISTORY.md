@@ -40,6 +40,7 @@ AI at 70 is a clinician-facing tool for primary care, built for a Claude hackath
 | 11 | No emojis on the infographic; no 5th-grade mention there; recording as a "helpful supplement"; no "Today" badge; smoother wording; add translation, shown in Spanish; up to 90 s allowed | Done. The Spanish output was inconsistent (comprimido/pastilla/píldora, tú vs usted, "inflamación"), so a Spanish `GLOSSARY`/`WHOLE_LINES` was added to `translate.py`. |
 | 12 | Remove the photo (not part of the workflow); the doctor uploads **typed** notes; show the real recording screen; the narrator lists every language; captions follow the narration; no emojis at the end | Done. Video is about 82 s. |
 | 13 | Clean up the repository: no team member names, consolidated `scripts/`, `tools/` and `outputs/`, a README in each folder, a references page, final drafts only, and this history | This layout. Samples, test kits, test scripts, rough drafts and the per-person folders were removed (still in git history). |
+| 14 | Add to the README the three project questions (who it's for, what could go wrong, helping rather than deciding) and the project statement ("In our project, a person always stays in charge..."); make a 4-slide .pptx in the app's style with cartoons from the video | README "Why AI at 70" section and statement at the top; `outputs/presentation/AI_at_70.pptx` built by `scripts/presentation/` (authors listed by first name: Ethan, Jason, Max, Tanner). |
 
 ---
 
@@ -129,5 +130,5 @@ See the repository map in the [README](../README.md#repository-map). The short v
   - `tools/plain_language`
   - `tools/translation`
   - `tools/voice`
-- **Products:** `outputs/interface` (the app page), `outputs/video` (the video and its prompt)
+- **Products:** `outputs/interface` (the app page), `outputs/presentation` (the slides), `outputs/video` (the video and its prompt)
 - **Sources:** `REFERENCES.md`

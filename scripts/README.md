@@ -9,6 +9,7 @@ Run all commands from the repository root, inside the virtual environment (`sour
 | [`run_ai_at_70.py`](run_ai_at_70.py) | Starts the AI at 70 app: the clinician's page, the patient check-in form, the visit recorder and the summary, translation and voice services | `python scripts/run_ai_at_70.py`, then open http://localhost:5070 (`--port 5071` to change the port) |
 | [`setup/`](setup/) | One-time downloads and data builds | see [setup/README.md](setup/README.md) |
 | [`video/`](video/) | Builds the demo video from the real app | see [video/README.md](video/README.md) |
+| [`presentation/`](presentation/) | Builds the 4-slide presentation | see [presentation/README.md](presentation/README.md) |
 
 ## `run_ai_at_70.py` in more detail
 

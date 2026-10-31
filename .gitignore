@@ -22,6 +22,7 @@ tools/voice/models/
 # Generated files
 tools/plain_language/output/
 scripts/video/build/
+scripts/presentation/build/
 
 # macOS
 .DS_Store

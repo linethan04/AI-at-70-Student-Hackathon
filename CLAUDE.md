@@ -93,7 +93,8 @@ Read [`docs/PROJECT_HISTORY.md`](docs/PROJECT_HISTORY.md) first: it has every re
     - Every line is back-translated and flagged on drift or a lost number.
     - Offline engine: Argos Translate OPUS-MT via CTranslate2. Claude translates when `ANTHROPIC_API_KEY` is set.
   - `voice/voices.py`: phone-call voices on this computer: Kokoro (`af_heart`, `ef_dora`, `pf_dora`; Mandarin via sherpa-onnx) and Piper `ar_JO-kareem` for Arabic.
-- `outputs/`: the products. `interface/index.html` is the app page (needs the server), with screenshots. `video/` holds `ai_at_70_demo.mp4` and `VIDEO_PROMPT.md`, a prompt for remaking the video with other AI tools.
+- `scripts/presentation/`: `render_images.py` (the logo + stills of the video's scenes) and `make_presentation.py` (python-pptx, the app's colors; `AUTHORS` at the top) → `outputs/presentation/AI_at_70.pptx`.
+- `outputs/`: the products. `interface/index.html` is the app page (needs the server), with screenshots. `presentation/AI_at_70.pptx`: 4 slides (title, then the three project questions from the README's "Why AI at 70"). `video/` holds `ai_at_70_demo.mp4` and `VIDEO_PROMPT.md`, a prompt for remaking the video with other AI tools.
 - `docs/PROJECT_HISTORY.md`: the project's history and decisions. `REFERENCES.md`: every source.
 
 Keep this layout: final versions only, no per-person folders, a `README.md` in every folder, and update this file and the READMEs when something changes.

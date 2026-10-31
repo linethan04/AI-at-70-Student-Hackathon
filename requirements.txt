@@ -31,6 +31,7 @@ numpy
 # scripts/run_ai_at_70.py: reading a photo of a note (macOS only)
 ocrmac
 
-# scripts/video: the demo video
+# scripts/video and scripts/presentation: the demo video and the slides
 playwright
 imageio-ffmpeg
+python-pptx

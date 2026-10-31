@@ -2,6 +2,8 @@
 
 **Visit summaries older patients and their families can understand.**
 
+> **In our project, a person always stays in charge.** We reinforce patients' control over their own health by breaking down what their visit actually means and what to actually do.
+
 AI at 70 is a tool for primary-care clinicians. It takes the material from an older patient's visit and turns it into a short, plain-language summary at about a 5th-grade reading level:
 
 - **Check-in:** the patient's answers to a short questionnaire.
@@ -21,9 +23,23 @@ Everything runs on one computer. With no API keys, nothing leaves the machine. A
 | | |
 |---|---|
 | Demo video | [outputs/video/ai_at_70_demo.mp4](outputs/video/ai_at_70_demo.mp4) (about 80 seconds) |
+| Presentation | [outputs/presentation/AI_at_70.pptx](outputs/presentation/AI_at_70.pptx) (4 slides) |
 | The app | [outputs/interface/](outputs/interface/), run with `python scripts/run_ai_at_70.py` and open http://localhost:5070 |
 | Sources | [REFERENCES.md](REFERENCES.md) |
 | Project history | [docs/PROJECT_HISTORY.md](docs/PROJECT_HISTORY.md) (every decision so far, written for teammates and Claude) |
+
+---
+
+## Why AI at 70
+
+**Who are we building this for, and why do they need it?**
+Elderly patients who have difficulty retaining medical information and guidance. A visit moves fast and is full of medical terms, and the details are easy to lose by the time the patient gets home. AI at 70 gives them, and the family members they choose, a short summary in plain words that they can read, hear and keep.
+
+**What could go wrong, and what would we do about it?**
+AI can make mistakes, so physicians should always verify the final output. AI at 70 never sends anything on its own. The physician reviews every item on a checklist and approves the summary before it can be printed, emailed or read over the phone. Anything unclear, missing or translated is flagged for them to check.
+
+**How does this help people rather than decide for them?**
+There is no change in medical guidance, only simplification. Every diagnosis, medicine, dose and instruction comes from the physician's own note. AI at 70 only rewrites it in everyday words, and it adds no advice of its own.
 
 ---
 
@@ -92,6 +108,7 @@ recording ────────┘   (tools/plain_language)      (checklist, 
 │   │   ├── build_voices.py               neural voices               -> tools/voice/models/
 │   │   ├── build_dictionaries.py         lay dictionary + medical word list -> tools/plain_language/data/
 │   │   └── build_reader_baseline.py      word-knowledge data for the reading check
+│   ├── presentation/          builds the slides from the app's logo and the video's scenes
 │   └── video/                 builds the demo video from the real app
 │       ├── README.md
 │       ├── maria_checkin.json, maria_conversation.txt, maria_note.txt   the made-up visit
@@ -114,6 +131,7 @@ recording ────────┘   (tools/plain_language)      (checklist, 
 └── outputs/                   the main products
     ├── README.md
     ├── interface/             the clinician's web page (the app) + screenshots
+    ├── presentation/          AI_at_70.pptx: the 4-slide presentation
     └── video/                 the demo video and the prompt to remake it with other AI tools
 ```
 
