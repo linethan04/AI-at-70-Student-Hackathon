@@ -18,3 +18,9 @@ __pycache__/
 
 # Downloaded test recordings and answer keys
 **/test_data/
+
+# Conversion library: downloaded sources, test notes and generated output (rebuild with the scripts)
+Ethan/conversion_library/data/raw/
+Ethan/conversion_library/data/medical_vocab.txt
+Ethan/conversion_library/test_notes/
+Ethan/conversion_library/output/

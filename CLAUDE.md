@@ -42,6 +42,12 @@ The repo is early-stage. Each teammate has a working folder:
   - `offline_cleanup.py`: no-API-key fallback used automatically by `clean_transcript.py`. Speakers are separated by voice (NVIDIA TitaNet speaker model via `sherpa-onnx`, run locally; sentences grouped by voice similarity); roles guessed from word use. Terms: unknown words fuzzy-matched (`rapidfuzz`) against RxNorm + a ~98k medical spelling list; strong matches corrected, weaker ones suggested. Can't decode multi-word garbles ("glitz preside"); Claude can.
   - `medical_dictionary.py`: free NLM lookups, no key needed: RxNorm (drugs, generic and brand; full list cached in `Ethan/audio_workflow/.cache/`), RxClass (drug classes), ICD-10-CM and Conditions (diagnoses), LOINC (labs), HCPCS (procedures)
   - `make_sample_audio.py`: builds a synthetic two-voice visit with macOS `say` for testing
+  - `app.py` + `static/`: web app (Flask). `/` is the simple mobile-first page (`static/site/`: Record / Upload audio, then the transcript); `/advanced` has settings and saved recordings. `--public` hides `/advanced` and browse-by-name routes so visitors only see their own result.
+  - `fetch_test_audio.py` / `evaluate.py`: download a PriMock57 mock GP consultation (CC BY 4.0) with its human transcript, and score the pipeline against it (word error rate, speaker accuracy, drug names found).
+- `Ethan/conversion_library/` — clinician notes → plain language (start of the printout / email / phone-call outputs)
+  - `build_dictionaries.py`: builds two dictionaries. **Medical vocabulary** (for detecting jargon): ~98k-word medical spelling list + RxNorm drug names + MedlinePlus technical names. **Lay dictionary** `data/lay_dictionary.json` (committed), following the Rules' source order: CDC Everyday Words (PDF) and MedlinePlus health topics + lab tests (standard sources), plus Wikipedia's medical abbreviation lists (CC BY-SA, used only to expand abbreviations, not as plain wording). The Consumer Health Vocabulary needs a sign-up at GWU, so it isn't included yet. Safety rules built in: never rename a drug, MedlinePlus titles are the plain target, broader topics aren't treated as synonyms ("dizziness" ≠ "dizziness and vertigo"), disease words must map to a condition phrase ("hyperlipidemia" ≠ "cholesterol"), definitions must actually define the term.
+  - `convert_note.py`: layer 1 (offline): expands abbreviations (ambiguous ones resolved from context, e.g. "furosemide BD" → twice a day, else flagged), swaps jargon for standard-source plain words, keeps drug names and lab names and explains them, flags everything else as "no standard source", and flags dosing abbreviations. Layer 2 (`--claude`, needs `ANTHROPIC_API_KEY`): full plain-language rewrite at the target grade grounded in layer 1's word choices, then checks every number and drug name survived. Writes a clinician review copy `output/<note>.plain.md` (original vs. plain, word list, flags, sources).
+  - `fetch_test_notes.py` / `run_tests.py`: download PriMock57 clinician notes (57) and MTSamples general medicine + discharge summaries (~120), run the converter on all, and write `output/test_report.md`.
 - `Jason/`, `Max/`, `Tanner/` — personal scratch folders (placeholders for now)
 
 Shared code should move into a common package (e.g. `app/` or `src/`) once pieces start connecting. Update this file when that happens.
@@ -61,7 +67,20 @@ python Ethan/audio_workflow/EL_audio.py record                                  
 python Ethan/audio_workflow/EL_audio.py transcribe <file.wav> --clean              # + speakers and medical term check
 python Ethan/audio_workflow/clean_transcript.py Ethan/audio_workflow/transcripts/<name>.json [--num-speakers 2]   # cleanup on its own
 python Ethan/audio_workflow/medical_dictionary.py medication glipizide             # check a single term
+python Ethan/audio_workflow/app.py                                                 # web app: http://localhost:5050 (full settings at /advanced)
+python Ethan/audio_workflow/app.py --public & cloudflared tunnel --protocol http2 --url http://localhost:5050   # phone access: prints an https://….trycloudflare.com link (brew install cloudflared)
 ```
+
+Plain-language conversion (`Ethan/conversion_library/`, Python):
+
+```bash
+pip install -r Ethan/conversion_library/requirements.txt
+python Ethan/conversion_library/build_dictionaries.py        # only needed to refresh data/lay_dictionary.json (~35 MB of downloads)
+python Ethan/conversion_library/convert_note.py <note.txt> [--claude] [--grade 6]
+python Ethan/conversion_library/fetch_test_notes.py && python Ethan/conversion_library/run_tests.py
+```
+
+`convert_note.py` and `run_tests.py` also need `data/medical_vocab.txt` and `data/raw/rxnorm_display_names.json`, which `build_dictionaries.py` creates (git-ignored).
 
 `--clean` and `clean_transcript.py` use Claude when `ANTHROPIC_API_KEY` is in `.env`, and otherwise fall back to the offline method (`--engine auto|claude|offline`). The first offline run downloads the speaker model (~40 MB) and medical word list into `Ethan/audio_workflow/.cache/`.
 
