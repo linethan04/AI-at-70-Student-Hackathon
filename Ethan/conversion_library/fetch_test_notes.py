@@ -58,8 +58,10 @@ def fetch_mtsamples(client: httpx.Client) -> int:
                 name = re.search(r"Sample Name\s*:\s*([^\n]+)", text)
                 if not (specialty and name) or not specialty.group(1).strip().startswith(MTSAMPLES_KEEP):
                     continue
-                # Drop the site's header lines; keep the report itself.
+                # Drop the site's header lines, the repeated description and the keyword list.
                 body = re.split(r"\n\s*(?:Description|Template Description)\s*:", text, maxsplit=1)[-1]
+                body = body.split("(Medical Transcription Sample Report)", 1)[-1]
+                body = re.split(r"\n\s*Keywords\s*:", body, maxsplit=1)[0]
                 slug = re.sub(r"[^a-z0-9]+", "_", f"{specialty.group(1)} {name.group(1)}".lower()).strip("_")[:60]
                 (out / f"{slug}.txt").write_text(tidy(body))
                 count += 1

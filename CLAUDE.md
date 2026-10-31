@@ -47,7 +47,10 @@ The repo is early-stage. Each teammate has a working folder:
 - `Ethan/conversion_library/` — clinician notes → plain language (start of the printout / email / phone-call outputs)
   - `build_dictionaries.py`: builds two dictionaries. **Medical vocabulary** (for detecting jargon): ~98k-word medical spelling list + RxNorm drug names + MedlinePlus technical names. **Lay dictionary** `data/lay_dictionary.json` (committed), following the Rules' source order: CDC Everyday Words (PDF) and MedlinePlus health topics + lab tests (standard sources), plus Wikipedia's medical abbreviation lists (CC BY-SA, used only to expand abbreviations, not as plain wording). The Consumer Health Vocabulary needs a sign-up at GWU, so it isn't included yet. Safety rules built in: never rename a drug, MedlinePlus titles are the plain target, broader topics aren't treated as synonyms ("dizziness" ≠ "dizziness and vertigo"), disease words must map to a condition phrase ("hyperlipidemia" ≠ "cholesterol"), definitions must actually define the term.
   - `convert_note.py`: layer 1 (offline): expands abbreviations (ambiguous ones resolved from context, e.g. "furosemide BD" → twice a day, else flagged), swaps jargon for standard-source plain words, keeps drug names and lab names and explains them, flags everything else as "no standard source", and flags dosing abbreviations. Layer 2 (`--claude`, needs `ANTHROPIC_API_KEY`): full plain-language rewrite at the target grade grounded in layer 1's word choices, then checks every number and drug name survived. Writes a clinician review copy `output/<note>.plain.md` (original vs. plain, word list, flags, sources).
-  - `fetch_test_notes.py` / `run_tests.py`: download PriMock57 clinician notes (57) and MTSamples general medicine + discharge summaries (~120), run the converter on all, and write `output/test_report.md`.
+  - `data/simple_words.json`: hand-made simple wording (model knowledge) for common words no standard source covers ("bilaterally" → "on both sides", "abx", "5/7" → "5 days"). Used only after the standard sources; every use is flagged "no standard source". Edit freely.
+  - `make_printout.py`: offline layer 2, no API key. Regroups the note's headings into patient sections (what we found, what to do next, your medicines, when to come back or get help, tests, why you came in, history), leaves the exam off (listed for the clinician), splits into short bullets, applies plain-phrasing rules ("the patient" → "you", "denies" → "no"), and checks no number or medicine name went missing. Writes a large-print page `output/<note>.printout.html` with a clinician review panel (SMOG, flags, sentence changes, sources). Rule-based rewriting lowers Flesch-Kincaid but not SMOG to grade 5–7; that needs the Claude rewrite.
+  - `app.py` + `templates/`: web page (Flask, port 5051) to paste / upload (.txt, .pdf) a note or pick a sample, and get the printout. `samples/` holds synthetic notes.
+  - `fetch_test_notes.py` / `run_tests.py`: download PriMock57 clinician notes (57) and MTSamples general medicine + discharge summaries (~120), run the converter and printout on all, and write `output/test_report.md`.
 - `Jason/`, `Max/`, `Tanner/` — personal scratch folders (placeholders for now)
 
 Shared code should move into a common package (e.g. `app/` or `src/`) once pieces start connecting. Update this file when that happens.
@@ -76,7 +79,9 @@ Plain-language conversion (`Ethan/conversion_library/`, Python):
 ```bash
 pip install -r Ethan/conversion_library/requirements.txt
 python Ethan/conversion_library/build_dictionaries.py        # only needed to refresh data/lay_dictionary.json (~35 MB of downloads)
-python Ethan/conversion_library/convert_note.py <note.txt> [--claude] [--grade 6]
+python Ethan/conversion_library/convert_note.py <note.txt> [--claude] [--grade 5]
+python Ethan/conversion_library/make_printout.py <note.txt> [--name "Mary Smith"]   # offline printout
+python Ethan/conversion_library/app.py                        # web page: http://localhost:5051
 python Ethan/conversion_library/fetch_test_notes.py && python Ethan/conversion_library/run_tests.py
 ```
 

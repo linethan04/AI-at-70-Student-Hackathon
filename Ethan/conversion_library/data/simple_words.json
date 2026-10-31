@@ -1,0 +1,381 @@
+{
+ "_about": "Simple wording for common clinic-note words that no standard plain-language source in this pipeline covers (picked from the most frequent 'no standard source' terms in output/test_report.md). Written from model knowledge, NOT from CDC/MedlinePlus: every use is flagged 'no standard source' for the clinician (CLAUDE.md). Standard-source entries in lay_dictionary.json always win over these. Edit freely.",
+ "source": "Simple wording (model knowledge, verify)",
+ "terms": {
+  "bilaterally": {
+   "plain": "on both sides"
+  },
+  "bilateral": {
+   "plain": "two-sided"
+  },
+  "nontender": {
+   "plain": "not sore when pressed"
+  },
+  "non-tender": {
+   "plain": "not sore when pressed"
+  },
+  "extremities": {
+   "plain": "arms and legs"
+  },
+  "unremarkable": {
+   "plain": "normal"
+  },
+  "within normal limits": {
+   "plain": "normal"
+  },
+  "auscultation": {
+   "plain": "listening with a stethoscope"
+  },
+  "palpation": {
+   "plain": "pressing gently with the hands"
+  },
+  "erythema": {
+   "plain": "redness"
+  },
+  "erythematous": {
+   "plain": "red"
+  },
+  "adenopathy": {
+   "plain": "swollen glands"
+  },
+  "lymphadenopathy": {
+   "plain": "swollen lymph nodes"
+  },
+  "postoperative": {
+   "plain": "after surgery"
+  },
+  "postoperatively": {
+   "plain": "after surgery"
+  },
+  "preoperative": {
+   "plain": "before surgery"
+  },
+  "preoperatively": {
+   "plain": "before surgery"
+  },
+  "dysuria": {
+   "plain": "pain when passing urine"
+  },
+  "hematuria": {
+   "plain": "blood in the urine"
+  },
+  "cyanosis": {
+   "plain": "bluish skin"
+  },
+  "afebrile": {
+   "plain": "no fever"
+  },
+  "febrile": {
+   "plain": "feverish"
+  },
+  "palpitations": {
+   "plain": "a racing or pounding heartbeat"
+  },
+  "exacerbation": {
+   "plain": "flare-up"
+  },
+  "tachycardia": {
+   "plain": "a fast heart rate"
+  },
+  "bradycardia": {
+   "plain": "a slow heart rate"
+  },
+  "dyspnea": {
+   "plain": "shortness of breath"
+  },
+  "dyspnoea": {
+   "plain": "shortness of breath"
+  },
+  "orthopnea": {
+   "plain": "shortness of breath when lying flat"
+  },
+  "nondistended": {
+   "plain": "not swollen"
+  },
+  "distention": {
+   "plain": "swelling"
+  },
+  "distension": {
+   "plain": "swelling"
+  },
+  "edematous": {
+   "plain": "swollen"
+  },
+  "noncontributory": {
+   "plain": "nothing important to note"
+  },
+  "workup": {
+   "plain": "tests"
+  },
+  "atraumatic": {
+   "plain": "no sign of injury"
+  },
+  "normocephalic": {
+   "plain": "normal head shape"
+  },
+  "thyromegaly": {
+   "plain": "an enlarged thyroid gland"
+  },
+  "organomegaly": {
+   "plain": "enlarged organs"
+  },
+  "hepatosplenomegaly": {
+   "plain": "an enlarged liver and spleen"
+  },
+  "prophylaxis": {
+   "plain": "prevention"
+  },
+  "sputum": {
+   "plain": "phlegm"
+  },
+  "rhinitis": {
+   "plain": "a runny or stuffy nose"
+  },
+  "exertion": {
+   "plain": "activity"
+  },
+  "laceration": {
+   "plain": "cut"
+  },
+  "lacerations": {
+   "plain": "cuts"
+  },
+  "thrombosis": {
+   "plain": "a blood clot"
+  },
+  "etiology": {
+   "plain": "cause"
+  },
+  "rales": {
+   "plain": "crackling sounds in the lungs"
+  },
+  "malaise": {
+   "plain": "feeling unwell"
+  },
+  "melena": {
+   "plain": "dark, tarry stools"
+  },
+  "ecchymosis": {
+   "plain": "bruising"
+  },
+  "myalgia": {
+   "plain": "muscle aches"
+  },
+  "arthralgia": {
+   "plain": "joint pain"
+  },
+  "emesis": {
+   "plain": "vomiting"
+  },
+  "pruritus": {
+   "plain": "itching"
+  },
+  "syncope": {
+   "plain": "fainting"
+  },
+  "ambulating": {
+   "plain": "walking"
+  },
+  "ambulate": {
+   "plain": "walk"
+  },
+  "supple": {
+   "plain": "moves easily"
+  },
+  "oropharynx": {
+   "plain": "back of the throat"
+  },
+  "pharynx": {
+   "plain": "throat"
+  },
+  "sclerae": {
+   "plain": "whites of the eyes"
+  },
+  "conjunctivae": {
+   "plain": "inside of the eyelids"
+  },
+  "conjunctiva": {
+   "plain": "inside of the eyelids"
+  },
+  "tympanic membranes": {
+   "plain": "eardrums"
+  },
+  "tympanic membrane": {
+   "plain": "eardrum"
+  },
+  "mucous membranes": {
+   "plain": "inside of the mouth and nose"
+  },
+  "extraocular movements": {
+   "plain": "eye movements"
+  },
+  "extraocular muscles": {
+   "plain": "eye muscles"
+  },
+  "cranial nerves": {
+   "plain": "nerves of the head and face"
+  },
+  "carotid bruits": {
+   "plain": "rushing sounds in the neck arteries"
+  },
+  "jugular venous distention": {
+   "plain": "swollen neck veins"
+  },
+  "jugular venous distension": {
+   "plain": "swollen neck veins"
+  },
+  "pleural effusion": {
+   "plain": "fluid around the lungs"
+  },
+  "ascites": {
+   "plain": "fluid in the belly"
+  },
+  "stenosis": {
+   "plain": "narrowing"
+  },
+  "refractory": {
+   "plain": "hard to treat"
+  },
+  "inguinal": {
+   "plain": "groin"
+  },
+  "axillary": {
+   "plain": "armpit"
+  },
+  "neuropathy": {
+   "plain": "nerve damage"
+  },
+  "nephropathy": {
+   "plain": "kidney damage"
+  },
+  "hyperlipidemia": {
+   "plain": "high cholesterol and other blood fats"
+  },
+  "hypercholesterolemia": {
+   "plain": "high cholesterol"
+  },
+  "cholecystectomy": {
+   "plain": "surgery to remove the gallbladder"
+  },
+  "cholecystitis": {
+   "plain": "a swollen, irritated gallbladder"
+  },
+  "laparoscopic": {
+   "plain": "keyhole"
+  },
+  "hemicolectomy": {
+   "plain": "surgery to remove part of the colon"
+  },
+  "echocardiogram": {
+   "plain": "ultrasound of the heart"
+  },
+  "osteomyelitis": {
+   "plain": "bone infection"
+  },
+  "coagulation": {
+   "plain": "blood clotting"
+  },
+  "calcifications": {
+   "plain": "calcium deposits"
+  },
+  "rigidity": {
+   "plain": "stiffness"
+  },
+  "atrial fibrillation": {
+   "explain": "a type of irregular heartbeat"
+  },
+  "murmur": {
+   "explain": "an extra sound in the heartbeat"
+  },
+  "murmurs": {
+   "explain": "extra sounds in the heartbeat"
+  },
+  "neutrophils": {
+   "explain": "a type of white blood cell"
+  },
+  "bilateral lower extremities": {
+   "plain": "both legs"
+  },
+  "bilateral lower extremity": {
+   "plain": "both legs"
+  },
+  "bilateral upper extremities": {
+   "plain": "both arms"
+  },
+  "bilateral upper extremity": {
+   "plain": "both arms"
+  },
+  "lower extremities": {
+   "plain": "legs"
+  },
+  "lower extremity": {
+   "plain": "leg"
+  },
+  "upper extremities": {
+   "plain": "arms"
+  },
+  "upper extremity": {
+   "plain": "arm"
+  }
+ },
+ "abbreviations": {
+  "abx": "antibiotics",
+  "mx": "treatment",
+  "Mx": "treatment",
+  "etOH": "alcohol",
+  "EtOH": "alcohol",
+  "ETOH": "alcohol",
+  "INB": "if not better",
+  "Imp": "likely diagnosis",
+  "FH": "family history",
+  "c/o": "complains of",
+  "w/": "with",
+  "-ve": "negative",
+  "f/u": "follow-up",
+  "tx": "treatment",
+  "Tx": "treatment",
+  "dx": "diagnosis",
+  "r/o": "rule out",
+  "pt": "patient",
+  "Pt": "patient",
+  "s/p": "after",
+  "WNL": "normal",
+  "CT": "CT scan",
+  "BP": "blood pressure",
+  "GI": "stomach and bowel",
+  "GP": "family doctor",
+  "DH": "medicines",
+  "PRN": "as needed",
+  "prn": "as needed",
+  "p.r.n.": "as needed",
+  "OD": "once a day",
+  "QD": "once a day",
+  "qd": "once a day",
+  "QID": "four times a day",
+  "qid": "four times a day",
+  "qhs": "at bedtime",
+  "QHS": "at bedtime"
+ },
+ "medications": [
+  "paracetamol",
+  "salbutamol",
+  "vicodin",
+  "co-codamol",
+  "co-amoxiclav"
+ ],
+ "plain_words": [
+  "gallbladder",
+  "toothache",
+  "inhaler",
+  "inhalers",
+  "wheeze",
+  "wheezes",
+  "hoarseness",
+  "deformity",
+  "recheck",
+  "nonsmoker",
+  "followup",
+  "rectal",
+  "breathlessness"
+ ]
+}

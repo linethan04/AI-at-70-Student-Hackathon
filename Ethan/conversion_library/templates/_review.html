@@ -1,0 +1,62 @@
+<aside class="review no-print">
+  <h2>Clinician review <span class="tag">not printed</span></h2>
+  <p class="draft">Draft. Check every highlighted word and the list below before giving this to a patient.</p>
+
+  {% set r = p.readability %}
+  {% set grade = r.printout.smog %}
+  <div class="stats">
+    <div class="stat">
+      <span class="label">Reading level (SMOG)</span>
+      <span class="value {% if grade is none %}{% elif grade <= target %}good{% elif grade <= max_grade %}ok{% else %}bad{% endif %}">
+        {{ grade if grade is not none else "n/a" }}</span>
+      <span class="sub">target {{ target }}–{{ max_grade }} · original note {{ r.original.smog if r.original.smog is not none else "n/a" }}</span>
+    </div>
+    <div class="stat">
+      <span class="label">Length</span>
+      <span class="value {% if p.word_count <= one_page_words %}good{% else %}bad{% endif %}">{{ p.word_count }}</span>
+      <span class="sub">words · {% if p.word_count <= one_page_words %}fits one page{% else %}may run past one page{% endif %}</span>
+    </div>
+    <div class="stat">
+      <span class="label">To check</span>
+      <span class="value {% if p.flags %}ok{% else %}good{% endif %}">{{ p.flags | length }}</span>
+      <span class="sub">highlighted words</span>
+    </div>
+  </div>
+
+  {% if p.missing %}
+  <p class="error">Missing from the printout: {{ p.missing | join(", ") }}. Check before printing.</p>
+  {% endif %}
+
+  {% if p.flags %}
+  <h3>Please check</h3>
+  <ul class="checks">
+    {% for f in p.flags %}
+    <li><code>{{ f.text }}</code>{% if f.replace_with %} → <strong>{{ f.replace_with }}</strong>{% endif %}<br><span>{{ f.flag }}</span></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  {% if p.left_off %}
+  <h3>Left off the printout</h3>
+  <p class="hint">Exam findings and review of systems. Add anything the patient needs to know.</p>
+  {% for heading, text in p.left_off %}
+  <details><summary>{{ heading }}</summary><pre>{{ text }}</pre></details>
+  {% endfor %}
+  {% endif %}
+
+  {% if p.changes %}
+  <h3>Sentence changes</h3>
+  <p class="hint">Plain-phrasing rules (from model knowledge, verify).</p>
+  <ul class="changes">
+    {% for change, n in p.changes.items() %}<li>{{ change }}{% if n > 1 %} <span>×{{ n }}</span>{% endif %}</li>{% endfor %}
+  </ul>
+  {% endif %}
+
+  <h3>Sources for word choices</h3>
+  <ul class="sources">
+    {% set used = p.findings | selectattr("source") | map(attribute="source") | unique | list %}
+    {% for s in used | sort %}
+    <li>{{ s }}{% if sources[s] and sources[s].url %}: <a href="{{ sources[s].url }}" target="_blank" rel="noopener">{{ sources[s].url }}</a>{% endif %}</li>
+    {% else %}<li>none</li>{% endfor %}
+  </ul>
+</aside>

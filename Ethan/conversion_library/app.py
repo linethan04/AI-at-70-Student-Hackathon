@@ -1,0 +1,77 @@
+"""Simple web page to try the converter: paste or upload a clinician note, get a large-print printout.
+
+    python Ethan/conversion_library/app.py        # http://localhost:5051
+
+Runs fully offline (no API key). Notes are processed in memory and not saved.
+"""
+
+import argparse
+import io
+from pathlib import Path
+
+from flask import Flask, render_template, request
+
+from make_printout import TEMPLATES, make_printout, marked_html, strip_markers, template_context
+
+HERE = Path(__file__).resolve().parent
+SAMPLE_DIRS = {"Synthetic samples": HERE / "samples",
+               "PriMock57 (test)": HERE / "test_notes" / "primock57",
+               "MTSamples (test)": HERE / "test_notes" / "mtsamples"}
+MAX_NOTE_CHARS = 30_000
+
+app = Flask(__name__, template_folder=str(TEMPLATES))
+app.jinja_env.filters["marked"] = marked_html
+app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
+
+
+def samples() -> dict[str, list[str]]:
+    return {group: sorted(p.stem for p in folder.glob("*.txt"))
+            for group, folder in SAMPLE_DIRS.items() if folder.is_dir() and any(folder.glob("*.txt"))}
+
+
+def read_sample(value: str) -> str:
+    group, _, name = value.partition("/")
+    folder = SAMPLE_DIRS.get(group)
+    path = folder / f"{name}.txt" if folder else None
+    if not path or path.parent != folder or not path.is_file():  # only files listed in the dropdown
+        return ""
+    return path.read_text()
+
+
+def read_upload(file) -> str:
+    data = file.read()
+    if file.filename.lower().endswith(".pdf"):
+        from pypdf import PdfReader
+        return "\n".join(page.extract_text() or "" for page in PdfReader(io.BytesIO(data)).pages)
+    return data.decode("utf-8", errors="replace")
+
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    form = request.form
+    details = {k: form.get(k, "").strip() for k in ("name", "clinician", "phone")}
+    note, error, sample = form.get("note", ""), None, form.get("sample", "")
+    upload = request.files.get("file")
+    if upload and upload.filename:
+        note = read_upload(upload)
+    elif not note.strip() and sample:
+        note = read_sample(sample)
+    note = note.replace("\r\n", "\n")
+    page = {"note": note, "sample": sample, "samples": samples(), "error": None, "p": None, **details}
+    if request.method == "POST":
+        if not note.strip():
+            error = "Paste a note, upload a file, or pick a sample."
+        elif len(note) > MAX_NOTE_CHARS:
+            error = f"That note is very long ({len(note):,} characters). Try a single visit note."
+        else:
+            page.update(template_context(make_printout(note), **details))
+    page["error"] = error
+    page["strip"] = strip_markers
+    return render_template("index.html", **page)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Plain-language printout web page.")
+    parser.add_argument("--port", type=int, default=5051)
+    args = parser.parse_args()
+    app.run(host="127.0.0.1", port=args.port, debug=False)

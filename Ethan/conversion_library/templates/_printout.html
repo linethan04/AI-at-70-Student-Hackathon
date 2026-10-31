@@ -1,0 +1,37 @@
+<article class="printout">
+  <header class="pr-head">
+    <h1>Your visit summary</h1>
+    <dl>
+      {% if name %}<div><dt>For</dt><dd>{{ name }}</dd></div>{% endif %}
+      <div><dt>Visit date</dt><dd>{{ visit_date }}</dd></div>
+      {% if clinician %}<div><dt>Your doctor</dt><dd>{{ clinician }}</dd></div>{% endif %}
+    </dl>
+  </header>
+
+  {% for s in p.sections %}
+  <section class="pr-section {{ s.key }}">
+    <h2>{{ s.title }}</h2>
+    <ul>
+      {% for item in s.items %}
+      <li{% if s.key == "followup" and when_to_call.search(strip(item)) %} class="urgent"{% endif %}>{{ item | marked }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endfor %}
+
+  {% if p.words %}
+  <section class="pr-section words">
+    <h2>Words to know</h2>
+    <ul>
+      {% for f in p.words %}
+      <li><strong>{{ f.text }}</strong>: {{ f.explain }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  <footer class="pr-foot">
+    <p>Questions? Call your doctor's office{% if phone %}: <strong>{{ phone }}</strong>{% else %}: ____________________{% endif %}</p>
+    <p class="small">Reviewed by: ____________________ &nbsp; Date: ____________</p>
+  </footer>
+</article>

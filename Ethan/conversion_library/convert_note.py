@@ -6,13 +6,15 @@ Layer 1 (offline, always runs): find jargon and swap or explain it from standard
     - Terms with a standard plain word are replaced ("hypertension" -> "high blood pressure").
     - Terms that must stay (drug names, "heart failure", lab tests) are kept and explained in a
       word list ("creatinine: a normal waste product in your body").
-    - Everything else that looks like jargon is flagged "no standard source" (CLAUDE.md rule).
+    - Common words no standard source covers get a simple replacement from data/simple_words.json
+      ("bilaterally" -> "on both sides", "abx" -> "antibiotics", "5/7" -> "5 days"), always
+      flagged "no standard source". Other jargon is just flagged (CLAUDE.md rule).
     - Dosing abbreviations (BID, BD, PRN...) are expanded and flagged for the clinician.
 Layer 2 (Claude, when ANTHROPIC_API_KEY is set): rewrite the whole note in short, plain
     sentences at the target reading level, grounded in layer 1's word choices, then check that
     every number and drug name survived.
 
-    python Ethan/conversion_library/convert_note.py note.txt [--claude] [--grade 6]
+    python Ethan/conversion_library/convert_note.py note.txt [--claude] [--grade 5]
 
 Writes output/<name>.plain.md (clinician review copy) and output/<name>.plain.json.
 """
@@ -32,7 +34,8 @@ HERE = Path(__file__).resolve().parent
 DATA = HERE / "data"
 OUTPUT = HERE / "output"
 
-TARGET_GRADE = 6  # CLAUDE.md: 5th-7th grade, ideally 5th or lower (SMOG)
+TARGET_GRADE = 5  # CLAUDE.md: 5th-7th grade, ideally 5th or lower (SMOG)
+MAX_GRADE = 7
 COMMON_WORD_ZIPF = 3.0   # below this a word is uncommon enough to count as possible jargon
 PLAIN_PHRASE_ZIPF = 3.5  # an abbreviation's expansion is only used in the text if it's this everyday
 HEADING_WORD_ZIPF = 5.0  # ALL-CAPS tokens this common are headings/words ("PLAN"), not abbreviations
@@ -58,6 +61,12 @@ def lay_dictionary() -> tuple[dict, dict, dict]:
 
 
 @lru_cache(maxsize=1)
+def simple_words() -> dict:
+    """Hand-made fallback wording (model knowledge, always flagged); see data/simple_words.json."""
+    return json.loads((DATA / "simple_words.json").read_text())
+
+
+@lru_cache(maxsize=1)
 def medical_vocab() -> set[str]:
     return set((DATA / "medical_vocab.txt").read_text().split("\n"))
 
@@ -65,7 +74,7 @@ def medical_vocab() -> set[str]:
 @lru_cache(maxsize=1)
 def drug_names() -> set[str]:
     names = json.loads((DATA / "raw" / "rxnorm_display_names.json").read_text())
-    return {n.lower() for n in names if re.fullmatch(r"[A-Za-z][A-Za-z-]{3,}", n)}
+    return {n.lower() for n in names if re.fullmatch(r"[A-Za-z][A-Za-z-]{3,}", n)} | set(simple_words()["medications"])
 
 
 @lru_cache(maxsize=1)
@@ -81,6 +90,12 @@ def term_pattern() -> re.Pattern:
 
     usable_terms = sorted((t for t, e in terms.items() if usable(t, e)), key=len, reverse=True)
     return re.compile(r"\b(" + "|".join(map(re.escape, usable_terms)) + r")\b", re.IGNORECASE)
+
+
+@lru_cache(maxsize=1)
+def simple_term_pattern() -> re.Pattern:
+    terms = sorted(simple_words()["terms"], key=len, reverse=True)
+    return re.compile(r"\b(" + "|".join(map(re.escape, terms)) + r")\b", re.IGNORECASE)
 
 
 # ---------- analysis ----------
@@ -140,7 +155,7 @@ def phrase_plainness(phrase: str) -> float:
 def strip_notes(text: str) -> str:
     """'history (of)' -> 'history'; 'by mouth, that is, orally' -> 'by mouth'."""
     text = re.sub(r"\s*\([^)]*\)", "", text)
-    return re.split(r",\s*(?:that is|i\.e\.|or)\b", text)[0].strip()
+    return re.split(r",\s*(?:that is|i\.e\.|or|formerly|also)\b", text)[0].strip()
 
 
 def plain_for(phrase: str) -> tuple[str | None, str | None, dict | None]:
@@ -171,7 +186,7 @@ def choose_meaning(entry: dict, note: str, start: int) -> tuple[str | None, str 
 
 def analyze(note: str) -> list[Finding]:
     abbrevs, terms, sources = lay_dictionary()
-    vocab, drugs = medical_vocab(), drug_names()
+    vocab, drugs, simple = medical_vocab(), drug_names(), simple_words()
     findings: list[Finding] = []
     taken = [False] * len(note)
 
@@ -203,11 +218,20 @@ def analyze(note: str) -> list[Finding]:
                       if abbrevs.get(c) or folded.get(c.lower())), None)
         if not entry or tok.isdigit():
             continue
-        if tok.islower() and is_common_word(tok):
+        if tok.islower() and is_common_word(tok) and not re.search(r"[/.]", tok):  # but "y/o", "b.i.d."
             continue  # ordinary word that happens to be an abbreviation ("am", "ice")
         if tok.isupper() and zipf_frequency(tok.lower(), "en") >= HEADING_WORD_ZIPF:
             continue  # "PLAN", "OR", "ALL" in headings
         meaning, flag = choose_meaning(entry, note, m.start())
+        default = next((simple["abbreviations"][c] for c in candidates if c in simple["abbreviations"]), None)
+        if meaning and default in entry.get("meanings", []):
+            meaning = default  # "PRN": "as needed" rather than "as necessary"
+        if meaning is None and default and entry.get("kind") != "lab_test":
+            # "CT", "BP", "DH": several listed meanings, but one is the usual one in a clinic note.
+            claim(Finding(tok, m.start(), m.end(), "abbreviation", replace_with=default, source=simple["source"],
+                          flag=f"{flag}; read as \"{default}\", confirm" if not DOSING_WORDS.search(default)
+                          else "dosing abbreviation: confirm the exact times with the clinician (CLAUDE.md)"))
+            continue
         if entry.get("kind") == "lab_test":
             meaning = None  # lab names stay as on the lab report ("BUN"); the explanation does the work
         meaning = strip_notes(meaning) if meaning else None
@@ -231,6 +255,36 @@ def analyze(note: str) -> list[Finding]:
                       source_url=(plain_entry or entry).get("source_url"),
                       standard=bool(plain or entry.get("standard")), flag=flag))
 
+    # 2b. Clinic shorthand no standard source lists: "abx", "c/o", "5/7" (5 days), "? LRTI" (possible).
+    unsourced = "no standard source"
+    for key, plain in simple["abbreviations"].items():
+        flag = unsourced
+        if DOSING_WORDS.search(plain):
+            flag = "dosing abbreviation: confirm the exact times with the clinician (CLAUDE.md)"
+            if key == "OD":
+                flag += "; on eye-drop orders OD means right eye"
+        for m in re.finditer(r"(?<![\w/.-])" + re.escape(key) + r"(?![\w/])", note):
+            claim(Finding(m.group(0), m.start(), m.end(), "abbreviation", replace_with=plain,
+                          source=simple["source"], flag=flag))
+    for m in re.finditer(r"\b[qQ]\.?\s?(\d+)\s?(?:h|hr|hrs|hours?)\b\.?", note):  # q4h, q.3 h.
+        claim(Finding(m.group(0), m.start(), m.end(), "abbreviation", replace_with=f"every {m.group(1)} hours",
+                      source=simple["source"], flag="dosing abbreviation: confirm the exact times with the clinician (CLAUDE.md)"))
+    units = {"7": ("day", "days"), "52": ("week", "weeks"), "12": ("month", "months")}
+    for m in re.finditer(r"(?<![\d/.])([1-9]\d?)/(7|52|12)(?![\d/])", note):
+        n = m.group(1)
+        unit = units[m.group(2)][n != "1"]
+        claim(Finding(m.group(0), m.start(), m.end(), "abbreviation", replace_with=f"{n} {unit}",
+                      source=simple["source"], flag=f"{unsourced}: UK shorthand for {n} {unit}, confirm"))
+    for m in re.finditer(r"(?<![\w?])\?\s*(?=[A-Za-z])", note):
+        claim(Finding(m.group(0), m.start(), m.end(), "abbreviation", replace_with="possible ",
+                      source=simple["source"], flag=f"{unsourced}: \"?\" read as \"possible\", confirm"))
+
+    # 2c. Common words no standard source covers, with a simple replacement (always flagged).
+    for m in simple_term_pattern().finditer(note):
+        e = simple["terms"][m.group(0).lower()]
+        claim(Finding(m.group(0), m.start(), m.end(), "term", replace_with=e.get("plain"), explain=e.get("explain"),
+                      source=simple["source"], flag=unsourced))
+
     # 3. Drug names stay exactly as written (CLAUDE.md); list them for the clinician.
     lab_tests = {t for t, e in terms.items() if e.get("kind") == "lab_test"}
     for m in re.finditer(r"[A-Za-z][A-Za-z-]{3,}", note):
@@ -242,7 +296,7 @@ def analyze(note: str) -> list[Finding]:
     # 4. Remaining hard words: medical but uncommon, or not a known word at all (e.g. misspellings).
     for m in re.finditer(r"[A-Za-z][a-z]{4,}", note):
         w = m.group(0).lower()
-        if not looks_like_jargon(w):
+        if w in simple["plain_words"] or not looks_like_jargon(w):
             continue
         known = w in vocab or w.rstrip("s") in vocab or zipf_frequency(w, "en") > 0
         reason = "no standard source" if known else "unrecognized word (misspelling?)"
@@ -257,9 +311,12 @@ def match_case(note: str, start: int, original: str, replacement: str, kind: str
     """Capitalize only where a sentence or line starts ("SOB" mid-sentence -> "shortness of breath")."""
     before = note[:start].rstrip(" \t")
     after_dotted_abbrev = re.search(r"(?:\b[A-Za-z]\.){2,}$|\b(?:mg|ml|mcg|[0-9])\.?$", before) is not None  # "b.i.d. p.o."
-    sentence_start = not before or (before[-1] in ".!?\n:-" and not after_dotted_abbrev)
+    question = before.endswith("?") and before[-2:-1].isalnum()  # "Worse?" ends a sentence; "URTI/? LRTI" doesn't
+    sentence_start = not before or ((before[-1] in ".!\n:-" or question) and not after_dotted_abbrev)
     if sentence_start or (kind == "term" and original[:1].isupper()):
         return replacement[:1].upper() + replacement[1:]
+    if kind == "abbreviation" and re.match(r"[A-Z][a-z]", replacement):
+        return replacement[0].lower() + replacement[1:]  # "with DM2" -> "with type 2 diabetes"
     return replacement
 
 
@@ -297,8 +354,8 @@ REWRITE_PROMPT = """\
 You rewrite clinician notes about older adults into plain language for the patient and their \
 family. Follow these rules exactly:
 
-- Reading level: grade {grade} or lower (SMOG). Short sentences, common words, active voice. \
-Respectful, never childish.
+- Reading level: 5th to 7th grade, ideally grade {grade} or lower (SMOG). Short sentences, \
+common words, active voice. Respectful, never childish.
 - Use the word choices in <approved_words> wherever those terms come up. They come from CDC \
 Everyday Words and MedlinePlus. Do not invent other definitions for those terms.
 - For any other medical term you must simplify, use a simple replacement and list it in \
@@ -358,7 +415,7 @@ def render_review(c: Conversion, name: str, sources: dict) -> str:
              f"- Original note: **{c.readability['original']['smog']}** (Flesch-Kincaid {c.readability['original']['flesch_kincaid']})",
              f"- After word swaps: **{c.readability['plain']['smog']}** (Flesch-Kincaid {c.readability['plain']['flesch_kincaid']})"]
     if c.claude and "readability" in c.claude:
-        lines.append(f"- After Claude rewrite: **{c.claude['readability']['smog']}** (target {TARGET_GRADE} or lower)")
+        lines.append(f"- After Claude rewrite: **{c.claude['readability']['smog']}** (target {TARGET_GRADE}-{MAX_GRADE})")
     lines += ["", "## Plain version (word swaps)", "", c.plain_text.strip(), "",
               "## Review version", "", c.review_text.strip(), ""]
     if c.claude and "plain_text" in c.claude:

@@ -5,3 +5,4 @@ pypdf
 textstat
 wordfreq
 python-dotenv
+flask

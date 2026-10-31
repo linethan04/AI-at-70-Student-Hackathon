@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plain-Language Printout</title>
+<style>{% include "_style.css" %}</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="app-head">
+    <h1>Plain-language printout</h1>
+    <p>Paste or upload a clinician note. Works offline, no API key.</p>
+  </div>
+
+  <form class="input" method="post" enctype="multipart/form-data">
+    <textarea name="note" placeholder="Paste the clinician's note here…">{{ note }}</textarea>
+    <div class="row">
+      <label>Or upload a note (.txt or .pdf)<input type="file" name="file" accept=".txt,.md,.pdf,text/plain,application/pdf"></label>
+      <label>Or load a sample
+        <select name="sample" onchange="this.form.note.value=''; this.form.submit()">
+          <option value="">Choose a sample note…</option>
+          {% for group, names in samples.items() %}
+          <optgroup label="{{ group }}">
+            {% for n in names %}<option value="{{ group }}/{{ n }}" {% if sample == group ~ '/' ~ n %}selected{% endif %}>{{ n }}</option>{% endfor %}
+          </optgroup>
+          {% endfor %}
+        </select>
+      </label>
+    </div>
+    <div class="row">
+      <label>Patient name (optional)<input name="name" value="{{ name }}"></label>
+      <label>Doctor (optional)<input name="clinician" value="{{ clinician }}"></label>
+      <label>Office phone (optional)<input name="phone" value="{{ phone }}"></label>
+      <button class="btn" type="submit">Make printout</button>
+    </div>
+    {% if error %}<p class="error">{{ error }}</p>{% endif %}
+  </form>
+
+  {% if p %}
+  <div class="actions"><button class="btn" type="button" onclick="window.print()">Print</button></div>
+  <div class="layout">
+    {% include "_printout.html" %}
+    {% include "_review.html" %}
+  </div>
+  {% endif %}
+</div>
+</body>
+</html>
