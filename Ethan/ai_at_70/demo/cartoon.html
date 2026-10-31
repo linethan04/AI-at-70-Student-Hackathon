@@ -12,6 +12,15 @@
 svg.bg{position:absolute;inset:0}
 .chip{position:absolute;top:26px;left:30px;z-index:10;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.92);border-radius:999px;padding:8px 18px 8px 8px;
   font:700 19px "Plus Jakarta Sans",sans-serif;box-shadow:0 8px 24px rgba(18,48,61,.12)}
+.chip.today b{background:#8a98a2}
+#stage.today svg.bg{filter:saturate(.3) brightness(.97)}
+.q{position:absolute;z-index:6;font:800 60px "Plus Jakarta Sans",sans-serif;color:#7c8a95;animation:floatq 2.4s ease-in-out infinite both}
+.bubble.jargon{background:#fdecea;color:#a12a1c;font-size:21px;padding:12px 18px}
+.namecard{position:absolute;z-index:6;left:700px;top:180px;width:460px;padding:24px 28px}.namecard b{display:block;font:800 46px "Plus Jakarta Sans",sans-serif;color:var(--blue)}
+.namecard span{display:block;font:600 22px "Plus Jakarta Sans",sans-serif;color:var(--muted);margin-top:6px}
+.turn{position:absolute;inset:0;display:grid;place-items:center;text-align:center;background:linear-gradient(135deg,#1c5d84,#38b6a9);color:#fff}
+.turn small{display:block;font:700 30px "Plus Jakarta Sans",sans-serif;opacity:.85}.turn b{display:block;font:800 76px "Plus Jakarta Sans",sans-serif;letter-spacing:-.02em;margin-top:6px}
+.turn img{width:120px;background:#fff;border-radius:22px;padding:10px;margin-bottom:18px}
 .chip b{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--teal);color:#fff;font-weight:800}
 .cap{--tx:-50%;position:absolute;z-index:10;left:50%;bottom:30px;transform:translateX(-50%);display:flex;align-items:center;gap:14px;background:#fff;color:var(--ink);
   font:800 28px "Plus Jakarta Sans",sans-serif;padding:13px 30px 13px 24px;border-radius:999px;box-shadow:0 14px 36px rgba(18,48,61,.22);white-space:nowrap;animation:fadeup .5s ease-out both}
@@ -53,6 +62,7 @@ svg.bg{position:absolute;inset:0}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
 @keyframes talk{0%{transform:scaleY(1)}100%{transform:scaleY(.3)}}
 @keyframes wave{from{transform:scale(.4);opacity:.9}to{transform:scale(1.6);opacity:0}}
+@keyframes floatq{0%{transform:translateY(10px);opacity:0}25%{opacity:.9}100%{transform:translateY(-60px);opacity:0}}
 @keyframes flash{0%{opacity:0}20%{opacity:.8}100%{opacity:0}}
 @keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(18px,-12px)}}
 </style></head><body><div id="stage"></div>
@@ -99,7 +109,9 @@ function person(o) {
               present: [[44, shY + 8], [80, shY + 44], [112, shY + 10]] }[arm];
   const armG = (a, back) => `<g ${back ? 'style="filter:brightness(.92)"' : ""}>${line(a[0][0], a[0][1], a[1][0], a[1][1], 19, sleeve)}${line(a[1][0], a[1][1], a[2][0], a[2][1], 17, sleeve)}
     ${coat ? `<circle cx="${a[1][0]}" cy="${a[1][1]}" r="0"/>` : ""}<circle cx="${a[2][0]}" cy="${a[2][1]}" r="9.5" fill="${skin}"/></g>`;
-  const mouth = look === "talk" ? `<ellipse class="talk" cx="0" cy="${hy + 15}" rx="6" ry="5" fill="#6b2b22"/>`
+  const mouth = look === "sad" ? `<path d="M-7 ${hy + 17} q7 -6 14 0" stroke="#6b2b22" stroke-width="2.6" fill="none" stroke-linecap="round"/>`
+    : look === "confused" ? `<path d="M-7 ${hy + 15} q4 -3 7 0 q3 3 7 0" stroke="#6b2b22" stroke-width="2.6" fill="none" stroke-linecap="round"/>`
+    : look === "talk" ? `<ellipse class="talk" cx="0" cy="${hy + 15}" rx="6" ry="5" fill="#6b2b22"/>`
     : look === "neutral" ? `<path d="M-6 ${hy + 15} h12" stroke="#6b2b22" stroke-width="2.6" stroke-linecap="round"/>`
     : `<path d="M-8 ${hy + 12} q8 8 16 0" stroke="#6b2b22" stroke-width="2.6" fill="none" stroke-linecap="round"/>`;
   const hairBack = hairStyle === "ponytail" ? `<path d="M14 ${hy - 20} q30 6 24 40 q-4 22 -16 30 q6 -26 -14 -50z" fill="${hair}"/>` : "";
@@ -113,7 +125,7 @@ function person(o) {
     <ellipse cx="-24" cy="${hy + 2}" rx="5" ry="7" fill="${skin}"/><ellipse cx="24" cy="${hy + 2}" rx="5" ry="7" fill="${skin}"/>
     <ellipse cx="0" cy="${hy}" rx="24" ry="30" fill="${skin}"/>
     <ellipse cx="-10" cy="${hy - 4}" rx="2.6" ry="3.2" fill="${INK}"/><ellipse cx="10" cy="${hy - 4}" rx="2.6" ry="3.2" fill="${INK}"/>
-    <path d="M-15 ${hy - 13} q5 -3 9 0 M6 ${hy - 13} q5 -3 9 0" stroke="${hair === "#e2ded8" ? "#9b948c" : hair}" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <path d="${look === "sad" ? `M-15 ${hy - 14} l9 3 M6 ${hy - 11} l9 -3` : look === "confused" ? `M-15 ${hy - 13} l9 -3 M6 ${hy - 16} l9 3` : `M-15 ${hy - 13} q5 -3 9 0 M6 ${hy - 13} q5 -3 9 0`}" stroke="${hair === "#e2ded8" ? "#9b948c" : hair}" stroke-width="2.6" fill="none" stroke-linecap="round"/>
     <path d="M0 ${hy + 1} q3 5 -1 7" stroke="#000" stroke-opacity=".18" stroke-width="2.4" fill="none" stroke-linecap="round"/>
     <circle cx="-14" cy="${hy + 8}" r="5" fill="#f08a7a" opacity=".3"/><circle cx="14" cy="${hy + 8}" r="5" fill="#f08a7a" opacity=".3"/>
     ${mouth}${hairTop}${specs}`;
@@ -166,15 +178,43 @@ const svg = (inner) => `<svg class="bg" viewBox="0 0 1280 720">${inner}</svg>`;
 const add = (html) => stage.insertAdjacentHTML("beforeend", html);
 const delay = (s) => `style="animation-delay:${s}s"`;
 const caption = (text, d = 0.2) => add(`<div class="cap" style="animation-delay:${d}s">${text}</div>`);
-const chip = (n, text) => add(`<div class="chip"><b>${n}</b>${text}</div>`);
+const chip = (n, text) => add(`<div class="chip${n ? "" : " today"}"><b>${n || "!"}</b>${text}</div>`);
+const qs = (x, y, n = 3) => { for (let i = 0; i < n; i++) add(`<div class="q" style="left:${x + i * 36}px;top:${y + (i % 2) * 22}px;animation-delay:${i * 0.6}s">?</div>`); };
+const today = () => stage.classList.add("today");
+const pills = (x, y) => `<g transform="translate(${x} ${y})">${[0, 34, 68].map((d, i) => `<rect x="${d}" y="${-48 + i * 6}" width="26" height="${46 - i * 6}" rx="5" fill="#ee7b62"/><rect x="${d - 2}" y="${-54 + i * 6}" width="30" height="10" rx="3" fill="#fff"/>`).join("")}</g>`;
+const table = (x, y, w) => `<rect x="${x}" y="${y}" width="${w}" height="16" rx="8" fill="#b98a5e"/><rect x="${x + 20}" y="${y + 16}" width="10" height="${610 - y - 16}" rx="4" fill="#2c3440"/><rect x="${x + w - 30}" y="${y + 16}" width="10" height="${610 - y - 16}" rx="4" fill="#2c3440"/>`;
 
 // ---------- scenes: one appointment, start to finish ----------
 const SCENES = {
+  maria() {  // today: meet Maria
+    today(); add(livingRoom());
+    add(svg(chair(380, 610, "#9fb4c4") + person({ ...MARIA, x: 380, y: 610, pose: "sit", look: "sad" }) + table(500, 470, 150) + pills(522, 470)));
+    add(`<div class="card namecard slidein" ${delay(0.4)}><b>Maria, 78</b><span>Type 2 diabetes · high blood pressure</span><span>Swollen legs for two weeks</span></div>`);
+    chip(0, "Today"); caption("Meet Maria");
+  },
+  doctor() {  // today: a visit full of jargon
+    today(); add(examRoom());
+    add(svg(chair(300, 610, "#9fb4c4") + person({ ...MARIA, x: 300, y: 610, pose: "sit", look: "confused" }) + person({ ...DOCTOR, x: 1040, y: 620, look: "talk", flip: true })));
+    [["Bilateral leg edema", 470, 80, 0.2], ["Titrate amlodipine", 600, 160, 0.8], ["Metformin 1000 mg BID", 450, 240, 1.4],
+     ["Check BMP + microalbumin", 560, 320, 2.0], ["F/u 4 wks", 500, 400, 2.6]]
+      .forEach(([t, x, y, d]) => add(`<div class="bubble jargon pop" style="left:${x}px;top:${y}px;animation-delay:${d}s">${t}</div>`));
+    qs(220, 150); chip(0, "Today"); caption("A visit full of medical words");
+  },
+  home() {  // today: home, and nobody is sure what changed
+    today(); add(livingRoom());
+    add(svg(table(480, 470, 300) + pills(590, 470) + person({ ...MARIA, x: 360, y: 630, look: "confused" }) + person({ ...SOFIA, x: 920, y: 630, look: "confused", flip: true })));
+    add(`<div class="bubble tail-r pop" style="left:660px;top:110px;animation-delay:.3s">What did the doctor say, Mom?</div>`);
+    add(`<div class="bubble tail-l pop" style="left:250px;top:130px;animation-delay:1.6s">I… don't remember.</div>`);
+    qs(570, 280, 4); chip(0, "Today"); caption("Home again, and just as confused");
+  },
+  turn() {  // the same visit, with AI at 70
+    add(`<div class="turn"><div><img class="pop" src="${DATA.logo}"><small class="fadeup" ${delay(0.2)}>The same visit,</small><b class="fadeup" ${delay(0.7)}>with AI at 70</b></div></div>`);
+  },
   arrive() {  // Maria arrives and answers the check-in
     add(waitingRoom());
     add(svg(chair(400, 610) + person({ ...MARIA, x: 400, y: 610, pose: "sit", arm: "hold", prop: PROPS.tablet })));
-    add(`<div class="card slidein" style="left:620px;top:110px;width:520px;padding:26px 28px;animation-delay:.3s"><h3>Today's check-in</h3><div class="sub">A few simple questions</div>
-      ${[["Follow-up visit", 1.0], ["Help remembering medicines", 1.7], ["Share my summary with my daughter, Sofia", 2.4]]
+    add(`<div class="card slidein" style="left:620px;top:110px;width:520px;padding:26px 28px;animation-delay:0s"><h3>Today's check-in</h3><div class="sub">A few simple questions</div>
+      ${[["Follow-up visit", 0.4], ["Help remembering medicines", 0.75], ["Share my summary with my daughter, Sofia", 1.1]]
         .map(([t, d]) => `<div class="tick pop" style="animation-delay:${d}s"><i>✓</i>${t}</div>`).join("")}</div>`);
     chip(1, "Check-in"); caption("Maria arrives for her visit");
   },
@@ -261,7 +301,7 @@ const SCENES = {
     document.getAnimations().forEach((a) => a.finish());
   },
 };
-SCENES[P.get("scene") || "arrive"]();
+SCENES[P.get("scene") || "maria"]();
 
 // make_video.py pauses every animation and steps through time: window.seek(seconds)
 window.seek = (t) => document.getAnimations().forEach((a) => { a.pause(); a.currentTime = t * 1000; });
