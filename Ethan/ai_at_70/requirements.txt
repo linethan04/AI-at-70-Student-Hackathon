@@ -1,4 +1,0 @@
-imageio-ffmpeg
-ocrmac
-playwright
-pillow

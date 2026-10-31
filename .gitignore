@@ -6,26 +6,22 @@ __pycache__/
 .env
 
 # Audio and transcripts may contain PHI: never commit them
-**/recordings/
-**/transcripts/
+tools/transcription/recordings/
+tools/transcription/transcripts/
 *.wav
 *.mp3
 *.m4a
 
-# Cached public data (NLM drug list) and macOS files
-**/.cache/
+# Downloaded data and models (rebuild with scripts/setup/)
+tools/transcription/.cache/
+tools/plain_language/data/raw/
+tools/plain_language/data/medical_vocab.txt
+tools/translation/models/
+tools/voice/models/
+
+# Generated files
+tools/plain_language/output/
+scripts/video/build/
+
+# macOS
 .DS_Store
-
-# Downloaded test recordings and answer keys
-**/test_data/
-
-# Conversion library: downloaded sources, test notes and generated output (rebuild with the scripts)
-Ethan/conversion_library/data/raw/
-Ethan/conversion_library/data/medical_vocab.txt
-Ethan/conversion_library/test_notes/
-Ethan/conversion_library/output/
-Ethan/conversion_library/data/translation_models/
-Ethan/ai_at_70/test_kit/audio/
-Ethan/conversion_library/data/voices/
-Ethan/ai_at_70/demo/*.wav
-Ethan/ai_at_70/demo/video/

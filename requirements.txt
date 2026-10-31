@@ -1,0 +1,36 @@
+# Everything AI at 70 needs (Python 3.11+). Install once:  pip install -r requirements.txt
+
+# web servers and shared
+flask
+python-dotenv
+httpx
+pydantic
+anthropic                # optional: only used when ANTHROPIC_API_KEY is set
+
+# tools/transcription: recording and speech-to-text
+faster-whisper
+elevenlabs               # optional: only used when ELEVENLABS_API_KEY is set
+sounddevice
+rapidfuzz
+sherpa-onnx
+
+# tools/plain_language: plain-language summary
+textstat
+wordfreq
+pypdf
+openpyxl                 # scripts/setup/build_reader_baseline.py
+
+# tools/translation and tools/voice: offline translation and neural voices
+sentencepiece
+ctranslate2
+kokoro-onnx
+piper-tts
+soundfile
+numpy
+
+# scripts/run_ai_at_70.py: reading a photo of a note (macOS only)
+ocrmac
+
+# scripts/video: the demo video
+playwright
+imageio-ffmpeg

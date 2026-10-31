@@ -1,8 +1,0 @@
-[0:00] Clinician: Hello Mrs. Rodriguez. How have your legs been?
-[0:09] Patient: They are swollen, both of them, for about two weeks.
-[0:18] Clinician: Are you taking the metformin twice a day?
-[0:26] Patient: Only once in the morning. And I take the lisinopril too.
-[0:35] Clinician: The amlodipine may be causing the swelling, so we will lower it to five milligrams.
-[0:46] Clinician: We will raise the metformin to one thousand milligrams twice a day with meals.
-[0:57] Clinician: Please get blood and urine tests today, and see Doctor Lee in four weeks.
-[1:07] Clinician: If you have chest pain or trouble breathing, go to the emergency room or call nine one one.

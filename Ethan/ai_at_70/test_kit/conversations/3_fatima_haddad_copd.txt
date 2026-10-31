@@ -1,5 +1,0 @@
-[0:00] Clinician: Mrs. Haddad, how long have you been more short of breath?
-[0:09] Patient: Three days. I cough green phlegm and use my blue inhaler many times.
-[0:19] Clinician: This is a flare-up of your COPD from an infection. I will give you prednisolone for five days and doxycycline.
-[0:32] Clinician: Keep taking your apixaban.
-[0:39] Clinician: Come back in one week if you are not better. Call nine nine nine if your breathing gets very bad.

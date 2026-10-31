@@ -1,6 +1,0 @@
-[0:00] Clinician: Mr. Chen, your weight is up three pounds this week.
-[0:09] Patient: Yes. We ate out a lot. I get out of breath walking to the mailbox.
-[0:19] Clinician: We will take the furosemide twice a day for three days, then back to once a day.
-[0:30] Clinician: Please weigh yourself every morning and eat less salt.
-[0:39] Patient: My daughter Lily will help me with the food.
-[0:47] Clinician: Call us if you gain two pounds in a day. Go to the emergency room if you have trouble breathing at rest or you faint.

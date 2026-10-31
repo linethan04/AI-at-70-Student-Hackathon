@@ -34,96 +34,97 @@ Out of scope for now: health record (EHR) integration, patient accounts or login
 
 ## Repository layout
 
-The repo is early-stage. Each teammate has a working folder:
+Read [`docs/PROJECT_HISTORY.md`](docs/PROJECT_HISTORY.md) first: it has every request, decision and preference so far. The [README](README.md) has the full map; every folder has its own `README.md` with how to run it.
 
-- `Ethan/audio_workflow/` — audio input (pipeline step 1)
-  - `EL_audio.py`: records the visit from the mic (or takes a file) and transcribes it. Engines: ElevenLabs Scribe (`scribe_v2`, speaker labels, medical keyterms) or local `faster-whisper` (offline, no speaker labels). Writes `Ethan/audio_workflow/transcripts/<name>.txt` and `.json`; the JSON `segments` list (`speaker`, `start`, `end`, `text`) is the input contract for the Claude steps.
-  - `clean_transcript.py`: step 1b. Claude (`claude-opus-5-5`, structured output) assigns each sentence to Speaker 1/2/3 with a role, using conversation context (and ElevenLabs' acoustic labels as hints), and proposes fixes for garbled medical terms. Each fix is applied only if the term exists in an NLM vocabulary and sounds like what was heard; otherwise it's flagged. Claude never edits text directly; the script does the exact substitution. Writes `<name>.clean.txt` / `.clean.json`.
-  - `offline_cleanup.py`: no-API-key fallback used automatically by `clean_transcript.py`. Speakers are separated by voice (NVIDIA TitaNet speaker model via `sherpa-onnx`, run locally; sentences grouped by voice similarity); roles guessed from word use. Terms: unknown words fuzzy-matched (`rapidfuzz`) against RxNorm + a ~98k medical spelling list; strong matches corrected, weaker ones suggested. Can't decode multi-word garbles ("glitz preside"); Claude can.
-  - `medical_dictionary.py`: free NLM lookups, no key needed: RxNorm (drugs, generic and brand; full list cached in `Ethan/audio_workflow/.cache/`), RxClass (drug classes), ICD-10-CM and Conditions (diagnoses), LOINC (labs), HCPCS (procedures)
-  - `make_sample_audio.py`: builds a synthetic two-voice visit with macOS `say` for testing
-  - `app.py` + `static/`: web app (Flask). `/` is the simple mobile-first page (`static/site/`: Record / Upload audio, then the transcript); `/advanced` has settings and saved recordings. `--public` hides `/advanced` and browse-by-name routes so visitors only see their own result.
-  - `fetch_test_audio.py` / `evaluate.py`: download a PriMock57 mock GP consultation (CC BY 4.0) with its human transcript, and score the pipeline against it (word error rate, speaker accuracy, drug names found).
-- `Ethan/conversion_library/` — clinician notes → plain language (start of the printout / email / phone-call outputs)
-  - `build_dictionaries.py`: builds two dictionaries. **Medical vocabulary** (for detecting jargon): ~98k-word medical spelling list + RxNorm drug names + MedlinePlus technical names. **Lay dictionary** `data/lay_dictionary.json` (committed), following the Rules' source order: CDC Everyday Words (PDF), MedlinePlus health topics + lab tests, and the Federal Plain Language Guidelines word list (plainlanguage.gov, archived copy; for everyday non-medical words) as standard sources, plus Wikipedia's medical abbreviation lists (CC BY-SA, used only to expand abbreviations, not as plain wording). The Consumer Health Vocabulary needs a sign-up at GWU, so it isn't included yet. Safety rules built in: never rename a drug, MedlinePlus titles are the plain target, broader topics aren't treated as synonyms ("dizziness" ≠ "dizziness and vertigo"), disease words must map to a condition phrase ("hyperlipidemia" ≠ "cholesterol"), definitions must actually define the term.
-  - `convert_note.py`: layer 1 (offline): expands abbreviations (ambiguous ones resolved from context, e.g. "furosemide BD" → twice a day, else flagged), swaps jargon for standard-source plain words, keeps drug names and lab names and explains them, flags everything else as "no standard source", and flags dosing abbreviations. Layer 2 (`--claude`, needs `ANTHROPIC_API_KEY`): full plain-language rewrite at the target grade grounded in layer 1's word choices, then checks every number and drug name survived. Writes a clinician review copy `output/<note>.plain.md` (original vs. plain, word list, flags, sources).
-  - `data/simple_words.json`: hand-made simple wording (model knowledge) for common words no standard source covers ("bilaterally" → "on both sides", "abx", "5/7" → "5 days"). Used only after the standard sources; every use is flagged "no standard source". Edit freely. Its `phrases` table turns whole clinical phrases into what a person would say ("worsening breathlessness" → "your breathing has gotten worse", "referral to cardiology" → "you will be sent to a heart doctor"); keys starting with `~` are regular expressions. Phrases are matched before single words (the longest match wins), and a standard source's plain wording for the exact same phrase still wins.
-  - `make_printout.py`: offline layer 2, no API key. Regroups the note's headings into patient sections (what we found, what to do next, your medicines, when to come back or get help, tests, why you came in, history), leaves the exam off (listed for the clinician), splits into short bullets, applies plain-phrasing rules ("the patient" → "you", "denies" → "no"), and checks no number or medicine name went missing. Writes a large-print page `output/<note>.printout.html` with a clinician review panel (SMOG, flags, sentence changes, sources). Rule-based rewriting lowers Flesch-Kincaid but not SMOG to grade 5–7; that needs the Claude rewrite.
-  - `visit_summary.py`: the patient visit summary. Say each thing once, in its most basic form:
-    - **Your visit**: 2 sentences (3 at most): why you came in, then what the doctor found without repeating it ("Your blood sugar and blood pressure are still too high." for conditions "not at goal"). Long definitions only for words the reader wouldn't know.
-    - **Your medicines**: **plain category** (exact name from the note), e.g. **Blood pressure medicine** (Amlodipine). The category comes from the reason the note gives ("for rate control" → Heart rate medicine), else the drug class on its MedlinePlus page ("diuretics" → Water pill), else the use that fits the note. A bold instruction from the note with the amount in parentheses: "Take 1 pill (5 mg) each day." ("1 pill" is assumed from the dose and flagged for the clinician to confirm; never for grams or combination doses), or a blank line if the note has no dose. Tags: New / Higher dose / Lower dose / Stopped. A plan that only says "discuss" or "consider" a change is not shown as a change; it's flagged. Combination medicines stay together ("Sacubitril/valsartan"); vaccines go under next steps, not medicines. A problem the note blames on a medicine goes under it ("This medicine may be causing the swelling in both legs.").
-    - **What to do next**: direct commands: what, when, with whom, not why ("Go to the lab today for blood tests (TSH, CBC and BMP).", "You will be sent to a heart doctor.", "You will get a heart scan (echocardiogram).", "Go to your follow-up visit in 4 weeks with Dr. Lee (Internal Medicine)."). When to get help: who to call, then "if you have …"; a long list is split in two sentences.
-    Changed words stay highlighted on screen (medical: red struck → green; everyday: purple struck → blue); the printed copy shows plain words. Readability is judged by the reader check (`reader.py`), not SMOG: up to 6 rewrites until a reader at the chosen grade knows 98+ of every 100 words with short sentences; the best try is always shown. Other checks: sounds like everyday talk (no word or phrase from `reader.DOCTOR_TALK` left outside parentheses), every medicine listed, every number kept or in the clinician's "left out" list, no jargon left. `--claude` uses the same rules and sends Claude the check results until it passes.
-  - `reader.py` + `build_reader_baseline.py`: the reader model. A word counts as known if most students know it by the target grade (default 5; Living Word Vocabulary, Brysbaert & Biemiller 2017) or, for words not in that list, 99% of adults know it (word prevalence, Brysbaert et al. 2019). Because the readers are adults, a word first tested by grade 8 (the list tests at grades 4, 6, 8, …) also counts if 99% of adults know it ("urine", "diabetes", "cholesterol"). Both datasets come from OSF; `data/word_knowledge.json` is committed. Medicine names, numbers, words explained in the text and names kept in parentheses ("(echocardiogram)") don't count. `DOCTOR_TALK` lists clinician wording a patient wouldn't say ("worsening", "severe", "shortness of breath", "referral"); the summary swaps these at every try. SMOG is still reported for reference.
-  - `drug_info.py`: what a medicine does, from MedlinePlus drug information via RxNav + MedlinePlus Connect (UK names mapped to US ones). Cached in `data/drug_info.json` (committed); new medicines are looked up once, online.
-  - `app.py` + `templates/`: web page (Flask, port 5051) to paste / upload (.txt, .pdf) a note or pick a sample. Shows the summary and a clinician checklist (with Select all); "Print patient copy" unlocks only after every item is ticked. Untick "Show changes" for the patient's view. `samples/` holds synthetic notes.
-  - `deliver.py`: the three outputs from the checked English summary: the printout page, an email to the patient or an authorized family member (next of kin), and a phone script written to be heard ("5 milligrams", "9 1 1", parentheses read as pauses, the changed medicines and when-to-get-help repeated at the end). Family versions say up front that "you" means the patient.
-  - `voices.py` + `build_voices.py`: the phone-call voice, neural text-to-speech made on this computer: Kokoro v1.0 (`kokoro-onnx`; English af_heart, Spanish ef_dora, Portuguese pf_dora), Kokoro through sherpa-onnx with its Chinese lexicon (Mandarin), Piper ar_JO-kareem (`piper-tts`, Arabic). ~770 MB in `data/voices/` (git-ignored). The page plays the script line by line, preparing the next line while one plays.
-  - `translate.py` + `build_translation_models.py`: translation into Mandarin, Spanish, Portuguese and Arabic, always from the checked plain-language English, line by line. Medicine names, test names, doses, doctor names and phone numbers are swapped for placeholders first so they stay exactly as written. Offline engine: Argos Translate's OPUS-MT models run locally with CTranslate2 (~900 MB in `data/translation_models/`, git-ignored; `build_translation_models.py` downloads them). With `ANTHROPIC_API_KEY`, Claude translates and the offline model still does the back-translation check. Every line is back-translated to English; lines whose meaning may have drifted or that lost a number are flagged with the English, the translation and the back-translation. Page headings and tags are fixed hand-written labels per language (`LABELS`); words the summary repeats (medicine labels, "Take 1 pill", "swelling", common instructions) use fixed everyday wording per language (`GLOSSARY`, `WHOLE_LINES`; Spanish so far) so a page says them the same way every time, still flagged for review. Offline quality: Spanish and Portuguese are usually close; Mandarin and Arabic get many flags, so use Claude or a qualified reviewer before sending.
-  - `fetch_test_notes.py` / `run_tests.py`: download PriMock57 clinician notes (57) and MTSamples general medicine + discharge summaries (~120), run the converter and printout on all, and write `output/test_report.md`. `--summaries` runs only the visit summary on `samples/` and the primary care notes and writes `output/summaries.html` (each summary with its checks, linked).
-- `Ethan/ai_at_70/app.py` — the clinician's page, joining the finished tools (Flask, port 5070). Serves `Ethan/ai_at_70/static/index.html` (the page, from Max's design) and the check-in questionnaire (`/questionnaire`, `static/questionnaire.html`, a copy of Max's), mounts the Visit Recorder at `/audio`, and adds `/api/summary` (visit_summary.py on the clinician note) and `/api/outputs` (deliver.py + translate.py). Flow: landing page → 1 check-in JSON (sets the language and who consented to get the summary) → 2 conversation (record, upload audio, or paste; or Skip) → 3 clinician note (type, .txt/.pdf, or a photo of a written note read with macOS text recognition via `ocrmac`, with common misreadings like "9ll" → "911" fixed and shown) → write the summary, always at a 5th-grade reading level → 4 review: the patient's page on the left (patient view or show changes; click a sentence to edit it), the clinician checklist on the right (Select all; inputs that disagree, medicines, changed words, translation flags), language buttons for all three outputs → approve (every item ticked + name) → 5 print, email draft (mailto, only to people with consent), or phone script (read it, play it in the neural voice for that language, or dial). The automatic checks are a dropdown under those tabs. Changing the language or editing removes the approval. Cross-checks: medicines in the conversation or on the check-in but not in the note, and check-in allergies that match a medicine in the note. The offline summary uses the note only; with Claude, the conversation and check-in are context (disagreements become flags).
-  - `demo/`: the demo video, one story throughout (Maria Rodriguez, 78; her daughter Sofia; Dr. Lee). `maria_checkin.json`, `maria_conversation.txt`, `maria_note.txt` (Dr. Lee's typed note), `make_note_photo.py` (a photo of the same note, for testing photo upload), `capture_app.py` (records the real page with Chrome's fake microphone playing the visit), `cartoon.html` (the cartoon scenes: modern flat style, people with ordinary human proportions; built like a 60-second ad: the problem today (a visit full of jargon, a confused home), the turn, then one appointment with AI at 70: simple check-in on arrival, Dr. Lee's typed notes, Dr. Lee introduces AI at 70 with its inputs and outputs, the real recording screen (a helpful supplement), uploading the typed note `maria_note.txt` (no photo), approval, translation (Spanish, Mandarin, Portuguese or Arabic; Spanish shown), the printout Maria leaves with, Sofia's email and phone call at home, "nobody's guessing"; ~82 s; captions follow the narration, no emojis) and `make_video.py` (renders the cartoon frame by frame, cuts the recording into a browser window on a matching backdrop, crossfades every cut, adds one continuous Kokoro voiceover (about 190 words, real pauses, never cut off) and the phone voice; narration text says "AI" so it's read "ay-eye", and "Doctor Lee"; ~60 s → `demo/video/ai_at_70_demo.mp4`, git-ignored). `VIDEO_PROMPT.md` is a copy-pasteable prompt for making the same video with other models.
-  - `test_kit/`: five made-up patients (Spanish, Mandarin, Arabic, Portuguese, English), each a check-in JSON + a matching sample note + a conversation (.txt; `make_test_audio.py` voices them as .wav, git-ignored), and `README.md`, a page-by-page walkthrough of what each one shows (dose changes, an allergy warning, medicines the note leaves out, family-only consent).
-- `Max/` — check-in questionnaire (`PCP_Questionnaire_5_Languages_With_Name_And_DOB.html`: English, Mandarin, Spanish, Portuguese, Arabic; exports JSON) (the AI at 70 page that started here now lives in `Ethan/ai_at_70/static/`)
-- `Jason/`, `Tanner/` — personal scratch folders (placeholders for now)
+- `scripts/`: the main scripts (run these from the repository root).
+  - `run_ai_at_70.py`: the app (Flask, port 5070). Serves `outputs/interface/index.html` at `/` and the check-in form at `/questionnaire`, and mounts `tools/transcription/app.py` at `/audio`. It also provides:
+    - `/api/read-file`: .txt, .pdf, or a photo read with macOS text recognition (`ocrmac`), with misreadings like "9ll" → "911" fixed
+    - `/api/summary`: `visit_summary.py`, plus cross-checks against the check-in and conversation
+    - `/api/outputs`: `deliver.py` + `translate.py`
+    - `/api/speak`: `voices.py`
+    - `/api/config`
+  - The app's flow:
+    1. Landing page.
+    2. Check-in JSON, which sets the language and who consented.
+    3. Conversation: record, upload, paste, or Skip. It's optional but adds helpful detail.
+    4. Clinician note: typed or uploaded.
+    5. Summary, always at a 5th-grade level.
+    6. Review: the patient's page and the checklist (Select all, language buttons, the automatic checks as a dropdown).
+    7. Approve, then print, open an email draft (consenting recipients only), or phone script (read it, or play it in the neural voice).
 
-Shared code should move into a common package (e.g. `app/` or `src/`) once pieces start connecting. Update this file when that happens.
+    Editing or changing the language removes the approval. The offline summary uses the note only; with Claude, the conversation and check-in are context, and disagreements become flags.
+  - `setup/`: `build_translation_models.py` (→ `tools/translation/models/`, ~900 MB), `build_voices.py` (→ `tools/voice/models/`, ~770 MB), `build_dictionaries.py` (lay dictionary + `medical_vocab.txt`), `build_reader_baseline.py` (`word_knowledge.json`).
+  - `video/`: the demo video.
+    - **Inputs:** Maria's made-up visit (`maria_checkin.json`, `maria_conversation.txt`, `maria_note.txt`).
+    - `make_visit_audio.py`: voices the conversation (macOS `say`).
+    - `capture_app.py`: records the real app with Chrome's fake microphone, and saves the printouts, the family email, the phone lines and the logo to `build/`.
+    - `cartoon.html`: the scenes, in a modern flat style with ordinary human proportions.
+    - `make_video.py`:
+      - holds the story and narration (`STORY`)
+      - renders the scenes frame by frame and crossfades every cut
+      - adds one continuous Kokoro voiceover (`af_bella`) and the phone voice (`af_heart`)
+      - writes `outputs/video/ai_at_70_demo.mp4`
+
+    Narration says "AI" (read "ay-eye") and "Doctor Lee". Captions follow the narration. No emojis, no photo of notes. After a rebuild, check `build/audio.wav` with speech-to-text.
+- `tools/`: the main tools; each also runs on its own.
+  - `questionnaire/questionnaire.html`: the patient check-in. English, Mandarin, Spanish, Portuguese and Arabic; exports JSON.
+  - `transcription/`: the visit audio, in four parts:
+    - `EL_audio.py` records or loads, then transcribes. ElevenLabs Scribe when `ELEVENLABS_API_KEY` is set (speaker labels, medical keyterms); otherwise local `faster-whisper`. It writes `transcripts/<name>.txt` and `.json`; the JSON `segments` list (`speaker`, `start`, `end`, `text`) is the input format for later steps.
+    - `clean_transcript.py` uses Claude to assign speakers and propose fixes for misheard medical terms. A fix is applied only if the term exists in an NLM vocabulary and sounds alike; otherwise it is flagged. Claude never edits text directly.
+    - `offline_cleanup.py` is the no-key fallback: TitaNet speaker separation via `sherpa-onnx`, and fuzzy matching against RxNorm and a ~98k medical word list.
+    - `medical_dictionary.py` does free NLM lookups: RxNorm, RxClass, ICD-10-CM, Conditions, LOINC and HCPCS.
+
+    Its own web page is `app.py` + `static/` (port 5050; `--public` hides `/advanced`).
+  - `plain_language/`: clinician note → plain-language summary → outputs.
+    - `visit_summary.py`: the summary, with "Your visit" (2–3 sentences), "Your medicines" (**plain category** (exact name), tags New/Higher dose/Lower dose/Stopped, one action line from the note) and "What to do next" (direct commands; when to get help).
+      - Up to 6 rewrites until the reader check passes; the best try is always shown.
+      - Other checks: everyday talk (no `reader.DOCTOR_TALK` outside parentheses), every medicine listed, every number kept or in the "left out" list, no jargon.
+      - `--claude` uses the same rules.
+    - `reader.py`: the reader model. A word counts as known if most students know it by the target grade (Living Word Vocabulary). For words not in that list, it counts if 99% of adults know it (word prevalence). A word first tested by grade 8 also counts if 99% of adults know it. `DOCTOR_TALK` lists clinician wording a patient wouldn't say.
+    - `convert_note.py`: the word level. Expands abbreviations (ambiguous ones are resolved from context, else flagged) and swaps jargon for standard-source wording. The `phrases` table in `data/simple_words.json` (keys starting with `~` are regular expressions) turns clinical phrases into spoken ones; phrases match before single words, the longest match wins, and a standard source's wording for the same phrase still wins. Everything else is flagged "no standard source".
+    - `drug_info.py`: what a medicine is for (MedlinePlus via RxNav + Connect; cached in `data/drug_info.json`; UK names mapped to US).
+    - `make_printout.py`: shared page building and templates.
+    - `deliver.py`: the printout, the email (family versions say "you" means the patient) and the phone script (written to be heard: "5 milligrams", "9 1 1", parentheses read as pauses, the key points repeated).
+    - Data in `data/`: `lay_dictionary.json` (CDC Everyday Words, MedlinePlus, plainlanguage.gov; Wikipedia only for abbreviations), `simple_words.json` (hand-made, flagged), `word_knowledge.json`, `drug_info.json`.
+  - `translation/translate.py`: Mandarin, Spanish, Portuguese and Arabic, always from the checked English, line by line.
+    - Names, tests, doses, doctor names and phone numbers become placeholders.
+    - `GLOSSARY` and `WHOLE_LINES` hold fixed everyday wording so repeated words read the same every time (Spanish so far).
+    - `LABELS` holds the page headings for each language.
+    - Every line is back-translated and flagged on drift or a lost number.
+    - Offline engine: Argos Translate OPUS-MT via CTranslate2. Claude translates when `ANTHROPIC_API_KEY` is set.
+  - `voice/voices.py`: phone-call voices on this computer: Kokoro (`af_heart`, `ef_dora`, `pf_dora`; Mandarin via sherpa-onnx) and Piper `ar_JO-kareem` for Arabic.
+- `outputs/`: the products. `interface/index.html` is the app page (needs the server), with screenshots. `video/` holds `ai_at_70_demo.mp4` and `VIDEO_PROMPT.md`, a prompt for remaking the video with other AI tools.
+- `docs/PROJECT_HISTORY.md`: the project's history and decisions. `REFERENCES.md`: every source.
+
+Keep this layout: final versions only, no per-person folders, a `README.md` in every folder, and update this file and the READMEs when something changes.
 
 ## How to run
 
-No app entry point exists yet, and the stack isn't fixed. Each component can use whatever language or tooling its author prefers.
-
-Audio transcription (`Ethan/audio_workflow/`, Python):
-
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
-pip install -r Ethan/audio_workflow/requirements.txt
-python Ethan/audio_workflow/make_sample_audio.py                                   # synthetic test visit (macOS)
-python Ethan/audio_workflow/EL_audio.py transcribe Ethan/audio_workflow/recordings/sample_visit.wav --keyterms "lisinopril,metformin,A1C"
-python Ethan/audio_workflow/EL_audio.py record                                     # live mic; press Enter to stop
-python Ethan/audio_workflow/EL_audio.py transcribe <file.wav> --clean              # + speakers and medical term check
-python Ethan/audio_workflow/clean_transcript.py Ethan/audio_workflow/transcripts/<name>.json [--num-speakers 2]   # cleanup on its own
-python Ethan/audio_workflow/medical_dictionary.py medication glipizide             # check a single term
-python Ethan/audio_workflow/app.py                                                 # web app: http://localhost:5050 (full settings at /advanced)
-python Ethan/audio_workflow/app.py --public & cloudflared tunnel --protocol http2 --url http://localhost:5050   # phone access: prints an https://….trycloudflare.com link (brew install cloudflared)
+pip install -r requirements.txt
+python scripts/setup/build_dictionaries.py          # once: medical word list for the summary (~35 MB of downloads)
+python scripts/setup/build_translation_models.py    # once: offline translation (~900 MB)
+python scripts/setup/build_voices.py                # once: phone-call voices (~770 MB)
+python scripts/run_ai_at_70.py                      # the app: http://localhost:5070
+
+# tools on their own
+python tools/plain_language/visit_summary.py scripts/video/maria_note.txt --name "Maria Rodriguez" [--claude]
+python tools/plain_language/convert_note.py <note.txt> [--claude] [--grade 5]
+python tools/plain_language/reader.py "Some text"
+python tools/translation/translate.py es "Take 1 pill (5 mg) each day."
+python tools/voice/voices.py en "Take 1 pill, 5 milligrams, each day." out.wav
+python tools/transcription/EL_audio.py transcribe <file.wav> --clean
+python tools/transcription/app.py                   # transcription page: http://localhost:5050
+
+# the demo video (macOS, Chrome; the app must be running)
+python scripts/video/make_visit_audio.py && python scripts/video/capture_app.py && python scripts/video/make_video.py
 ```
 
-Plain-language conversion (`Ethan/conversion_library/`, Python):
-
-```bash
-pip install -r Ethan/conversion_library/requirements.txt
-python Ethan/conversion_library/build_dictionaries.py        # only needed to refresh data/lay_dictionary.json (~35 MB of downloads)
-python Ethan/conversion_library/convert_note.py <note.txt> [--claude] [--grade 5]
-python Ethan/conversion_library/make_printout.py <note.txt> [--name "Mary Smith"]   # offline printout
-python Ethan/conversion_library/visit_summary.py <note.txt> [--name "Mary Smith"] [--grade 5|6|7] [--claude]   # writes output/<note>.summary.html
-python Ethan/conversion_library/reader.py "Some text"          # what a grade-7 reader would know
-python Ethan/conversion_library/build_reader_baseline.py      # only to refresh data/word_knowledge.json
-python Ethan/conversion_library/app.py                        # web page: http://localhost:5051
-python Ethan/conversion_library/fetch_test_notes.py && python Ethan/conversion_library/run_tests.py
-python Ethan/conversion_library/run_tests.py --summaries      # visit summaries only: samples + 134 primary care notes -> output/summaries.html
-python Ethan/conversion_library/build_translation_models.py   # once: offline Mandarin/Spanish/Portuguese/Arabic models (~900 MB)
-python Ethan/conversion_library/translate.py es "Take 1 pill (5 mg) each day."   # one line, with its back-translation
-```
-
-AI at 70 (the clinician's page: all inputs and outputs together):
-
-```bash
-pip install -r Ethan/conversion_library/requirements.txt -r Ethan/audio_workflow/requirements.txt -r Ethan/ai_at_70/requirements.txt
-python Ethan/conversion_library/build_translation_models.py   # once, for the language buttons
-python Ethan/ai_at_70/app.py                                  # http://localhost:5070
-python Ethan/conversion_library/build_voices.py              # once, for the phone-call voices (~770 MB)
-python Ethan/ai_at_70/test_kit/make_test_audio.py             # optional: test recordings for the audio upload (macOS)
-python Ethan/ai_at_70/demo/make_note_photo.py && python Ethan/ai_at_70/demo/capture_app.py && python Ethan/ai_at_70/demo/make_video.py   # the demo video (server running)
-```
-
-`convert_note.py` and `run_tests.py` also need `data/medical_vocab.txt` and `data/raw/rxnorm_display_names.json`, which `build_dictionaries.py` creates (git-ignored).
-
-`--clean` and `clean_transcript.py` use Claude when `ANTHROPIC_API_KEY` is in `.env`, and otherwise fall back to the offline method (`--engine auto|claude|offline`). The first offline run downloads the speaker model (~40 MB) and medical word list into `Ethan/audio_workflow/.cache/`.
-
-The engine defaults to ElevenLabs when `ELEVENLABS_API_KEY` is set (in `.env` or the environment), otherwise local Whisper. Force one with `--engine elevenlabs|whisper`. Recordings and transcripts are git-ignored.
-
-- Put secrets in a local `.env` (git-ignored); never hard-code API keys.
-- Whenever a component gets dependencies or an entry point (`requirements.txt`, `package.json`, a server, a frontend), add its exact install and run commands here.
+- Use `.venv`, not Anaconda's Python. "Address already in use" means the server is already running.
+- Secrets go in a local `.env` (git-ignored): `ANTHROPIC_API_KEY`, `ELEVENLABS_API_KEY`. Without them, everything runs offline. Never hard-code keys.
+- Recordings, transcripts, models and generated files are git-ignored (see `.gitignore`).
+- When a component gets new dependencies or an entry point, add them to `requirements.txt` and its README.
 
 ## Rules
 
