@@ -11,3 +11,7 @@ __pycache__/
 *.wav
 *.mp3
 *.m4a
+
+# Cached public data (NLM drug list) and macOS files
+**/.cache/
+.DS_Store

@@ -7,6 +7,7 @@ Usage:
     python Ethan/EL_audio.py record                  # record mic until Enter, then transcribe
     python Ethan/EL_audio.py transcribe visit.wav    # transcribe an existing file
     python Ethan/EL_audio.py transcribe visit.wav --engine whisper --keyterms "metformin,lisinopril"
+    python Ethan/EL_audio.py transcribe visit.wav --clean   # + speaker separation and medical term check
 
 Engines:
     elevenlabs  ElevenLabs Scribe (cloud). Speaker diarization + medical keyterm biasing.
@@ -117,11 +118,35 @@ def transcribe_whisper(audio_path: Path, keyterms: list[str]) -> list[dict]:
     model = WhisperModel(WHISPER_MODEL, device="cpu", compute_type="int8")
     # Whisper has no keyterm API, but an initial prompt nudges spelling of uncommon words.
     prompt = ("Medical appointment. Terms: " + ", ".join(keyterms)) if keyterms else None
-    segments, _info = model.transcribe(str(audio_path), initial_prompt=prompt, vad_filter=True)
-    return [
-        {"speaker": "Speaker", "start": s.start, "end": s.end, "text": s.text.strip()}
-        for s in segments
-    ]
+    segments, _info = model.transcribe(str(audio_path), initial_prompt=prompt, vad_filter=True, word_timestamps=True)
+    return split_sentences(w for s in segments for w in s.words)
+
+
+PAUSE_SPLIT_SECONDS = 0.8
+
+
+def split_sentences(words) -> list[dict]:
+    """Cut Whisper's words into sentences (and at long pauses). Whisper doesn't know who is
+    talking, so its segments often span two speakers; sentence-sized pieces let
+    clean_transcript.py assign each one to the right speaker."""
+    out: list[dict] = []
+    cur = None
+    for w in words:
+        if cur and w.start - cur["end"] > PAUSE_SPLIT_SECONDS:
+            out.append(cur)
+            cur = None
+        if cur is None:
+            cur = {"speaker": "Speaker", "start": w.start, "end": w.end, "text": ""}
+        cur["text"] += w.word
+        cur["end"] = w.end
+        if w.word.rstrip().endswith((".", "?", "!")):
+            out.append(cur)
+            cur = None
+    if cur:
+        out.append(cur)
+    for seg in out:
+        seg["text"] = seg["text"].strip()
+    return [s for s in out if s["text"]]
 
 
 ENGINES = {"elevenlabs": transcribe_elevenlabs, "whisper": transcribe_whisper}
@@ -166,6 +191,9 @@ def main() -> None:
         p.add_argument("--engine", choices=ENGINES,
                        default="elevenlabs" if os.getenv("ELEVENLABS_API_KEY") else "whisper")
         p.add_argument("--keyterms", default="", help="comma-separated medical terms to recognize, e.g. 'metformin,A1C'")
+        p.add_argument("--clean", action="store_true",
+                       help="then run clean_transcript.py (speaker separation + medical term check)")
+        p.add_argument("--num-speakers", type=int, help="with --clean: how many people were in the room, if known")
     args = parser.parse_args()
 
     if args.command == "record":
@@ -182,6 +210,10 @@ def main() -> None:
 
     print("\n" + txt_path.read_text())
     print(f"Saved {txt_path}\nSaved {json_path}")
+
+    if args.clean:
+        from clean_transcript import clean_transcript
+        clean_transcript(json_path, num_speakers=args.num_speakers)
 
 
 if __name__ == "__main__":

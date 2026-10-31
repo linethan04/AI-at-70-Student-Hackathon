@@ -1,5 +1,8 @@
+anthropic
 elevenlabs
 faster-whisper
+httpx
+pydantic
 sounddevice
 soundfile
 numpy

@@ -33,6 +33,8 @@ The repo is early-stage. Each teammate has a working folder:
 
 - `Ethan/` — audio input (pipeline step 1)
   - `EL_audio.py`: records the visit from the mic (or takes a file) and transcribes it. Engines: ElevenLabs Scribe (`scribe_v2`, speaker labels, medical keyterms) or local `faster-whisper` (offline, no speaker labels). Writes `Ethan/transcripts/<name>.txt` and `.json`; the JSON `segments` list (`speaker`, `start`, `end`, `text`) is the input contract for the Claude steps.
+  - `clean_transcript.py`: step 1b. Claude (`claude-opus-5-5`, structured output) assigns each sentence to Speaker 1/2/3 with a role, using conversation context (and ElevenLabs' acoustic labels as hints), and proposes fixes for garbled medical terms. Each fix is applied only if the term exists in an NLM vocabulary **and** sounds like what was heard; otherwise it's flagged. Claude never edits text directly; the script does the exact substitution. Writes `<name>.clean.txt` / `.clean.json`.
+  - `medical_dictionary.py`: free NLM lookups, no key needed: RxNorm (drugs, generic and brand; full list cached in `Ethan/.cache/`), RxClass (drug classes), ICD-10-CM and Conditions (diagnoses), LOINC (labs), HCPCS (procedures)
   - `make_sample_audio.py`: builds a synthetic two-voice visit with macOS `say` for testing
 - `Jason/`, `Max/`, `Tanner/` — personal scratch folders (placeholders for now)
 
@@ -50,7 +52,12 @@ pip install -r Ethan/requirements.txt
 python Ethan/make_sample_audio.py                                   # synthetic test visit (macOS)
 python Ethan/EL_audio.py transcribe Ethan/recordings/sample_visit.wav --keyterms "lisinopril,metformin,A1C"
 python Ethan/EL_audio.py record                                     # live mic; press Enter to stop
+python Ethan/EL_audio.py transcribe <file.wav> --clean              # + speakers and medical term check
+python Ethan/clean_transcript.py Ethan/transcripts/<name>.json [--num-speakers 2]   # cleanup on its own
+python Ethan/medical_dictionary.py medication glipizide             # check a single term
 ```
+
+`--clean` and `clean_transcript.py` need `ANTHROPIC_API_KEY` in `.env`.
 
 The engine defaults to ElevenLabs when `ELEVENLABS_API_KEY` is set (in `.env` or the environment), otherwise local Whisper. Force one with `--engine elevenlabs|whisper`. Recordings and transcripts are git-ignored.
 
