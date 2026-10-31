@@ -1,0 +1,31 @@
+{%- macro segment(x) -%}
+{%- if x.kind == "med" -%}<span class="chg"><del class="orig-med">{{ x.text }}</del> <span class="plain-med">{{ x.plain }}</span></span>
+{%- elif x.kind == "word" -%}<span class="chg"><del class="orig-word">{{ x.text }}</del> <span class="plain-word">{{ x.plain }}</span></span>
+{%- elif x.kind in ("keep", "drug") -%}<span class="kept">{{ x.text }}</span>{% if x.plain %} <span class="plain-med">({{ x.plain }})</span>{% endif %}
+{%- else -%}{{ x.text }}{%- endif -%}
+{%- endmacro -%}
+<article class="printout">
+  <header class="pr-head">
+    <h1>Your visit summary</h1>
+    <dl>
+      <div><dt>Patient</dt><dd>{{ name or "______________________" }}</dd></div>
+      <div><dt>Visit date</dt><dd>{{ visit_date }}</dd></div>
+    </dl>
+  </header>
+
+  {% for key, title in sections.items() %}{% if s.sections[key] %}
+  <section class="pr-section">
+    <h2>{{ title }}</h2>
+    <ul>
+      {% for item in s.sections[key] %}
+      <li{% if (key, loop.index0) in s.urgent %} class="urgent"{% endif %}>{% for x in item %}{{ segment(x) }}{% endfor %}</li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}{% endfor %}
+
+  <footer class="pr-foot">
+    <p>Questions? Call your doctor's office{% if phone %}: <strong>{{ phone }}</strong>{% else %}: ____________________{% endif %}</p>
+    <p class="small">Reviewed by: ____________________ &nbsp; Date: ____________</p>
+  </footer>
+</article>

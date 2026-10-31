@@ -10,6 +10,9 @@
      - CDC Everyday Words for Public Health Communication (2016)  "Acute" -> "sudden; ..."
      - MedlinePlus health topics (NLM)        "Hypertension" -> "high blood pressure"
      - MedlinePlus lab tests (NLM)            "HbA1c" -> "a blood test that shows your average..."
+     - Federal Plain Language Guidelines, "Use simple words and phrases" (plainlanguage.gov)
+       for everyday (non-medical) wording: "approximately" -> "about". The live site moved to
+       digital.gov and dropped the table, so it's read from the Internet Archive copy (Dec 2024).
    standard = False (nameable, but not a plain-language standard; used only to EXPAND):
      - Wikipedia "List of medical abbreviations" (CC BY-SA 4.0)    "BID" -> "twice a day"
    The Consumer Health Vocabulary (CHV) is the next source in CLAUDE.md, but its files sit
@@ -48,11 +51,16 @@ MEDLINEPLUS_LAB_INDEX = "https://medlineplus.gov/lab-tests/"
 WIKIPEDIA_API = "https://en.wikipedia.org/w/api.php"
 MEDICAL_WORDLIST_URL = "https://raw.githubusercontent.com/glutanimate/wordlist-medicalterms-en/master/wordlist.txt"
 RXNORM_NAMES_URL = "https://rxnav.nlm.nih.gov/REST/displaynames.json"
+PLAIN_LANGUAGE_URL = ("https://web.archive.org/web/20241217004940/"
+                      "https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/")
 
 SOURCES = {
     "CDC Everyday Words": {"url": CDC_PDF_URL, "standard": True, "rank": 1},
     "MedlinePlus": {"url": "https://medlineplus.gov/", "standard": True, "rank": 1},
     "MedlinePlus Lab Tests": {"url": MEDLINEPLUS_LAB_INDEX, "standard": True, "rank": 1},
+    "plainlanguage.gov": {"url": PLAIN_LANGUAGE_URL, "standard": True, "rank": 2,
+                          "name": "Federal Plain Language Guidelines: Use simple words and phrases (plainlanguage.gov, "
+                                  "archived Dec 2024)"},
     "Wikipedia: List of medical abbreviations": {
         "url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations", "standard": False, "rank": 9},
 }
@@ -146,6 +154,26 @@ def parse_cdc(refresh: bool) -> list[dict]:
         for v in variants:
             entries.append({"term": v, "plain": None if context_dependent else first_choice, "explain": meaning,
                             "kind": "word", "source": "CDC Everyday Words", "context_dependent": context_dependent})
+    return entries
+
+
+def parse_plain_language(refresh: bool) -> list[dict]:
+    """'Don't say / Say' table: "accompany" -> "go with", "utilize, utilization" -> "use"."""
+    page = download(PLAIN_LANGUAGE_URL, RAW / "plainlanguage_simple_words.html", refresh).read_text()
+    table = page[page.find("<table"):page.find("</table>")]
+    entries = []
+    for row in re.findall(r"<tr>(.*?)</tr>", table, re.S):
+        cells = [clean(html.unescape(re.sub(r"<[^>]+>", " ", c))) for c in re.findall(r"<td[^>]*>(.*?)</td>", row, re.S)]
+        if len(cells) != 2 or not cells[1]:
+            continue
+        say = re.split(r"[,;(]| or ", cells[1])[0].strip()
+        if not say or "(" in cells[0] or cells[0].lower().startswith(("a ", "your ")):
+            continue  # "a and/or b", "/ (slash)", "your office": patterns, not words
+        for variant in cells[0].split(","):
+            variant = variant.strip().lower()
+            if re.fullmatch(r"[a-z][a-z' -]+", variant) and say.lower() != variant:
+                entries.append({"term": variant, "plain": say, "explain": None, "kind": "wording",
+                                "source": "plainlanguage.gov", "source_url": PLAIN_LANGUAGE_URL})
     return entries
 
 
@@ -324,10 +352,13 @@ def build(refresh: bool) -> None:
     print("Wikipedia medical abbreviations...")
     abbrevs = parse_abbreviations(refresh)
     print(f"  {len(abbrevs)} abbreviations")
+    print("plainlanguage.gov simple words...")
+    wording = parse_plain_language(refresh)
+    print(f"  {len(wording)} entries")
 
     # Merge by term; better-ranked sources come first. Abbreviations are case-sensitive.
     merged: dict[str, dict] = {}
-    for entry in sorted(cdc + mplus + labs + abbrevs, key=lambda e: SOURCES[e["source"]]["rank"]):
+    for entry in sorted(cdc + mplus + labs + wording + abbrevs, key=lambda e: SOURCES[e["source"]]["rank"]):
         key = entry["term"]
         entry["standard"] = SOURCES[entry["source"]]["standard"]
         entry["source_url"] = entry.get("source_url") or SOURCES[entry["source"]]["url"]
@@ -347,7 +378,7 @@ def build(refresh: bool) -> None:
     LAY_DICTIONARY.write_text(json.dumps({
         "built": date.today().isoformat(),
         "sources": SOURCES,
-        "attribution": "CDC and MedlinePlus content is U.S. government work. Abbreviation expansions from Wikipedia "
+        "attribution": "CDC, MedlinePlus and plainlanguage.gov content is U.S. government work. Abbreviation expansions from Wikipedia "
                        "'List of medical abbreviations', CC BY-SA 4.0.",
         "entries": sorted(merged.values(), key=lambda e: e["term"].lower()),
     }, indent=1, ensure_ascii=False))

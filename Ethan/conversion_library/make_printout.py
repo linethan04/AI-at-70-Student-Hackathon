@@ -34,6 +34,7 @@ HERE = Path(__file__).resolve().parent
 TEMPLATES = HERE / "templates"
 FLAG_ON, FLAG_OFF, WORD_ON, WORD_OFF = "\x01", "\x02", "\x03", "\x04"  # markers around flagged / explained words
 MARKERS = FLAG_ON + FLAG_OFF + WORD_ON + WORD_OFF
+INDEX = "\x05"  # "\x01plain\x0512\x02": marked word that came from finding 12
 ONE_PAGE_WORDS = 380  # about what fits on one page at 16pt with headings
 
 # Patient sections, in the order the printout shows them (CLAUDE.md: lead with what matters most).
@@ -108,10 +109,10 @@ YOU_RULES = [
 ]
 # After the phrase rules, which can leave "you also has" ("Patient also c/o ...")
 AGREEMENT_RULES = [
-    (r"\byou([\x02\x04]?) ((?:also|still|now|only) )?([\x01\x03]?)has\b", r"you\1 \2\3have"),
-    (r"\byou([\x02\x04]?) ((?:also|still|now|only) )?([\x01\x03]?)is\b", r"you\1 \2\3are"),
-    (r"\byou([\x02\x04]?) ((?:also|still|now|only) )?([\x01\x03]?)was\b", r"you\1 \2\3were"),
-    (r"\byou([\x02\x04]?) ((?:also|still|now|only) )?([\x01\x03]?)(report|state)s\b", r"you\1 \2\3\4"),
+    (r"\byou((?:\x05\d+)?[\x02\x04]?) ((?:also|still|now|only) )?([\x01\x03]?)has\b", r"you\1 \2\3have"),
+    (r"\byou((?:\x05\d+)?[\x02\x04]?) ((?:also|still|now|only) )?([\x01\x03]?)is\b", r"you\1 \2\3are"),
+    (r"\byou((?:\x05\d+)?[\x02\x04]?) ((?:also|still|now|only) )?([\x01\x03]?)was\b", r"you\1 \2\3were"),
+    (r"\byou((?:\x05\d+)?[\x02\x04]?) ((?:also|still|now|only) )?([\x01\x03]?)(report|state)s\b", r"you\1 \2\3\4"),
 ]
 NOT_A_NOUN = r"(?:to|and|or|with|at|in|on|for|from|about|today|again|home|back|up|that|this|\.|,|$)"
 PHRASE_RULES = [
@@ -146,7 +147,7 @@ PHRASE_RULES = [
     (r"\bregimen\b", "treatment plan"),
     (r"/(day|week|month|hour|night)\b", r" a \1"),                   # 14 units/week
     (r"\b(\w+) and/or (\w+)", r"\1 or \2 or both"),
-    (r"(?<=[A-Za-z]{2}[\x02\x04])/(?=[\x01\x03]?[A-Za-z]{2})|(?<=[A-Za-z]{2})/(?=[\x01\x03]?[A-Za-z]{2})", " or "),  # nausea/vomiting
+    (r"(?<=[A-Za-z0-9][\x02\x04])/(?=[\x01\x03]?[A-Za-z]{2})|(?<=[A-Za-z]{2}[\x02\x04])/(?=[\x01\x03]?[A-Za-z]{2})|(?<=[A-Za-z]{2})/(?=[\x01\x03]?[A-Za-z]{2})", " or "),  # nausea/vomiting
     (r"(?<=[\w\x02\x04)]) - (?=\S)", ": "),                          # "joint pain - mainly stiffness"
     (r"\s*>=?\s*(?=\d)", " more than "), (r"\s*<=?\s*(?=\d)", " less than "),
     (r"\s*≥\s*(?=\d)", " at least "), (r"\s*≤\s*(?=\d)", " at most "),
@@ -201,17 +202,18 @@ def split_sections(note: str) -> list[tuple[str, str, str]]:
 
 # ---------- 2. plain text with markers ----------
 
-def marked_text(text: str) -> tuple[str, list[Finding]]:
-    """convert_note's word swaps, with flagged words and explained words wrapped in markers."""
+def marked_text(text: str, offset: int = 0) -> tuple[str, list[Finding]]:
+    """convert_note's word swaps, with every changed, explained or flagged word wrapped in markers
+    that also carry the finding's number (offset + its index), so the original can be shown later."""
     c = convert(text)
     out, pos = [], 0
-    for f in c.findings:
+    for i, f in enumerate(c.findings):
         out.append(text[pos:f.start])
         word = match_case(text, f.start, f.text, f.replace_with, f.kind) if f.replace_with else f.text
         if f.flag:
-            word = FLAG_ON + word + FLAG_OFF
-        elif f.explain:
-            word = WORD_ON + word + WORD_OFF
+            word = f"{FLAG_ON}{word}{INDEX}{offset + i}{FLAG_OFF}"
+        elif f.explain or f.replace_with:
+            word = f"{WORD_ON}{word}{INDEX}{offset + i}{WORD_OFF}"
         out.append(word)
         pos = f.end
     out.append(text[pos:])
@@ -219,7 +221,7 @@ def marked_text(text: str) -> tuple[str, list[Finding]]:
 
 
 def strip_markers(text: str) -> str:
-    return re.sub(f"[{MARKERS}]", "", text)
+    return re.sub(f"{INDEX}\\d+|[{MARKERS}]", "", text)
 
 
 # ---------- 3. short bullets with plain phrasing ----------
@@ -306,7 +308,7 @@ def make_printout(note: str) -> Printout:
         if kind == LEFT_OFF:
             left_off.append((heading, body.strip()))
             continue
-        text, found = marked_text(body)
+        text, found = marked_text(body, offset=len(findings))
         findings += found
         items = simplify(text, kind, changes)
         if kind in ("history", "course") and heading and items and normalize_heading(heading) not in NARRATIVE:

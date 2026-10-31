@@ -16,13 +16,19 @@
    "standard": true,
    "rank": 1
   },
+  "plainlanguage.gov": {
+   "url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "rank": 2,
+   "name": "Federal Plain Language Guidelines: Use simple words and phrases (plainlanguage.gov, archived Dec 2024)"
+  },
   "Wikipedia: List of medical abbreviations": {
    "url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
    "standard": false,
    "rank": 9
   }
  },
- "attribution": "CDC and MedlinePlus content is U.S. government work. Abbreviation expansions from Wikipedia 'List of medical abbreviations', CC BY-SA 4.0.",
+ "attribution": "CDC, MedlinePlus and plainlanguage.gov content is U.S. government work. Abbreviation expansions from Wikipedia 'List of medical abbreviations', CC BY-SA 4.0.",
  "entries": [
   {
    "term": "#NOF",
@@ -877,6 +883,51 @@
    "also_in": []
   },
   {
+   "term": "accompany",
+   "plain": "go with",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "accomplish",
+   "plain": "carry out",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "accorded",
+   "plain": "given",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "accordingly",
+   "plain": "so",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "accrue",
+   "plain": "add",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "ACCU",
    "expands_to": "acute coronary care unit",
    "meanings": [
@@ -885,6 +936,15 @@
    "kind": "abbreviation",
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "accurate",
+   "plain": "correct",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -1370,6 +1430,33 @@
    "also_in": []
   },
   {
+   "term": "additional",
+   "plain": "added",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "address",
+   "plain": "discuss",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "addressees",
+   "plain": "you",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "ADE",
    "expands_to": "adverse drug event",
    "meanings": [
@@ -1469,6 +1556,15 @@
    "kind": "abbreviation",
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "adjacent to",
+   "plain": "next to",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -1627,6 +1723,15 @@
    "also_in": []
   },
   {
+   "term": "advantageous",
+   "plain": "helpful",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "adverse event",
    "plain": "possible side effect or reaction after getting a shot or taking medicine",
    "explain": "possible side effect or reaction after getting a shot or taking medicine",
@@ -1634,6 +1739,24 @@
    "source": "CDC Everyday Words",
    "standard": true,
    "source_url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
+   "also_in": []
+  },
+  {
+   "term": "adversely impact on",
+   "plain": "hurt",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "advise",
+   "plain": "recommend",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -1728,6 +1851,15 @@
    "field_sources": {
     "expands_to": "Wikipedia: List of medical abbreviations"
    }
+  },
+  {
+   "term": "afford an opportunity",
+   "plain": "allow",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
   },
   {
    "term": "AFI",
@@ -2142,6 +2274,15 @@
    "also_in": []
   },
   {
+   "term": "aircraft",
+   "plain": "plane",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "airsickness",
    "plain": "motion sickness",
    "explain": "a common problem in people traveling by car, train, airplanes, and especially boats",
@@ -2513,6 +2654,15 @@
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/allergy-skin-test/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "allocate",
+   "plain": "divide",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -3384,6 +3534,15 @@
    "also_in": []
   },
   {
+   "term": "anticipate",
+   "plain": "expect",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "anticoagulants",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -3742,6 +3901,15 @@
    "also_in": []
   },
   {
+   "term": "apparent",
+   "plain": "clear",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "appendicitis",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -3773,6 +3941,24 @@
    "kind": "abbreviation",
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "appreciable",
+   "plain": "many",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "approximate",
+   "plain": "about",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -4067,6 +4253,15 @@
    "also_in": []
   },
   {
+   "term": "arrive onboard",
+   "plain": "arrive",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "arsenic",
    "explain": "a natural element found in soil and minerals",
    "kind": "condition",
@@ -4187,6 +4382,24 @@
    "also_in": []
   },
   {
+   "term": "as a means of",
+   "plain": "to",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "as prescribed by",
+   "plain": "in",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "ASA",
    "meanings": [
     "acetylsalicylic acid",
@@ -4271,6 +4484,15 @@
    "kind": "abbreviation",
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "ascertain",
+   "plain": "find out",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -4436,6 +4658,24 @@
    "also_in": []
   },
   {
+   "term": "assist",
+   "plain": "aid",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "assistance",
+   "plain": "aid",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "assisted living",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -4545,6 +4785,15 @@
    "ambiguous": true,
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "at the present time",
+   "plain": "at present",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -4770,6 +5019,17 @@
    "source": "CDC Everyday Words",
    "standard": true,
    "source_url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
+   "also_in": [
+    "plainlanguage.gov"
+   ]
+  },
+  {
+   "term": "attempt",
+   "plain": "try",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -5725,6 +5985,15 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/abdominalpain.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "benefit",
+   "plain": "help",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -7724,6 +7993,15 @@
    "also_in": []
   },
   {
+   "term": "by means of",
+   "plain": "by",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "bypass surgery",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -8370,6 +8648,15 @@
    "also_in": []
   },
   {
+   "term": "capability",
+   "plain": "ability",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "capacity",
    "plain": "what a person",
    "explain": "what a person, group, or organization can achieve or do; size or what a physical space or thing, such as a program, can hold or manage",
@@ -8801,6 +9088,15 @@
    "kind": "abbreviation",
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "caveat",
+   "plain": "warning",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -10615,6 +10911,15 @@
    "also_in": []
   },
   {
+   "term": "close proximity",
+   "plain": "near",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "clostridioides difficile infections",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -11187,6 +11492,42 @@
    "also_in": []
   },
   {
+   "term": "combat environment",
+   "plain": "combat",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "combined",
+   "plain": "joint",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "command",
+   "plain": "us",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "commence",
+   "plain": "begin",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "common cold",
    "explain": "a mild infection of your upper respiratory tract (which includes your nose and throat)",
    "kind": "condition",
@@ -11296,6 +11637,24 @@
    "also_in": []
   },
   {
+   "term": "comply with",
+   "plain": "follow",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "component",
+   "plain": "part",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "comprehensive metabolic panel",
    "explain": "a routine blood test that measures 14 different substances in a sample of your blood",
    "kind": "lab_test",
@@ -11313,11 +11672,29 @@
    "also_in": []
   },
   {
+   "term": "comprise",
+   "plain": "form",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "compulsive gambling",
    "plain": "gambling addiction",
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/compulsivegambling.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "concerning",
+   "plain": "about",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -11441,11 +11818,38 @@
    "also_in": []
   },
   {
+   "term": "consequently",
+   "plain": "so",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "consolidate",
+   "plain": "combine",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "constipation",
    "explain": "having fewer than three bowel movements a week",
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/constipation.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "constitutes",
+   "plain": "is",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -11475,6 +11879,15 @@
    "source": "CDC Everyday Words",
    "standard": true,
    "source_url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
+   "also_in": []
+  },
+  {
+   "term": "contains",
+   "plain": "has",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -11509,6 +11922,15 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/bruises.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "convene",
+   "plain": "meet",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -13599,6 +14021,15 @@
    "also_in": []
   },
   {
+   "term": "deem",
+   "plain": "believe",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "deep vein thrombosis",
    "explain": "a blood clot that forms in a vein deep in the body",
    "kind": "condition",
@@ -13641,6 +14072,15 @@
    "also_in": []
   },
   {
+   "term": "delete",
+   "plain": "cut",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "delirium",
    "explain": "a mental state in which you are confused, disoriented, and not able to think or remember clearly",
    "kind": "condition",
@@ -13663,6 +14103,15 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/lewybodydementia.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "demonstrate",
+   "plain": "prove",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -13741,6 +14190,15 @@
    "also_in": []
   },
   {
+   "term": "depart",
+   "plain": "leave",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "depression",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -13813,6 +14271,24 @@
    "also_in": []
   },
   {
+   "term": "designate",
+   "plain": "appoint",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "desire",
+   "plain": "want",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "detect",
    "plain": "find",
    "explain": "find, identify",
@@ -13820,6 +14296,15 @@
    "source": "CDC Everyday Words",
    "standard": true,
    "source_url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
+   "also_in": []
+  },
+  {
+   "term": "determine",
+   "plain": "decide",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -14423,10 +14908,28 @@
    "also_in": []
   },
   {
+   "term": "disclose",
+   "plain": "show",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "discoid lupus",
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/lupus.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "discontinue",
+   "plain": "drop",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -14482,6 +14985,15 @@
    "source": "CDC Everyday Words",
    "standard": true,
    "source_url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
+   "also_in": []
+  },
+  {
+   "term": "disseminate",
+   "plain": "give",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -15380,6 +15892,15 @@
    "also_in": []
   },
   {
+   "term": "due to the fact that",
+   "plain": "due to",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "duodenal cancer",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -15392,6 +15913,15 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/pepticulcer.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "during the period",
+   "plain": "during",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -16198,6 +16728,15 @@
    "also_in": []
   },
   {
+   "term": "effect modifications",
+   "plain": "make changes",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "effectiveness",
    "plain": "result",
    "explain": "result, success, consequence, how something works",
@@ -16393,6 +16932,15 @@
    "also_in": []
   },
   {
+   "term": "elect",
+   "plain": "choose",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "electric shock",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -16470,6 +17018,15 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/ecigarettes.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "eliminate",
+   "plain": "cut",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -16643,6 +17200,15 @@
    "also_in": []
   },
   {
+   "term": "employ",
+   "plain": "use",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "EMS",
    "expands_to": "Emergency Medical Service(s)",
    "meanings": [
@@ -16693,6 +17259,15 @@
    "also_in": []
   },
   {
+   "term": "encounter",
+   "plain": "meet",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "end of life issues",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -16713,6 +17288,15 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/kidneyfailure.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "endeavor",
+   "plain": "try",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -16790,7 +17374,9 @@
    "source": "CDC Everyday Words",
    "standard": true,
    "source_url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
-   "also_in": []
+   "also_in": [
+    "plainlanguage.gov"
+   ]
   },
   {
    "term": "ENT",
@@ -16827,7 +17413,9 @@
    "source": "CDC Everyday Words",
    "standard": true,
    "source_url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
-   "also_in": []
+   "also_in": [
+    "plainlanguage.gov"
+   ]
   },
   {
    "term": "environmental health",
@@ -17055,6 +17643,24 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/medicaldevicesafety.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "equipments",
+   "plain": "equipment",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "equitable",
+   "plain": "fair",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -17388,6 +17994,15 @@
    "also_in": []
   },
   {
+   "term": "establish",
+   "plain": "set up",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "estimated glomerular filtration rate and gfr",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
@@ -17641,6 +18256,24 @@
    "also_in": []
   },
   {
+   "term": "evidenced",
+   "plain": "showed",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "evident",
+   "plain": "clear",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "Ex-n",
    "expands_to": "previously; used for premature infants that have been born (ex-28 = born at 28 weeks gestation)",
    "meanings": [
@@ -17705,6 +18338,15 @@
    "also_in": []
   },
   {
+   "term": "exhibit",
+   "plain": "show",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "Exp Lap",
    "expands_to": "exploratory laparotomy",
    "meanings": [
@@ -17713,6 +18355,51 @@
    "kind": "abbreviation",
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "expedite",
+   "plain": "hasten",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "expeditious",
+   "plain": "fast",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "expend",
+   "plain": "spend",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "expertise",
+   "plain": "ability",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "expiration",
+   "plain": "end",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -17904,7 +18591,9 @@
    "source": "CDC Everyday Words",
    "standard": true,
    "source_url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
-   "also_in": []
+   "also_in": [
+    "plainlanguage.gov"
+   ]
   },
   {
    "term": "factor ix deficiency",
@@ -17923,6 +18612,15 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/hemophilia.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "failed to",
+   "plain": "didn’t",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -18162,7 +18860,9 @@
    "source": "CDC Everyday Words",
    "standard": true,
    "source_url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
-   "also_in": []
+   "also_in": [
+    "plainlanguage.gov"
+   ]
   },
   {
    "term": "fecal incontinence",
@@ -18221,6 +18921,15 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/femaleinfertility.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "females",
+   "plain": "women",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -18457,6 +19166,15 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/fifthdisease.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "finalize",
+   "plain": "complete",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -18997,6 +19715,15 @@
    "also_in": []
   },
   {
+   "term": "for a period of",
+   "plain": "for",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "foreign bodies",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -19009,6 +19736,24 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/wildfires.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "forfeit",
+   "plain": "give up",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "forward",
+   "plain": "send",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -19096,6 +19841,15 @@
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/free-light-chains/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "frequently",
+   "plain": "often",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -19243,6 +19997,15 @@
    "also_in": []
   },
   {
+   "term": "function",
+   "plain": "act",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "fungal culture",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
@@ -19302,6 +20065,15 @@
    "kind": "abbreviation",
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "furnish",
+   "plain": "give",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -21247,6 +22019,15 @@
    "also_in": []
   },
   {
+   "term": "has a requirement for",
+   "plain": "needs",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "hash",
    "plain": "joint",
    "explain": "a green, brown, or gray mixture of dried parts from the cannabis plant",
@@ -22554,6 +23335,33 @@
    "also_in": []
   },
   {
+   "term": "herein",
+   "plain": "here",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "heretofore",
+   "plain": "until now",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "herewith",
+   "plain": "below",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "hernia",
    "explain": "when part of an internal organ or tissue bulges through a weak area of muscle",
    "kind": "condition",
@@ -23605,6 +24413,15 @@
    "also_in": []
   },
   {
+   "term": "however",
+   "plain": "but",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "HP",
    "explain": "a protein made by your liver to get rid of the hemoglobin outside your red blood cells",
    "kind": "lab_test",
@@ -24637,6 +25454,24 @@
    "also_in": []
   },
   {
+   "term": "identical",
+   "plain": "same",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "identify",
+   "plain": "find",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "idiopathic pulmonary fibrosis",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -25041,6 +25876,15 @@
    "also_in": []
   },
   {
+   "term": "immediately",
+   "plain": "at once",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "immune system",
    "plain": "body’s natural defenses against germs and sickness",
    "explain": "body’s natural defenses against germs and sickness, body’s ability to fight germs and sickness",
@@ -25095,6 +25939,15 @@
    "also_in": []
   },
   {
+   "term": "impacted",
+   "plain": "affected",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "impaired",
    "plain": "driving while influenced by alcohol or drugs",
    "explain": "driving while influenced by alcohol or drugs; drunk driving; not able to operate fully or properly; disabled; weakened because of other health problems",
@@ -25130,7 +25983,9 @@
    "source": "CDC Everyday Words",
    "standard": true,
    "source_url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
-   "also_in": []
+   "also_in": [
+    "plainlanguage.gov"
+   ]
   },
   {
    "term": "impotence",
@@ -25172,6 +26027,132 @@
    "also_in": []
   },
   {
+   "term": "in a timely manner",
+   "plain": "on time",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "in accordance with",
+   "plain": "by",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "in addition",
+   "plain": "also",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "in an effort to",
+   "plain": "to",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "in lieu of",
+   "plain": "instead",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "in order that",
+   "plain": "for",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "in order to",
+   "plain": "to",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "in regard to",
+   "plain": "about",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "in relation to",
+   "plain": "about",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "in the amount of",
+   "plain": "for",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "in the event of",
+   "plain": "if",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "in the near future",
+   "plain": "shortly",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "in view of",
+   "plain": "since",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "in view of the above",
+   "plain": "so",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "in vitro fertilization",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -25184,6 +26165,15 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/homecareservices.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "inasmuch as",
+   "plain": "since",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -25205,6 +26195,15 @@
    "kind": "abbreviation",
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "inception",
+   "plain": "start",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -25235,6 +26234,33 @@
    "source": "CDC Everyday Words",
    "standard": true,
    "source_url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
+   "also_in": []
+  },
+  {
+   "term": "incumbent upon",
+   "plain": "must",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "indicate",
+   "plain": "show",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "indication",
+   "plain": "sign",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -25464,6 +26490,24 @@
    "also_in": []
   },
   {
+   "term": "initial",
+   "plain": "first",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "initiate",
+   "plain": "start",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "initiative",
    "plain": "program",
    "explain": "program, project",
@@ -25607,6 +26651,15 @@
    "also_in": []
   },
   {
+   "term": "interface",
+   "plain": "meet",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "international health",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -25619,6 +26672,15 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/evaluatinghealthinformation.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "interpose no objection",
+   "plain": "don’t object",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -25966,6 +27028,33 @@
    "also_in": []
   },
   {
+   "term": "is applicable to",
+   "plain": "applies to",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "is authorized to",
+   "plain": "may",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "is in consonance with",
+   "plain": "agrees with",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "ISA",
    "expands_to": "intrinsic sympathomimetic activity",
    "meanings": [
@@ -26051,6 +27140,33 @@
    "kind": "abbreviation",
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "it appears",
+   "plain": "seems",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "it is essential",
+   "plain": "must",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "it is requested",
+   "plain": "please",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -27942,6 +29058,15 @@
    "also_in": []
   },
   {
+   "term": "liaison",
+   "plain": "discussion",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "Lig",
    "expands_to": "ligament",
    "meanings": [
@@ -27979,7 +29104,9 @@
    "source": "CDC Everyday Words",
    "standard": true,
    "source_url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
-   "also_in": []
+   "also_in": [
+    "plainlanguage.gov"
+   ]
   },
   {
    "term": "lipase",
@@ -29182,6 +30309,15 @@
    "also_in": []
   },
   {
+   "term": "magnitude",
+   "plain": "size",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "MAHA",
    "expands_to": "microangiopathic hemolytic anemia",
    "meanings": [
@@ -29200,7 +30336,9 @@
    "source": "CDC Everyday Words",
    "standard": true,
    "source_url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
-   "also_in": []
+   "also_in": [
+    "plainlanguage.gov"
+   ]
   },
   {
    "term": "major depressive disorder",
@@ -29509,6 +30647,15 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/pregnancyandnutrition.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "maximum",
+   "plain": "greatest",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -30299,6 +31446,15 @@
    "also_in": []
   },
   {
+   "term": "methodology",
+   "plain": "method",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "methods",
    "plain": "how the study was done or carried out",
    "explain": "how the study was done or carried out",
@@ -30568,6 +31724,24 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/transientischemicattack.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "minimize",
+   "plain": "decrease",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "minimum",
+   "plain": "least",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -30851,7 +32025,9 @@
    "source": "CDC Everyday Words",
    "standard": true,
    "source_url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
-   "also_in": []
+   "also_in": [
+    "plainlanguage.gov"
+   ]
   },
   {
    "term": "MODY",
@@ -30928,7 +32104,9 @@
    "source": "CDC Everyday Words",
    "standard": true,
    "source_url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
-   "also_in": []
+   "also_in": [
+    "plainlanguage.gov"
+   ]
   },
   {
    "term": "monkeypox",
@@ -32333,6 +33511,15 @@
    "also_in": []
   },
   {
+   "term": "necessitate",
+   "plain": "cause",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "neck injuries and disorders",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -33035,6 +34222,24 @@
    "also_in": []
   },
   {
+   "term": "notify",
+   "plain": "let know",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "notwithstanding",
+   "plain": "inspite of",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "NP",
    "expands_to": "Nurse Practitioner",
    "meanings": [
@@ -33486,7 +34691,9 @@
    "source": "CDC Everyday Words",
    "standard": true,
    "source_url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
-   "also_in": []
+   "also_in": [
+    "plainlanguage.gov"
+   ]
   },
   {
    "term": "nursing",
@@ -33773,6 +34980,15 @@
    "also_in": []
   },
   {
+   "term": "objective",
+   "plain": "aim",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "Obl",
    "expands_to": "oblique",
    "meanings": [
@@ -33781,6 +34997,15 @@
    "kind": "abbreviation",
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "obligate",
+   "plain": "bind",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -33803,6 +35028,15 @@
    "kind": "abbreviation",
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "observe",
+   "plain": "see",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -34148,6 +35382,15 @@
    "also_in": []
   },
   {
+   "term": "operate",
+   "plain": "run",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "operation",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -34246,6 +35489,24 @@
    "source": "CDC Everyday Words",
    "standard": true,
    "source_url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
+   "also_in": []
+  },
+  {
+   "term": "optimum",
+   "plain": "best",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "option",
+   "plain": "choice",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -35226,6 +36487,15 @@
    "also_in": []
   },
   {
+   "term": "parameters",
+   "plain": "limits",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "paraplegia",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -35328,6 +36598,15 @@
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/partial-thromboplastin-time-ptt-test/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "participate",
+   "plain": "take part",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -36053,6 +37332,15 @@
    "also_in": []
   },
   {
+   "term": "perform",
+   "plain": "do",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "pericardial disorders",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -36167,6 +37455,15 @@
    "also_in": []
   },
   {
+   "term": "permit",
+   "plain": "let",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "peroneal muscular atrophy",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -36239,6 +37536,15 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/sweat.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "pertaining to",
+   "plain": "about",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -37505,6 +38811,24 @@
    "also_in": []
   },
   {
+   "term": "portion",
+   "plain": "part",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "possess",
+   "plain": "have",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "Post",
    "expands_to": "posterior",
    "meanings": [
@@ -37903,6 +39227,15 @@
    "also_in": []
   },
   {
+   "term": "practicable",
+   "plain": "practical",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "prader-willi syndrome",
    "explain": "a rare genetic disorder",
    "kind": "condition",
@@ -37967,6 +39300,15 @@
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/prealbumin-blood-test/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "preclude",
+   "plain": "prevent",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -38285,6 +39627,24 @@
    "also_in": []
   },
   {
+   "term": "previous",
+   "plain": "earlier",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "previously",
+   "plain": "before",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "primary adrenal insufficiency",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -38310,6 +39670,24 @@
    "kind": "abbreviation",
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "prior to",
+   "plain": "before",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "prioritize",
+   "plain": "rank",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -38370,6 +39748,24 @@
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/procalcitonin-test/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "proceed",
+   "plain": "do",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "proficiency",
+   "plain": "skill",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -38448,6 +39844,15 @@
    "kind": "abbreviation",
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "promulgate",
+   "plain": "issue",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -38572,6 +39977,33 @@
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/prothrombin-time-test-and-inr-ptinr/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "provide",
+   "plain": "give",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "provided that",
+   "plain": "if",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "provides guidance for",
+   "plain": "guides",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -39115,6 +40547,24 @@
    "kind": "abbreviation",
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "purchase",
+   "plain": "buy",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "pursuant to",
+   "plain": "by",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -40240,6 +41690,15 @@
    "also_in": []
   },
   {
+   "term": "reflect",
+   "plain": "say",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "reflex sympathetic dystrophy",
    "plain": "complex regional pain syndrome",
    "explain": "a chronic pain condition",
@@ -40270,6 +41729,15 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/refractiveerrors.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "regarding",
+   "plain": "about",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -40317,6 +41785,24 @@
    "also_in": []
   },
   {
+   "term": "relative to",
+   "plain": "about",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "relocate",
+   "plain": "move",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "REM",
    "meanings": [
     "rapid eye movement",
@@ -40326,6 +41812,33 @@
    "ambiguous": true,
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "remain",
+   "plain": "stay",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "remainder",
+   "plain": "rest",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "remuneration",
+   "plain": "pay",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -40377,6 +41890,15 @@
    "also_in": []
   },
   {
+   "term": "render",
+   "plain": "give",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "renin",
    "explain": "an enzyme, a protein that speeds up certain chemical reactions in your body",
    "kind": "lab_test",
@@ -40395,10 +41917,55 @@
    "also_in": []
   },
   {
+   "term": "represents",
+   "plain": "is",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "reproductive hazards",
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/reproductivehazards.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "request",
+   "plain": "ask",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "require",
+   "plain": "must",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "requirement",
+   "plain": "need",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "reside",
+   "plain": "live",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -40505,6 +42072,15 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/cardiomyopathy.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "retain",
+   "plain": "keep",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -41677,6 +43253,15 @@
    "also_in": []
   },
   {
+   "term": "said",
+   "plain": "the",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "salicylates level",
    "explain": "a type of drug found in many over-the-counter and prescription medicines",
    "kind": "lab_test",
@@ -42396,6 +43981,15 @@
    "also_in": []
   },
   {
+   "term": "selection",
+   "plain": "choice",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "self-harm",
    "explain": "when a person hurts his or her own body on purpose",
    "kind": "condition",
@@ -42523,6 +44117,15 @@
    "kind": "abbreviation",
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "set forth in",
+   "plain": "in",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -42931,6 +44534,15 @@
    "kind": "abbreviation",
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "similar to",
+   "plain": "like",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -43720,6 +45332,24 @@
    "also_in": []
   },
   {
+   "term": "solicit",
+   "plain": "ask for",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "some",
+   "plain": "the",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "SOOB",
    "meanings": [
     "send out of bed",
@@ -44392,6 +46022,15 @@
    "also_in": []
   },
   {
+   "term": "state-of-the-art",
+   "plain": "latest",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "statins",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -44843,6 +46482,24 @@
    "also_in": []
   },
   {
+   "term": "subject",
+   "plain": "the",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "submit",
+   "plain": "give",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "Subq",
    "expands_to": "subcutaneous",
    "meanings": [
@@ -44851,6 +46508,24 @@
    "kind": "abbreviation",
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "subsequent",
+   "plain": "later",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "subsequently",
+   "plain": "after",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -44866,6 +46541,33 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/drugsandyoungpeople.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "substantial",
+   "plain": "large",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "successfully complete",
+   "plain": "complete",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "such",
+   "plain": "the",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -44902,6 +46604,15 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/suddeninfantdeathsyndrome.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "sufficient",
+   "plain": "enough",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -46162,6 +47873,15 @@
    "also_in": []
   },
   {
+   "term": "terminate",
+   "plain": "end",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "testicular cancer",
    "explain": "a cancer that develops in the tissues of one or both testicles",
    "kind": "condition",
@@ -46368,6 +48088,15 @@
    "also_in": []
   },
   {
+   "term": "the undersigned",
+   "plain": "I",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "therapeutic drug monitoring",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
@@ -46381,6 +48110,42 @@
    "kind": "condition",
    "source": "MedlinePlus",
    "source_url": "https://medlineplus.gov/howtolowercholesterolwithdiet.html",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "therefore",
+   "plain": "so",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "therein",
+   "plain": "there",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "thereof",
+   "plain": "its",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "this activity",
+   "plain": "us",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
    "standard": true,
    "also_in": []
   },
@@ -46659,6 +48424,15 @@
    "kind": "abbreviation",
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "timely",
+   "plain": "prompt",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -47406,7 +49180,9 @@
    "source": "CDC Everyday Words",
    "standard": true,
    "source_url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
-   "also_in": []
+   "also_in": [
+    "plainlanguage.gov"
+   ]
   },
   {
    "term": "TRAP",
@@ -48380,6 +50156,15 @@
    "also_in": []
   },
   {
+   "term": "under the provisions of",
+   "plain": "under",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "underactive thyroid",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -48454,6 +50239,15 @@
    "kind": "abbreviation",
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "until such time as",
+   "plain": "until",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -48890,6 +50684,15 @@
    ]
   },
   {
+   "term": "utilization",
+   "plain": "use",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "utilize",
    "plain": "use",
    "explain": "use",
@@ -48897,7 +50700,9 @@
    "source": "CDC Everyday Words",
    "standard": true,
    "source_url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
-   "also_in": []
+   "also_in": [
+    "plainlanguage.gov"
+   ]
   },
   {
    "term": "UUS",
@@ -49103,6 +50908,15 @@
    "source": "CDC Everyday Words",
    "standard": true,
    "source_url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
+   "also_in": []
+  },
+  {
+   "term": "validate",
+   "plain": "confirm",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {
@@ -49469,6 +51283,24 @@
    "also_in": [
     "Wikipedia: List of medical abbreviations"
    ]
+  },
+  {
+   "term": "viable",
+   "plain": "practical",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "vice",
+   "plain": "instead of",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
   },
   {
    "term": "videonystagmography",
@@ -50155,6 +51987,15 @@
    "also_in": []
   },
   {
+   "term": "warrant",
+   "plain": "call for",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "warts",
    "kind": "condition",
    "source": "MedlinePlus",
@@ -50409,6 +52250,15 @@
    "also_in": []
   },
   {
+   "term": "whereas",
+   "plain": "because",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
    "term": "white blood cell in stool",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
@@ -50514,6 +52364,33 @@
    "kind": "abbreviation",
    "source": "Wikipedia: List of medical abbreviations",
    "source_url": "https://en.wikipedia.org/wiki/List_of_medical_abbreviations",
+   "also_in": []
+  },
+  {
+   "term": "with reference to",
+   "plain": "about",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "with the exception of",
+   "plain": "except for",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
+   "also_in": []
+  },
+  {
+   "term": "witnessed",
+   "plain": "saw",
+   "kind": "wording",
+   "source": "plainlanguage.gov",
+   "source_url": "https://web.archive.org/web/20241217004940/https://www.plainlanguage.gov/guidelines/words/use-simple-words-phrases/",
+   "standard": true,
    "also_in": []
   },
   {

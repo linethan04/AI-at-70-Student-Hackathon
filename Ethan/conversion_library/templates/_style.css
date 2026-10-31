@@ -64,6 +64,44 @@ form.input textarea { width: 100%; min-height: 220px; font: 14px/1.45 ui-monospa
 .error { color: var(--bad); font-weight: 600; }
 .actions { display: flex; gap: 10px; margin-bottom: 12px; }
 
+
+/* ---- changes: medical term (red, struck) -> plain meaning (green); hard word (purple) -> simpler (blue) ---- */
+:root { --med-old: #fbe0de; --med-old-ink: #9b1c14; --med-new: #d8f0dc; --word-old: #ece3f8; --word-old-ink: #5b2a8c; --word-new: #d9ecfb; }
+del.orig-med { background: var(--med-old); color: var(--med-old-ink); text-decoration-thickness: 2px; padding: 0 3px; border-radius: 3px; }
+del.orig-word { background: var(--word-old); color: var(--word-old-ink); text-decoration-thickness: 2px; padding: 0 3px; border-radius: 3px; }
+.plain-med { background: var(--med-new); padding: 0 3px; border-radius: 3px; }
+.plain-word { background: var(--word-new); padding: 0 3px; border-radius: 3px; }
+.kept { font-weight: 600; }
+.layout:not(.show-changes) .printout del { display: none; }
+.layout:not(.show-changes) .printout .plain-med, .layout:not(.show-changes) .printout .plain-word { background: none; padding: 0; }
+.legend { font-size: 13px; color: var(--muted); }
+.toggle { font-size: 14px; display: flex; gap: 6px; align-items: center; }
+.actions { align-items: center; flex-wrap: wrap; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+
+/* ---- gate + checklist ---- */
+.origin { color: var(--muted); font-size: 12.5px; margin: 0 0 4px; }
+.gate { list-style: none; padding: 0; margin: 0; }
+.gate li { padding: 6px 0 6px 28px; position: relative; border-bottom: 1px solid var(--line); }
+.gate li span { color: var(--muted); font-size: 12.5px; }
+.gate .mark { position: absolute; left: 4px; top: 5px; font-weight: 700; color: inherit; font-size: 16px; }
+.gate .pass .mark { color: var(--good); } .gate .fail .mark { color: var(--bad); }
+.gate .fail strong { color: var(--bad); }
+.count { float: right; text-transform: none; letter-spacing: 0; color: var(--ink); font-weight: 700; }
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist .group { font-weight: 700; margin: 12px 0 4px; font-size: 13px; }
+.check-item label { display: flex; gap: 8px; align-items: flex-start; padding: 6px 8px; border: 1px solid var(--line); border-radius: 5px; margin-bottom: 4px; cursor: pointer; }
+.check-item input { width: 18px; height: 18px; margin-top: 2px; flex: none; }
+.check-item small { display: block; color: var(--muted); font-size: 11.5px; margin-top: 2px; }
+.check-item small.why { color: var(--ok); }
+.check-item.flagged label { border-color: #e9c46a; }
+.check-item.done label { background: #eef8f0; border-color: #b8dfc2; }
+.blocked { background: #fdecea; border: 1px solid #f3b8b2; border-left: 5px solid var(--bad); border-radius: 6px; padding: 14px 18px; margin-bottom: 16px; }
+.blocked h2 { margin: 0 0 6px; color: var(--bad); font-size: 19px; }
+.blocked p { margin: 4px 0; }
+.draft-box > summary { cursor: pointer; font-weight: 600; padding: 10px; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; margin-bottom: 8px; }
+.draft-box .printout { opacity: .85; }
+
 @media print {
   @page { size: letter; margin: 0.6in; }
   body { background: #fff; }
@@ -73,4 +111,7 @@ form.input textarea { width: 100%; min-height: 220px; font: 14px/1.45 ui-monospa
   .printout { box-shadow: none; padding: 0; border-radius: 0; }
   mark.flag { background: none; }
   .word { text-decoration: none; }
+  .printout del { display: none !important; }
+  .printout .plain-med, .printout .plain-word { background: none !important; padding: 0; }
+  .blocked, .draft-box { display: none !important; }
 }

@@ -1,17 +1,24 @@
-"""Simple web page to try the converter: paste or upload a clinician note, get a large-print printout.
+"""Simple web page to try the visit summary: paste or upload a clinician note, get a large-print printout.
 
     python Ethan/conversion_library/app.py        # http://localhost:5051
 
-Runs fully offline (no API key). Notes are processed in memory and not saved.
+Uses a summary written for the note in rewrites/ if there is one, Claude if ANTHROPIC_API_KEY is set
+and "Write with Claude" is ticked, and otherwise the offline draft. The printout is only shown when
+the summary passes every check (visit_summary.py), and printing unlocks when the clinician has
+ticked every item. Notes are processed in memory and not saved.
 """
 
 import argparse
 import io
+import json
+import os
 from pathlib import Path
 
+from dotenv import find_dotenv, load_dotenv
 from flask import Flask, render_template, request
 
-from make_printout import TEMPLATES, make_printout, marked_html, strip_markers, template_context
+from make_printout import TEMPLATES
+from visit_summary import REWRITES, context, summarize_note
 
 HERE = Path(__file__).resolve().parent
 SAMPLE_DIRS = {"Synthetic samples": HERE / "samples",
@@ -19,14 +26,18 @@ SAMPLE_DIRS = {"Synthetic samples": HERE / "samples",
                "MTSamples (test)": HERE / "test_notes" / "mtsamples"}
 MAX_NOTE_CHARS = 30_000
 
+load_dotenv(find_dotenv())
 app = Flask(__name__, template_folder=str(TEMPLATES))
-app.jinja_env.filters["marked"] = marked_html
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
 
 
 def samples() -> dict[str, list[str]]:
     return {group: sorted(p.stem for p in folder.glob("*.txt"))
             for group, folder in SAMPLE_DIRS.items() if folder.is_dir() and any(folder.glob("*.txt"))}
+
+
+def rewritten() -> set[str]:
+    return {Path(json.loads(p.read_text())["note"]).stem for p in REWRITES.glob("*.json")}
 
 
 def read_sample(value: str) -> str:
@@ -49,7 +60,7 @@ def read_upload(file) -> str:
 @app.route("/", methods=["GET", "POST"])
 def index():
     form = request.form
-    details = {k: form.get(k, "").strip() for k in ("name", "clinician", "phone")}
+    details = {k: form.get(k, "").strip() for k in ("name", "visit_date", "phone")}
     note, error, sample = form.get("note", ""), None, form.get("sample", "")
     upload = request.files.get("file")
     if upload and upload.filename:
@@ -57,21 +68,27 @@ def index():
     elif not note.strip() and sample:
         note = read_sample(sample)
     note = note.replace("\r\n", "\n")
-    page = {"note": note, "sample": sample, "samples": samples(), "error": None, "p": None, **details}
+    claude_available = bool(os.environ.get("ANTHROPIC_API_KEY"))
+    use_claude = claude_available and bool(form.get("claude"))
+    page = {"note": note, "sample": sample, "samples": samples(), "rewritten": rewritten(), "s": None,
+            "visit_date_input": details["visit_date"], "claude_available": claude_available,
+            "use_claude": use_claude, "name": details["name"], "phone": details["phone"]}
     if request.method == "POST":
         if not note.strip():
             error = "Paste a note, upload a file, or pick a sample."
         elif len(note) > MAX_NOTE_CHARS:
             error = f"That note is very long ({len(note):,} characters). Try a single visit note."
         else:
-            page.update(template_context(make_printout(note), **details))
+            try:
+                page.update(context(summarize_note(note, use_claude), **details))
+            except Exception as e:  # Claude errors, unreadable files
+                error = f"Couldn't make a summary: {e.__class__.__name__}: {e}"
     page["error"] = error
-    page["strip"] = strip_markers
     return render_template("index.html", **page)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Plain-language printout web page.")
+    parser = argparse.ArgumentParser(description="Visit summary web page.")
     parser.add_argument("--port", type=int, default=5051)
     args = parser.parse_args()
     app.run(host="127.0.0.1", port=args.port, debug=False)

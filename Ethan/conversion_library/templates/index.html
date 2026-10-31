@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Plain-Language Printout</title>
+<title>Visit Summary Maker</title>
 <style>{% include "_style.css" %}</style>
 </head>
 <body>
 <div class="wrap">
   <div class="app-head">
-    <h1>Plain-language printout</h1>
-    <p>Paste or upload a clinician note. Works offline, no API key.</p>
+    <h1>Visit summary maker</h1>
+    <p>Paste or upload a primary care note. The printout unlocks only when it passes every check.</p>
   </div>
 
   <form class="input" method="post" enctype="multipart/form-data">
@@ -22,28 +22,23 @@
           <option value="">Choose a sample note…</option>
           {% for group, names in samples.items() %}
           <optgroup label="{{ group }}">
-            {% for n in names %}<option value="{{ group }}/{{ n }}" {% if sample == group ~ '/' ~ n %}selected{% endif %}>{{ n }}</option>{% endfor %}
+            {% for n in names %}<option value="{{ group }}/{{ n }}" {% if sample == group ~ '/' ~ n %}selected{% endif %}>{{ n }}{% if n in rewritten %} ✓ summary written{% endif %}</option>{% endfor %}
           </optgroup>
           {% endfor %}
         </select>
       </label>
     </div>
     <div class="row">
-      <label>Patient name (optional)<input name="name" value="{{ name }}"></label>
-      <label>Doctor (optional)<input name="clinician" value="{{ clinician }}"></label>
+      <label>Patient name<input name="name" value="{{ name }}"></label>
+      <label>Visit date<input name="visit_date" value="{{ visit_date_input }}" placeholder="today"></label>
       <label>Office phone (optional)<input name="phone" value="{{ phone }}"></label>
-      <button class="btn" type="submit">Make printout</button>
+      {% if claude_available %}<label class="toggle"><input type="checkbox" name="claude" {% if use_claude %}checked{% endif %}> Write with Claude</label>{% endif %}
+      <button class="btn" type="submit">Make summary</button>
     </div>
     {% if error %}<p class="error">{{ error }}</p>{% endif %}
   </form>
 
-  {% if p %}
-  <div class="actions"><button class="btn" type="button" onclick="window.print()">Print</button></div>
-  <div class="layout">
-    {% include "_printout.html" %}
-    {% include "_review.html" %}
-  </div>
-  {% endif %}
+  {% if s %}{% include "_result.html" %}{% endif %}
 </div>
 </body>
 </html>

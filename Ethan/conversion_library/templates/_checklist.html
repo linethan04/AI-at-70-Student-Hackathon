@@ -1,0 +1,45 @@
+<aside class="review no-print">
+  <h2>Clinician review <span class="tag">not printed</span></h2>
+  <p class="origin">Written by: {{ s.origin }}</p>
+
+  <h3>Automatic checks</h3>
+  <ul class="gate">
+    {% for c in s.checks %}
+    <li class="{{ 'pass' if c.ok else 'fail' }}"><span class="mark">{{ '✓' if c.ok else '✗' }}</span>
+      <strong>{{ c.name }}</strong><br><span>{{ c.detail }}</span></li>
+    {% endfor %}
+  </ul>
+  {% set r = s.readability %}
+  <p class="hint">Original note: SMOG {{ r.note.smog if r.note.smog is not none else "n/a" }}.
+    Summary: {{ r.summary.sentences }} sentences, {{ r.summary.words }} words.
+    3+ syllable words (these raise SMOG): {{ r.summary.long_words | join(", ") or "none" }}.</p>
+
+  {% if s.ready %}
+  <h3>Please check <span class="count" id="count">0 of {{ checklist | length }}</span></h3>
+  <p class="hint">Tick each item once you agree with it. Printing unlocks when all are ticked.</p>
+  <ul class="checklist" id="checklist">
+    {% for c in checklist %}
+    {% if loop.first or c.group != loop.previtem.group %}<li class="group">{{ c.group }}</li>{% endif %}
+    <li class="check-item {{ 'flagged' if c.flag }}">
+      <label>
+        <input type="checkbox">
+        <span>
+          {% if c.kind in ("med", "word") %}<del class="orig-{{ c.kind }}">{{ c.original }}</del> → <span class="plain-{{ c.kind }}">{{ c.plain }}</span>
+          {% elif c.kind in ("keep", "drug") %}<span class="kept">{{ c.original }}</span>{% if c.plain %} → <span class="plain-med">{{ c.plain }}</span>{% endif %}
+          {% else %}{{ c.original }}{% endif %}
+          {% if c.source %}<small>Source: {{ c.source }}</small>{% endif %}
+          {% if c.flag %}<small class="why">⚠ {{ c.flag }}</small>{% endif %}
+        </span>
+      </label>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  {% if sources %}
+  <h3>Sources for word choices</h3>
+  <ul class="sources">
+    {% for src in sources %}<li>{{ src.name }}{% if src.url %}: <a href="{{ src.url }}" target="_blank" rel="noopener">{{ src.url }}</a>{% endif %}</li>{% endfor %}
+  </ul>
+  {% endif %}
+</aside>

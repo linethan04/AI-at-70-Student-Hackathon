@@ -85,6 +85,8 @@ def term_pattern() -> re.Pattern:
     def usable(term: str, e: dict) -> bool:
         if not (e.get("plain") or e.get("explain")) or e.get("context_dependent") or len(term) <= 3:
             return False
+        if e.get("kind") == "wording":  # plainlanguage.gov: only long words, where context matters least
+            return " " in term or textstat.syllable_count(term) >= 3
         # Single everyday words ("access", "cough") aren't jargon even if a source lists them.
         return " " in term or zipf_frequency(term, "en") < 3.8
 
@@ -105,7 +107,7 @@ class Finding:
     text: str                 # exactly as written in the note
     start: int
     end: int
-    kind: str                 # abbreviation | term | medication | jargon
+    kind: str                 # abbreviation | term | wording (everyday, non-medical) | medication | jargon
     replace_with: str | None = None   # plain wording to put in the text (None = keep)
     explain: str | None = None        # plain explanation for the word list
     source: str | None = None
@@ -201,7 +203,8 @@ def analyze(note: str) -> list[Finding]:
         e = terms[m.group(0).lower()]
         if m.group(0).lower() in drugs and e.get("kind") != "lab_test":
             continue  # medicines are kept exactly as written (step 3); "creatinine" is a lab test
-        claim(Finding(m.group(0), m.start(), m.end(), "term", replace_with=e.get("plain"),
+        claim(Finding(m.group(0), m.start(), m.end(), "wording" if e.get("kind") == "wording" else "term",
+                      replace_with=e.get("plain"),
                       explain=e.get("explain") if not e.get("plain") else None, source=e["source"],
                       source_url=e.get("source_url"), standard=e.get("standard", False)))
 
@@ -313,7 +316,7 @@ def match_case(note: str, start: int, original: str, replacement: str, kind: str
     after_dotted_abbrev = re.search(r"(?:\b[A-Za-z]\.){2,}$|\b(?:mg|ml|mcg|[0-9])\.?$", before) is not None  # "b.i.d. p.o."
     question = before.endswith("?") and before[-2:-1].isalnum()  # "Worse?" ends a sentence; "URTI/? LRTI" doesn't
     sentence_start = not before or ((before[-1] in ".!\n:-" or question) and not after_dotted_abbrev)
-    if sentence_start or (kind == "term" and original[:1].isupper()):
+    if sentence_start or (kind in ("term", "wording") and original[:1].isupper()):
         return replacement[:1].upper() + replacement[1:]
     if kind == "abbreviation" and re.match(r"[A-Z][a-z]", replacement):
         return replacement[0].lower() + replacement[1:]  # "with DM2" -> "with type 2 diabetes"
