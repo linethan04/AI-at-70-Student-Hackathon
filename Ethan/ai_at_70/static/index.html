@@ -120,18 +120,13 @@ body:not(.approved) .sheet{outline:3px dashed #e4bd57;outline-offset:6px}
 .tflags{display:grid;gap:8px}.tflag{border:1px solid #ecd28c;background:#fffaea;border-radius:8px;padding:8px 10px;font-size:.88rem}
 .tflag b{display:block}.tflag span{display:block;color:var(--muted)}
 /* landing */
-.hero{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:48px;align-items:center;padding:20px 0 10px}
-@media(max-width:900px){.hero{grid-template-columns:1fr;gap:26px}}
-.hero h1{font-size:clamp(2.2rem,4.6vw,3.4rem);line-height:1.06;font-weight:800;letter-spacing:-.02em;color:var(--blue);margin:8px 0 16px}
-.hero .kicker{font:800 .8rem "Nunito",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
-.hero .lead{font-size:1.2rem}.hero .submit{margin-top:22px}
-.flow{display:grid;gap:12px}.flowrow{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center}
-.flowcol{display:grid;gap:8px}.fcard{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-weight:700;display:flex;gap:10px;align-items:center;box-shadow:0 6px 18px rgb(28 93 132/.07)}
-.fcard span{font-size:1.4rem}.fcard small{display:block;font-weight:400;color:var(--muted);font-size:.82rem}
-.arrow{font:800 1.6rem "Nunito",sans-serif;color:var(--teal)}
-.promise{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:34px}@media(max-width:760px){.promise{grid-template-columns:1fr}}
-.promise div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px}.promise b{display:block;font:800 1.1rem "Nunito",sans-serif;color:var(--blue);margin-bottom:4px}
-.promise p{color:var(--muted);font-size:.95rem}
+.hero{max-width:720px;margin:0 auto;padding:56px 0 20px;text-align:center}
+.hero h1{font-size:clamp(2.2rem,4.6vw,3.4rem);line-height:1.06;font-weight:800;letter-spacing:-.02em;color:var(--blue);margin:0 0 14px}
+.hero .lead{font-size:1.25rem;color:var(--muted)}.hero .submit{margin-top:30px;justify-content:center}.hero .submit .primary{flex:0 1 auto}
+.flow{list-style:none;padding:0;margin:30px 0 0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.flow li{font-weight:700;padding:8px 14px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+.flow li+li::before{content:"→";color:var(--teal);margin-right:10px}.flow .out{background:var(--teal);border-color:var(--teal);color:#fff}
+.flow .out::before{color:#fff!important}
 body[data-screen=s0] .track,body[data-screen=s0] .pbanner{display:none!important}
 /* automatic checks under sending */
 .autochecks{margin-top:14px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px}
@@ -166,34 +161,13 @@ body[data-screen=s0] .track,body[data-screen=s0] .pbanner{display:none!important
 <div class="stage">
   <section id="s0" class="screen">
     <div class="hero">
-      <div>
-        <p class="kicker">For primary care teams caring for older adults</p>
-        <h1>Visit summaries your patients can understand.</h1>
-        <p class="lead">AI at 70 turns the visit into a short, plain-language summary at a 5th-grade reading level, then delivers it the way each family needs: on paper, by email, or as a phone call, in English, Mandarin, Spanish, Portuguese or Arabic.</p>
-        <p class="note">You review and approve every word. Nothing reaches a patient or family member until you do.</p>
-        <div class="submit"><button class="btn primary" type="button" data-go="s1">Start a visit</button>
-          <a class="btn" href="/questionnaire" target="_blank" rel="noopener">Patient check-in form ↗</a></div>
-      </div>
-      <div class="flow" aria-label="How it works">
-        <div class="flowrow">
-          <div class="flowcol">
-            <div class="fcard"><span>📝</span><div>Check-in<small>the patient's own words</small></div></div>
-            <div class="fcard"><span>🎙️</span><div>Conversation<small>record the visit</small></div></div>
-            <div class="fcard"><span>🩺</span><div>Clinician note<small>type, upload or photo</small></div></div>
-          </div>
-          <div class="arrow" aria-hidden="true">➜</div>
-          <div class="flowcol">
-            <div class="fcard"><span>🖨️</span><div>Printout<small>large print, plain words</small></div></div>
-            <div class="fcard"><span>✉️</span><div>Email<small>patient and family</small></div></div>
-            <div class="fcard"><span>📞</span><div>Phone call<small>read in a natural voice</small></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="promise">
-      <div><b>Quick</b><p>Three inputs in, a checked summary out in seconds. Recordings are transcribed on this computer.</p></div>
-      <div><b>Reliable</b><p>Every medicine, dose and number is checked against your note. Disagreements are flagged, never guessed.</p></div>
-      <div><b>Understandable</b><p>Everyday words a 5th-grade reader knows, said the way you'd say it out loud, so families stay informed too.</p></div>
+      <h1>Visit summaries your patients can understand.</h1>
+      <p class="lead">Plain words, checked by you, sent as a printout, email or phone call.</p>
+      <ol class="flow" aria-label="How it works">
+        <li>Check-in</li><li>Conversation</li><li>Clinician note</li><li class="out">Print · Email · Call</li>
+      </ol>
+      <div class="submit"><button class="btn primary" type="button" data-go="s1">Start a visit</button>
+        <a class="btn" href="/questionnaire" target="_blank" rel="noopener">Patient check-in form ↗</a></div>
     </div>
   </section>
 

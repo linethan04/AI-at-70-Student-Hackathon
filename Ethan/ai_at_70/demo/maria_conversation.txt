@@ -1,4 +1,4 @@
-[0:00] Clinician: Good morning, Maria. Hi, Sofia. How have your legs been?
+[0:00] Clinician: Good morning, Maria. How have your legs been?
 [0:09] Patient: Swollen, both of them, for about two weeks.
 [0:17] Clinician: Are you taking the metformin twice a day?
 [0:24] Patient: Only in the morning. I forget the second one.

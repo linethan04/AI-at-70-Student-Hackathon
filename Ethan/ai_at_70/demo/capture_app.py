@@ -42,18 +42,19 @@ def main() -> None:
         mark("landing")
         page.wait_for_timeout(2500)
 
-        # the patient's check-in, filled in on the questionnaire
+        # the patient's check-in at the front desk: a few simple taps on the questionnaire
         page.goto(URL + "/questionnaire")
         page.wait_for_timeout(600)
         mark("checkin")
         page.click("#patient_full_name")
-        page.keyboard.type("Maria Rodriguez", delay=70)
+        page.keyboard.type("Maria Rodriguez", delay=60)
         page.fill("#patient_date_of_birth", "1948-03-14")
-        page.click("#visit_reason")
-        page.keyboard.type("Check on my diabetes and blood pressure. My legs have been swollen.", delay=35)
-        page.click("#top_concern")
-        page.keyboard.type("I forget what the doctor tells me.", delay=35)
-        page.wait_for_timeout(800)
+        for step in (lambda: page.select_option("#visit_type", "Follow-up visit"),
+                     lambda: page.check('input[name=barriers][value="Remembering medications or appointments"]'),
+                     lambda: page.select_option("#learning_style", "Very simple, short instructions"),
+                     lambda: page.check('input[name=caregiver_share_consent][value="Yes"]')):
+            step()
+            page.wait_for_timeout(700)
         mark("checkin_done")
 
         # the clinician's page: load her check-in

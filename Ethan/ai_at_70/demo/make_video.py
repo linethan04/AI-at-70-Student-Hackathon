@@ -6,9 +6,10 @@
     python Ethan/ai_at_70/demo/capture_app.py           # records the page (demo/video/build/app.webm)
     python Ethan/ai_at_70/demo/make_video.py            # -> demo/video/ai_at_70_demo.mp4
 
-Cartoon scenes come from cartoon.html, rendered frame by frame; the app scenes are cut from the screen
-recording of the real page. Narration and the phone-call voice are Kokoro (the same neural voices the app uses).
-One story throughout: Maria Rodriguez (78), her daughter Sofia, Dr. Lee. All made up.
+Cartoon scenes come from cartoon.html (modern flat style), rendered frame by frame; the app scenes are cut from the
+screen recording of the real page and shown in a browser window on a matching backdrop. Narration and the phone-call voice are Kokoro (the same neural voices the app uses).
+One appointment, start to finish: Maria Rodriguez (78) checks in, Dr. Lee takes notes and turns them into a summary with
+AI at 70, Maria leaves with the printout, and her daughter Sofia gets the email and the phone call at home. All made up.
 """
 
 import json
@@ -21,7 +22,6 @@ from pathlib import Path
 import imageio_ffmpeg
 import numpy as np
 import soundfile as sf
-from PIL import Image, ImageDraw, ImageFont
 
 HERE = Path(__file__).resolve().parent
 BUILD = HERE / "video" / "build"
@@ -32,24 +32,28 @@ from voices import kokoro  # noqa: E402
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 FPS, W, H, RATE = 30, 1280, 720, 24000
 GAP = 0.18           # pause after each narration line
+SCREEN = (142, 42, 996, 560)  # where the screen recording sits on the cartoon backdrop (x, y, w, h)
+# Narration is written for the voice: "AI" (said "ay-eye"; "A I" comes out "uh-eye"), "Doctor Lee" (not "Dr. Lee", read with a stop).
 NARRATOR = "am_michael"
 PHONE_LINE = "Blood pressure medicine, called Amlodipine. Take 1 pill, 5 milligrams, each day."
 
 # (scene, narration). A scene is a cartoon scene name, or "app:<from mark>:<to mark or +seconds>" cut from the
 # screen recording; "+" joins pieces that share one narration line.
 STORY = [
-    ("maria", "Meet Maria. She's seventy-eight, with diabetes and high blood pressure."),
-    ("doctor", "At the doctor, she hears words like bilateral edema, B I D, and B M P."),
-    ("home", "By the time she's home, it's all a blur. And her daughter, Sofia, is just as confused."),
-    ("intro", "There's a better way. Sofia sets Maria up with A I at 70."),
-    ("app:checkin:checkin_done|Maria's check-in, in her own words", "Before the visit, Maria fills out a short check-in, in her own words."),
-    ("app:record:+3.2|Record the visit + app:transcribed:+2.4|Written out right away", "At the visit, the conversation is recorded, and written out right away."),
-    ("photo@2.0 + app:note:+2.2|Read from the photo", "Then Dr. Lee snaps a photo of the visit notes."),
-    ("app:summary:approved+0.8|Plain words, checked by Dr. Lee + printer@3.0", "In seconds: a one-page summary, in plain, simple words. Dr. Lee checks it, approves it, and prints it."),
-    ("email", "At home, the same summary arrives by email, in case the paper gets lost."),
-    ("phone", "And a phone call walks her through what to do."),
-    ("family", "Sofia gets every update too, so the whole family stays in the loop."),
-    ("end", "A I at 70. Quick. Reliable. Understandable."),
+    ("arrive", "Meet Maria. She's seventy-eight, here to see Doctor Lee about her diabetes and blood pressure."),
+    ("app:checkin:checkin_done|A few simple check-in questions", "When she arrives, she answers a few simple check-in questions."),
+    ("visit", "During the visit, Doctor Lee takes notes, full of medical shorthand."),
+    ("recommend", "That's where AI at 70 comes in. It's Doctor Lee's tool for turning the check-in and visit notes "
+                  "into a plain-language summary: printed, emailed, or read over the phone."),
+    ("app:record:+3.0|Optional: record the conversation + app:transcribed:+2.2|Written out right away",
+     "Recording the conversation is optional, but it can help."),
+    ("photo@2.0 + app:note:+2.2|Read from the photo", "Then Doctor Lee snaps a photo of the notes, and AI at 70 reads them."),
+    ("app:summary:approved+0.8|Plain words, checked by Dr. Lee", "In seconds, a one-page summary in plain words. Doctor Lee checks it and approves it."),
+    ("handoff", "Maria leaves with it printed, right in her hand."),
+    ("email", "At home, her daughter Sofia gets the same summary by email,"),
+    ("phone", "and a phone call walks them through what to do."),
+    ("together", "Now Maria and Sofia both know what comes next."),
+    ("end", "AI at 70. Quick. Reliable. Understandable."),
 ]
 
 
@@ -63,24 +67,18 @@ def voice(text: str, name: str, speed: float = 1.0) -> np.ndarray:
     return np.asarray(samples, dtype=np.float32)
 
 
-def caption_png(text: str, path: Path) -> None:
-    """The same caption pill the cartoon scenes use, for the app scenes."""
-    img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
-    font = ImageFont.truetype("/System/Library/Fonts/Supplemental/Arial Rounded Bold.ttf", 30)
-    box = d.textbbox((0, 0), text, font=font)
-    tw, th = box[2] - box[0], box[3] - box[1]
-    x0, y0 = (W - tw) // 2 - 26, H - 34 - th - 26
-    d.rounded_rectangle((x0, y0, x0 + tw + 52, y0 + th + 26), 12, fill=(18, 48, 61, 225))
-    d.text((x0 + 26, y0 + 13 - box[1]), text, font=font, fill="white")
-    img.save(path)
+def caption_png(page, text: str, path: Path) -> None:
+    """The same caption the cartoon scenes use, on a transparent page, for the app scenes."""
+    page.goto(f"file://{HERE / 'cartoon.html'}?scene=caption&text={urllib.parse.quote(text)}")
+    page.wait_for_function("window.ready")
+    page.screenshot(path=str(path), omit_background=True)
 
 
 def cartoon_data() -> str:
     fam = json.loads((BUILD / "family_email.json").read_text())["body"].split("\n")
     data = {"logo": "video/build/logo.png", "note": "maria_note_photo.jpg", "printout": "video/build/printout.png",
             "email": "\n".join(["Dear Maria Rodriguez,", "Here is the summary of your visit today."] + fam[2:12]),
-            "familyEmail": "\n".join(fam[:9]),
+            "familyEmail": "\n".join(fam[:15]),
             "phone": ["Blood pressure medicine, called Amlodipine.", "Take 1 pill, 5 milligrams, each day."], "phoneAt": [2.8, 5.0]}
     return urllib.parse.quote(json.dumps(data))
 
@@ -95,10 +93,10 @@ def render_cartoon(page, scene: str, seconds: float, out: Path) -> None:
     for i in range(round(seconds * FPS)):
         page.evaluate(f"window.seek({i / FPS})")
         page.screenshot(path=str(frames / f"{i:05d}.jpg"), type="jpeg", quality=92)
-    ffmpeg("-framerate", str(FPS), "-i", str(frames / "%05d.jpg"), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", str(FPS), str(out))
+    ffmpeg("-framerate", str(FPS), "-i", str(frames / "%05d.jpg"), "-vf", "scale=in_range=pc:out_range=tv,format=yuv420p", "-c:v", "libx264", "-r", str(FPS), str(out))
 
 
-def cut_app(marks: dict, spec: str, seconds: float, out: Path, n: int) -> None:
+def cut_app(page, marks: dict, spec: str, seconds: float, out: Path, n: int) -> None:
     """'app:summary:approved+0.8|caption': the recording from one mark to another, fitted to `seconds`."""
     _, start, rest = spec.split(":", 2)
     end, _, text = rest.partition("|")
@@ -106,16 +104,19 @@ def cut_app(marks: dict, spec: str, seconds: float, out: Path, n: int) -> None:
     t1 = t0 + float(end[1:]) if end.startswith("+") else marks[end.split("+")[0]] + float(end.split("+")[1] if "+" in end else 0)
     speed = (t1 - t0) / seconds
     cap = BUILD / f"cap{n}.png"
-    caption_png(text, cap)
-    ffmpeg("-ss", f"{t0:.2f}", "-t", f"{t1 - t0:.2f}", "-i", str(BUILD / "app.webm"), "-i", str(cap), "-filter_complex",
-           f"[0:v]setpts=PTS/{speed:.4f},fps={FPS},scale={W}:{H}[v];[v][1:v]overlay=0:0,trim=duration={seconds:.3f}",
+    caption_png(page, text, cap)
+    x, y, w, h = SCREEN
+    ffmpeg("-loop", "1", "-framerate", str(FPS), "-i", str(BUILD / "frame.png"), "-ss", f"{t0:.2f}", "-t", f"{t1 - t0:.2f}", "-i", str(BUILD / "app.webm"),
+           "-i", str(cap), "-filter_complex",
+           f"[1:v]setpts=PTS/{speed:.4f},fps={FPS},scale={w}:{h}[v];[0:v][v]overlay={x}:{y}[s];[s][2:v]overlay=0:0,"
+           f"trim=duration={seconds:.3f},format=yuv420p", "-r", str(FPS),
            "-c:v", "libx264", "-pix_fmt", "yuv420p", "-an", str(out))
 
 
 def music(length: float, split: float) -> np.ndarray:
-    """A soft pad under the narration: minor for 'today', major for 'with AI at 70'."""
+    """A soft pad under the narration: a calm chord for the visit, a brighter one from AI at 70 on."""
     t = np.arange(int(length * RATE)) / RATE
-    chords = [(split, [220.0, 261.63, 329.63]), (length, [261.63, 329.63, 392.0, 523.25])]  # A minor, then C major
+    chords = [(split, [196.0, 246.94, 293.66]), (length, [261.63, 329.63, 392.0, 523.25])]  # G major, then C major
     out, start = np.zeros_like(t), 0.0
     for end, notes in chords:
         m = (t >= start) & (t < end)
@@ -142,6 +143,9 @@ def main() -> None:
     with sync_playwright() as p:
         browser = p.chromium.launch(channel="chrome", headless=True)
         page = browser.new_page(viewport={"width": W, "height": H})
+        page.goto(f"file://{HERE / 'cartoon.html'}?scene=frame&data={cartoon_data()}")  # the backdrop for the app scenes
+        page.wait_for_function("window.ready")
+        page.screenshot(path=str(BUILD / "frame.png"))
         for n, ((spec, _), line) in enumerate(zip(STORY, lines)):
             seconds = len(line) / RATE + GAP + 0.15
             if spec == "phone":
@@ -155,7 +159,7 @@ def main() -> None:
                 length = float(piece.split("@")[1]) if "@" in piece else (seconds - fixed) / len(flexible)
                 out = BUILD / f"seg{n:02d}_{k}.mp4"
                 if piece.startswith("app:"):
-                    cut_app(marks, piece, length, out, n * 10 + k)
+                    cut_app(page, marks, piece, length, out, n * 10 + k)
                 else:
                     render_cartoon(page, piece.split("@")[0], length, out)
                 segments.append(out)
