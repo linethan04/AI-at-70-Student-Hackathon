@@ -1,0 +1,22 @@
+Riverside Primary Care - Progress note (synthetic, for testing)
+Patient: Fatima Haddad, 73F    Date: Oct 31    Interpreter: Arabic, by phone
+
+CC: Dysuria and urinary frequency x 3 days. No fever, no flank pain.
+Meds: Calcium carbonate 600 mg BID.
+Allergies: Sulfa
+
+A:
+1. Acute cystitis, uncomplicated.
+2. Osteoporosis.
+
+P:
+1. Start nitrofurantoin 100 mg BID for 5 days.
+2. Start vitamin D3 1000 IU daily.
+3. Continue calcium carbonate 600 mg BID with meals.
+4. Urine culture today.
+5. DEXA scan in 1 month.
+6. Drink plenty of water.
+7. Follow up in 3 months with Dr. Lee.
+8. Call the office if fever or back pain.
+
+Dr. Lee

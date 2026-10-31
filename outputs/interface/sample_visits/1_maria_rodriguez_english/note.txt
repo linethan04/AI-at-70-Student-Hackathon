@@ -1,0 +1,21 @@
+Riverside Primary Care - Progress note (synthetic, for the demo)
+Patient: Maria Rodriguez, 78F    Date: Oct 31
+
+CC: Follow-up of type 2 diabetes and hypertension. Bilateral leg swelling x 2 weeks.
+Meds: Metformin 1000 mg daily, amlodipine 10 mg daily, atorvastatin 40 mg qhs, acetaminophen 500 mg PRN knee pain.
+Allergies: NKDA
+
+A:
+1. Type 2 diabetes, not at goal.
+2. Hypertension, not at goal.
+3. Bilateral leg edema, likely secondary to amlodipine.
+
+P:
+1. Decrease amlodipine to 5 mg daily.
+2. Increase metformin to 1000 mg BID with meals.
+3. Check BMP and urine microalbumin today.
+4. Elevate legs when sitting.
+5. Follow up in 4 weeks with Dr. Lee.
+6. Go to the ER or call 911 if chest pain or trouble breathing.
+
+Dr. Lee

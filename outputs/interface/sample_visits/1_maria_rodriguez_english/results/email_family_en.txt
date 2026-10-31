@@ -1,0 +1,23 @@
+To: sofia.rodriguez@example.com
+Subject: Visit summary for Maria Rodriguez
+
+Dear Sofia Rodriguez,
+Maria Rodriguez's care team is sharing the summary of today's visit, as Maria asked us to. It is written to Maria, so "you" means Maria.
+YOUR VISIT
+You came in for a follow-up of type 2 diabetes and high blood pressure.
+Your blood sugar and blood pressure are still too high.
+YOUR MEDICINES
+[Higher dose]
+- Blood sugar medicine (Metformin): Take 1 pill (1000 mg) twice a day, with meals.
+[Lower dose]
+- Blood pressure medicine (Amlodipine): Take 1 pill (5 mg) each day. This medicine may be causing the swelling in both legs.
+- Cholesterol medicine (Atorvastatin): Take 1 pill (40 mg) at bedtime.
+- Pain medicine (Acetaminophen): Take 1 pill (500 mg) as needed for knee pain.
+WHAT TO DO NEXT
+- Go to the lab today for a blood test (BMP) and a urine test (microalbumin).
+- Raise your legs when you sit.
+- Go to your follow-up visit in 4 weeks with Dr. Lee.
+- Go to the emergency room or call 911 if you have chest pain or trouble breathing.
+Questions? Call the office: 555-0100.
+
+Reviewed by: Dr. Lee · 10/31/2026, 7:02:29 AM

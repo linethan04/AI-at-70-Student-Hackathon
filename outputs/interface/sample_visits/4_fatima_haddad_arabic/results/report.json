@@ -1,0 +1,37 @@
+{
+ "visit": "4_fatima_haddad_arabic",
+ "patient": "Fatima Haddad",
+ "language": "Arabic",
+ "errors": [],
+ "outputs": {
+  "ar": [
+   "email_patient_ar.txt",
+   "phone_patient_ar.txt",
+   "email_family_ar.txt",
+   "phone_family_ar.txt",
+   "printout_ar.pdf",
+   "review_ar.png",
+   "phone_call_ar.m4a"
+  ],
+  "en": [
+   "email_patient_en.txt",
+   "phone_patient_en.txt",
+   "email_family_en.txt",
+   "phone_family_en.txt",
+   "printout_en.pdf",
+   "review_en.png",
+   "phone_call_en.m4a"
+  ]
+ },
+ "translation_flags": {
+  "ar": 10,
+  "en": 0
+ },
+ "conversation": "audio, transcribed",
+ "ready": true,
+ "reader": "A reader at grade 5 would likely know 100 of every 100 words. Sentences: 7.5 words on average, longest 16.",
+ "failed_checks": [],
+ "inputs_disagree": [],
+ "checklist_items": 12,
+ "seconds": 65
+}

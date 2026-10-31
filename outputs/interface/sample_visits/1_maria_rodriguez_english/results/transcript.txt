@@ -1,0 +1,5 @@
+[0:00] Clinician: Good morning, Maria, how have your legs been?
+[0:03] Patient: Swollen, both of them, for about two weeks.
+[0:06] Clinician: Are you taking the metformin in twice a day?
+[0:09] Patient: Only in the morning, I forget the second one.
+[0:13] Clinician: The amlodipine may be causing the swelling, so we will lower it to 5mg once a day. Take the metformin in twice a day, with breakfast and dinner. Go to the lab today for a blood test and a urine test. Put your legs up when you sit. I will see you again in four weeks. If you have chest pain or trouble breathing, call 911.

@@ -1,0 +1,44 @@
+{
+  "questionnaire_version": "1.2.0",
+  "language": "pt",
+  "summary_language": "pt",
+  "submitted_at": "2026-10-31T10:20:00Z",
+  "answers": {
+    "email_risk_ack": [
+      "I understand"
+    ],
+    "caregiver_risk_ack": [
+      "I understand"
+    ],
+    "patient_full_name": "João Silva",
+    "patient_date_of_birth": "1950-01-22",
+    "visit_type": "Follow-up visit",
+    "visit_reason": "Revisão do coração. Os meus pés estão inchados e fico cansado.",
+    "top_concern": "Falta de ar quando subo escadas.",
+    "conditions": "Insuficiência cardíaca, pressão alta",
+    "medications": "Furosemide 20 mg, lisinopril 10 mg, metoprolol 25 mg",
+    "allergies": "Nenhuma",
+    "symptoms": [
+      "Shortness of breath or cough",
+      "Fever or fatigue"
+    ],
+    "support": "Moro com a minha esposa, Ana.",
+    "barriers": [
+      "Transportation"
+    ],
+    "learning_style": "Simple explanations with a little detail",
+    "goal": "Respirar melhor e saber quando ligar para o médico.",
+    "patient_email": "joao.silva@example.com",
+    "email_patient_consent": [
+      "Yes"
+    ],
+    "caregiver_share_consent": [
+      "Yes"
+    ],
+    "caregiver_name": "Ana Silva",
+    "caregiver_relationship": "Wife",
+    "caregiver_email": "ana.silva@example.com",
+    "consent_name": "João Silva",
+    "consent_date": "2026-10-31"
+  }
+}

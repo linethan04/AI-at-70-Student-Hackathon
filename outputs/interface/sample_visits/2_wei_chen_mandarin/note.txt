@@ -1,0 +1,20 @@
+Riverside Primary Care - Progress note (synthetic, for testing)
+Patient: Wei Chen, 81M    Date: Oct 31    Interpreter: Mandarin, in person
+
+CC: Worsening cough and SOB x 1 week.
+Meds: Tiotropium 18 mcg inhaled daily, albuterol 2 puffs q4-6h PRN SOB.
+Allergies: NKDA
+
+A:
+1. COPD exacerbation.
+2. Osteoarthritis of the knees.
+
+P:
+1. Start prednisone 40 mg daily for 5 days.
+2. Continue tiotropium 18 mcg daily.
+3. Albuterol 2 puffs every 4 to 6 hours as needed for SOB.
+4. Chest x-ray today.
+5. Follow up in 1 week with Dr. Lee.
+6. Go to the ER or call 911 if lips turn blue or trouble breathing at rest.
+
+Dr. Lee

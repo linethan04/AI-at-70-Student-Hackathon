@@ -1,0 +1,36 @@
+{
+  "questionnaire_version": "1.2.0",
+  "language": "es",
+  "summary_language": "es",
+  "submitted_at": "2026-10-31T13:30:00Z",
+  "answers": {
+    "email_risk_ack": [],
+    "caregiver_risk_ack": [],
+    "patient_full_name": "Rosa Gómez",
+    "patient_date_of_birth": "1942-11-30",
+    "visit_type": "Medication review",
+    "visit_reason": "Me duele la rodilla y me siento cansada. Quiero revisar mis medicinas.",
+    "top_concern": "Me caí en casa el mes pasado.",
+    "conditions": "Tiroides baja, artritis en la rodilla",
+    "medications": "Levothyroxine 50 mcg, ibuprofen 400 mg",
+    "allergies": "Ninguna",
+    "symptoms": [
+      "Joint, muscle, or back pain",
+      "Fever or fatigue"
+    ],
+    "support": "Vivo sola.",
+    "barriers": [
+      "Physical limitations"
+    ],
+    "learning_style": "Very simple, short instructions",
+    "goal": "No caerme otra vez.",
+    "email_patient_consent": [
+      "No"
+    ],
+    "caregiver_share_consent": [
+      "No"
+    ],
+    "consent_name": "Rosa Gómez",
+    "consent_date": "2026-10-31"
+  }
+}

@@ -1585,6 +1585,10 @@
   "found": false,
   "query": "vitamin d"
  },
+ "vitamin d3": {
+  "found": false,
+  "query": "vitamin d3"
+ },
  "warfarin": {
   "found": true,
   "query": "warfarin",

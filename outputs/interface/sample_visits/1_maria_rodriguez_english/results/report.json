@@ -1,0 +1,27 @@
+{
+ "visit": "1_maria_rodriguez_english",
+ "patient": "Maria Rodriguez",
+ "language": "English",
+ "errors": [],
+ "outputs": {
+  "en": [
+   "email_patient_en.txt",
+   "phone_patient_en.txt",
+   "email_family_en.txt",
+   "phone_family_en.txt",
+   "printout_en.pdf",
+   "review_en.png",
+   "phone_call_en.m4a"
+  ]
+ },
+ "translation_flags": {
+  "en": 0
+ },
+ "conversation": "audio, transcribed",
+ "ready": true,
+ "reader": "A reader at grade 5 would likely know 100 of every 100 words. Sentences: 7.4 words on average, longest 15.",
+ "failed_checks": [],
+ "inputs_disagree": [],
+ "checklist_items": 11,
+ "seconds": 40
+}

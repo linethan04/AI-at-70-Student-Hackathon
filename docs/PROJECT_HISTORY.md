@@ -2,7 +2,7 @@
 
 This page summarizes everything built and decided so far, so that a teammate or Claude Code can pick up the work without the original chats. The rules themselves live in [CLAUDE.md](../CLAUDE.md). This page explains **what exists, why, and what was decided**.
 
-*Last updated: 2026-10-31 (repository cleanup).*
+*Last updated: 2026-10-31 (sample visits and end-to-end test).*
 
 ---
 
@@ -41,6 +41,7 @@ AI at 70 is a clinician-facing tool for primary care, built for a Claude hackath
 | 12 | Remove the photo (not part of the workflow); the doctor uploads **typed** notes; show the real recording screen; the narrator lists every language; captions follow the narration; no emojis at the end | Done. Video is about 82 s. |
 | 13 | Clean up the repository: no team member names, consolidated `scripts/`, `tools/` and `outputs/`, a README in each folder, a references page, final drafts only, and this history | This layout. Samples, test kits, test scripts, rough drafts and the per-person folders were removed (still in git history). |
 | 14 | Add to the README the three project questions (who it's for, what could go wrong, helping rather than deciding) and the project statement ("In our project, a person always stays in charge..."); make a 4-slide .pptx in the app's style with cartoons from the video | README "Why AI at 70" section and statement at the top; `outputs/presentation/AI_at_70.pptx` built by `scripts/presentation/` (authors listed by first name: Ethan, Jason, Max, Tanner). |
+| 15 | Re-simulate sample visits to test the whole interface, with downloadable files; remove the blue squiggle floating above the header line | Five made-up visits in `outputs/interface/sample_visits/` (English, Mandarin, Portuguese, Arabic, Spanish; check-in, synthetic recording, typed note) and `scripts/test_sample_visits.py`, which runs them through the real page and saves every output. The header's heartbeat squiggle was removed (the line stays). The new notes exposed summary bugs, now fixed: an inhaler called "1 pill", "Calcium carbonate" split, qualifiers left in ("uncomplicated", "volume overloaded", "at goal"), clause definitions replacing the term ("follow-up of your heart can't pump…"), "if you have lips turn blue", tests with no verb ("Chest x-ray today."), a duplicated vitamin step, and capitalized terms mid-sentence. |
 
 ---
 
@@ -122,6 +123,7 @@ AI at 70 is a clinician-facing tool for primary care, built for a Claude hackath
 See the repository map in the [README](../README.md#repository-map). The short version:
 
 - **Run the app:** `scripts/run_ai_at_70.py`
+- **Test it end to end:** `scripts/test_sample_visits.py` with `outputs/interface/sample_visits/`
 - **One-time setup:** `scripts/setup/`
 - **Build the video:** `scripts/video/`
 - **Tools:**

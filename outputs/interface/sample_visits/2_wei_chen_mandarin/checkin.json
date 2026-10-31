@@ -1,0 +1,42 @@
+{
+  "questionnaire_version": "1.2.0",
+  "language": "zh",
+  "summary_language": "zh",
+  "submitted_at": "2026-10-31T09:05:00Z",
+  "answers": {
+    "email_risk_ack": [],
+    "caregiver_risk_ack": [
+      "I understand"
+    ],
+    "patient_full_name": "Wei Chen",
+    "patient_date_of_birth": "1945-06-02",
+    "visit_type": "New health concern",
+    "visit_reason": "最近一个星期咳嗽加重，走路的时候喘不过气。",
+    "top_concern": "呼吸困难。",
+    "symptom_start": "一个星期前",
+    "conditions": "慢性阻塞性肺病 (COPD)，膝关节炎",
+    "medications": "Tiotropium 吸入器每天一次，Albuterol 吸入器需要时用，Ibuprofen 治膝盖痛",
+    "allergies": "没有",
+    "symptoms": [
+      "Shortness of breath or cough"
+    ],
+    "tobacco": "No",
+    "support": "我和儿子住在一起。他帮我去药店拿药。",
+    "barriers": [
+      "Language or understanding instructions"
+    ],
+    "learning_style": "Very simple, short instructions",
+    "goal": "知道怎么用药，让儿子也知道。",
+    "email_patient_consent": [
+      "No"
+    ],
+    "caregiver_share_consent": [
+      "Yes"
+    ],
+    "caregiver_name": "David Chen",
+    "caregiver_relationship": "Son",
+    "caregiver_email": "david.chen@example.com",
+    "consent_name": "Wei Chen",
+    "consent_date": "2026-10-31"
+  }
+}

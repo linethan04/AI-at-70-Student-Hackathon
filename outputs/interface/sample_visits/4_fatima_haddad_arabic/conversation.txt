@@ -1,0 +1,8 @@
+[0:00] Clinician: Hello, Mrs. Haddad. The interpreter is on the phone with us. What's been going on?
+[0:08] Patient: It burns when I pass urine, and I go very often. It started three days ago.
+[0:16] Clinician: Any fever or back pain?
+[0:20] Patient: No.
+[0:22] Clinician: This looks like a bladder infection. I'm starting an antibiotic, nitrofurantoin, one hundred milligrams twice a day for five days.
+[0:34] Clinician: For your bones, start vitamin D, one thousand units a day, and keep taking your calcium twice a day with meals.
+[0:44] Clinician: We'll test your urine today, and you'll have a bone scan next month.
+[0:51] Clinician: Drink plenty of water. If you get a fever or back pain, call the office.

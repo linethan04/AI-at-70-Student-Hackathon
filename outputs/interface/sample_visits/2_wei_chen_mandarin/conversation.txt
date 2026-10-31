@@ -1,0 +1,8 @@
+[0:00] Clinician: Good morning, Mr. Chen. Your interpreter is here with us. What brings you in?
+[0:08] Patient: My cough is worse this week, and I get out of breath when I walk.
+[0:16] Clinician: Are you using your inhalers every day?
+[0:21] Patient: The daily one, yes. The rescue inhaler maybe three times a day now. I also take ibuprofen for my knees.
+[0:31] Clinician: I'm going to start prednisone, forty milligrams once a day for five days.
+[0:39] Clinician: Keep using the daily inhaler, and use the rescue inhaler, two puffs, every four to six hours if you need it.
+[0:49] Clinician: We'll get a chest x-ray today, and I'll see you again in one week.
+[0:56] Clinician: If your lips turn blue or you can't breathe even when you rest, call nine one one.

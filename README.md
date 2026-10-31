@@ -57,13 +57,15 @@ python scripts/setup/build_voices.py               # phone-call voices, ~770 MB
 python scripts/run_ai_at_70.py                     # then open http://localhost:5070
 ```
 
-To try it, open http://localhost:5070 and use Maria's made-up visit in [scripts/video/](scripts/video/):
+To try it, open http://localhost:5070 and use one of the five made-up visits in [outputs/interface/sample_visits/](outputs/interface/sample_visits/) (English, Mandarin, Portuguese, Arabic and Spanish):
 
-1. **Start a visit.** Upload `maria_checkin.json`.
-2. **Conversation.** Record or upload audio, paste `maria_conversation.txt`, or **Skip**.
-3. **Clinician note.** Upload `maria_note.txt`, add "Dr. Lee" and an office phone number, then click **Write the summary**.
+1. **Start a visit.** Upload the visit's `checkin.json`.
+2. **Conversation.** Upload `conversation.m4a` (or `conversation.txt`), record, or **Skip**.
+3. **Clinician note.** Upload `note.txt`, add "Dr. Lee" and an office phone number, then click **Write the summary**.
 4. **Review.** Click **Select all**, type your name, then **Approve summary**.
 5. **Send.** Choose **Printout / Email / Phone call**, and pick a language button if needed.
+
+To test all five automatically and save every printout, email and phone call, run `python scripts/test_sample_visits.py` while the app is running. The results of the last run are in [sample_visits/RESULTS.md](outputs/interface/sample_visits/RESULTS.md).
 
 Optional keys go in a local `.env` file, which is never committed:
 
@@ -102,6 +104,7 @@ recording ────────┘   (tools/plain_language)      (checklist, 
 ├── scripts/                   the main scripts: run these
 │   ├── README.md
 │   ├── run_ai_at_70.py        the app's server (port 5070): page, check-in, recorder, summary, outputs, voice
+│   ├── test_sample_visits.py  runs the five sample visits through the app and saves every output
 │   ├── setup/                 one-time downloads and data builds
 │   │   ├── README.md
 │   │   ├── build_translation_models.py   offline translation models  -> tools/translation/models/
@@ -131,6 +134,7 @@ recording ────────┘   (tools/plain_language)      (checklist, 
 └── outputs/                   the main products
     ├── README.md
     ├── interface/             the clinician's web page (the app) + screenshots
+    │   └── sample_visits/     five made-up visits to test it with (check-in, recording, note) and their results
     ├── presentation/          AI_at_70.pptx: the 4-slide presentation
     └── video/                 the demo video and the prompt to remake it with other AI tools
 ```

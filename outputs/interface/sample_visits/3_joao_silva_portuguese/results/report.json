@@ -1,0 +1,37 @@
+{
+ "visit": "3_joao_silva_portuguese",
+ "patient": "João Silva",
+ "language": "Portuguese",
+ "errors": [],
+ "outputs": {
+  "pt": [
+   "email_patient_pt.txt",
+   "phone_patient_pt.txt",
+   "email_family_pt.txt",
+   "phone_family_pt.txt",
+   "printout_pt.pdf",
+   "review_pt.png",
+   "phone_call_pt.m4a"
+  ],
+  "en": [
+   "email_patient_en.txt",
+   "phone_patient_en.txt",
+   "email_family_en.txt",
+   "phone_family_en.txt",
+   "printout_en.pdf",
+   "review_en.png",
+   "phone_call_en.m4a"
+  ]
+ },
+ "translation_flags": {
+  "pt": 5,
+  "en": 0
+ },
+ "conversation": "audio, transcribed",
+ "ready": true,
+ "reader": "A reader at grade 5 would likely know 100 of every 100 words. Sentences: 7.1 words on average, longest 12.",
+ "failed_checks": [],
+ "inputs_disagree": [],
+ "checklist_items": 9,
+ "seconds": 89
+}

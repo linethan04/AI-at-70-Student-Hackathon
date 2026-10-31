@@ -1,0 +1,5 @@
+[0:00] Clinician: Hello, Mrs. Herdad, the interpreter is on the phone with us, what's been going on?
+[0:05] Patient: It burns when I pass urine and I go very often. It started three days ago.
+[0:12] Clinician: Any fever or back pain?
+[0:14] Patient: No.
+[0:15] Clinician: This looks like a bladder infection. I'm starting an antibiotic, natrophurantoid, 100 milligrams twice a day for five days. For your bones, start Vitamin D, 1000 units a day, and keep taking your calcium twice a day with meals. We'll test your urine today, and you'll have a bone scan next month. Drink plenty of water, if you get a fever or back pain, call the office.

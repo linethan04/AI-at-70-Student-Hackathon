@@ -1,0 +1,5 @@
+[0:00] Patient: Good morning, Mr. Chen, your interpreter is here with us, what brings you in?
+[0:05] Clinician: My cough is worse this week, and I get out of breath when I walk.
+[0:10] Patient: Are you using your inhalers every day?
+[0:13] Clinician: The daily one, yes. The rescue inhaler may be three times a day now. I also take ibuprofen for my knees.
+[0:21] Patient: I'm going to start Pritnisone, 40 milligrams once a day for five days. Keep using the daily inhaler and use the rescue inhaler, two puffers, every four to six hours if you need it. We'll get a chest x-ray today, and I'll see you again in one week. If your lips turn blue or you can't breathe even when you rest, call 911.

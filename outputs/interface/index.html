@@ -9,10 +9,9 @@ body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "Nunito Sans",
 h1,h2,h3,p{margin:0}.muted{color:var(--muted)}.small{font-size:.85rem}
 h1,h2,h3,.bt b,.btn{font-family:"Nunito","Segoe UI",system-ui,sans-serif}
 :focus-visible{outline:3px solid #6bbbe8;outline-offset:2px}
-/* header with a heartbeat line along its bottom edge */
+/* header with a thin colored line along its bottom edge */
 .top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 36px 18px;padding-top:max(12px,env(safe-area-inset-top));background:#fff;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='22' viewBox='0 0 84 22'%3E%3Cpath d='M0 11H24L30 3L38 19L45 6L50 11H84' fill='none' stroke='%2335a5e0' stroke-width='2.4' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E"),linear-gradient(90deg,#1c5d84,#38b6a9 55%,#1d7a55);
-  background-repeat:no-repeat,no-repeat;background-position:340px 100%,0 100%;background-size:84px 22px,100% 3px}
+  background-image:linear-gradient(90deg,#1c5d84,#38b6a9 55%,#1d7a55);background-repeat:no-repeat;background-position:0 100%;background-size:100% 3px}
 .brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink)}.brand img{height:44px;width:auto}
 .bt{display:flex;flex-direction:column;line-height:1.1}.bt b{font-size:1.7rem;font-weight:800;letter-spacing:-.01em}.bt small{font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-top:3px}
 .env{font-size:.8rem;font-weight:700;color:var(--amber);background:var(--amber-soft);padding:4px 12px;border-radius:6px}

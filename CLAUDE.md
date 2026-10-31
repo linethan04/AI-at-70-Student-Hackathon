@@ -93,8 +93,9 @@ Read [`docs/PROJECT_HISTORY.md`](docs/PROJECT_HISTORY.md) first: it has every re
     - Every line is back-translated and flagged on drift or a lost number.
     - Offline engine: Argos Translate OPUS-MT via CTranslate2. Claude translates when `ANTHROPIC_API_KEY` is set.
   - `voice/voices.py`: phone-call voices on this computer: Kokoro (`af_heart`, `ef_dora`, `pf_dora`; Mandarin via sherpa-onnx) and Piper `ar_JO-kareem` for Arabic.
+- `scripts/test_sample_visits.py`: drives the real page in Chrome through the five made-up visits in `outputs/interface/sample_visits/` (check-in, `conversation.m4a` or Skip, `note.txt`, Select all, approve in the patient's language and in English) and saves each visit's `results/` (printout PDFs, emails, phone scripts and calls, review screenshots, transcript, `report.json`) plus `RESULTS.md`. The app must be running. Rerun it after changing the summary, translation or page, and read the results.
 - `scripts/presentation/`: `render_images.py` (the logo + stills of the video's scenes) and `make_presentation.py` (python-pptx, the app's colors; `AUTHORS` at the top) → `outputs/presentation/AI_at_70.pptx`.
-- `outputs/`: the products. `interface/index.html` is the app page (needs the server), with screenshots. `presentation/AI_at_70.pptx`: 4 slides (title, then the three project questions from the README's "Why AI at 70"). `video/` holds `ai_at_70_demo.mp4` and `VIDEO_PROMPT.md`, a prompt for remaking the video with other AI tools.
+- `outputs/`: the products. `interface/index.html` is the app page (needs the server), with screenshots; `interface/sample_visits/` holds the test visits (synthetic; their `.m4a` files are allowed in git by a `.gitignore` exception). `presentation/AI_at_70.pptx`: 4 slides (title, then the three project questions from the README's "Why AI at 70"). `video/` holds `ai_at_70_demo.mp4` and `VIDEO_PROMPT.md`, a prompt for remaking the video with other AI tools.
 - `docs/PROJECT_HISTORY.md`: the project's history and decisions. `REFERENCES.md`: every source.
 
 Keep this layout: final versions only, no per-person folders, a `README.md` in every folder, and update this file and the READMEs when something changes.
@@ -117,6 +118,9 @@ python tools/translation/translate.py es "Take 1 pill (5 mg) each day."
 python tools/voice/voices.py en "Take 1 pill, 5 milligrams, each day." out.wav
 python tools/transcription/EL_audio.py transcribe <file.wav> --clean
 python tools/transcription/app.py                   # transcription page: http://localhost:5050
+
+# test every sample visit end to end (the app must be running)
+python scripts/test_sample_visits.py
 
 # the demo video (macOS, Chrome; the app must be running)
 python scripts/video/make_visit_audio.py && python scripts/video/capture_app.py && python scripts/video/make_video.py

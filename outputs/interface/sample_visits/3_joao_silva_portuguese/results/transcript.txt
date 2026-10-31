@@ -1,0 +1,3 @@
+[0:00] Clinician: Hello, Mr. Silver, how is your breathing?
+[0:03] Patient: I get out of breath on the stairs, and my ankles are swollen.
+[0:07] Clinician: Your body is holding on to extra fluid, we'll raise your water pill, fear ossomide, to 40 milligrams once a day. Keep taking the lisinopril and the metochrol all the same way. Please weigh yourself every morning, if you gain more than 3 pounds in two days, call us. Try to keep salt to 2 grams a day. We'll check a blood test in one week, and I'll see you in two weeks. If you have chest pain or can't breathe when you rest, call 911.

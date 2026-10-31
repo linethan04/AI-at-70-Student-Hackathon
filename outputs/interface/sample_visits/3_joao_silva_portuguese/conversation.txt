@@ -1,0 +1,8 @@
+[0:00] Clinician: Hello, Mr. Silva. How is your breathing?
+[0:06] Patient: I get out of breath on the stairs, and my ankles are swollen.
+[0:13] Clinician: Your body is holding on to extra fluid. We'll raise your water pill, furosemide, to forty milligrams once a day.
+[0:24] Clinician: Keep taking the lisinopril and the metoprolol the same way.
+[0:30] Clinician: Please weigh yourself every morning. If you gain more than three pounds in two days, call us.
+[0:40] Clinician: Try to keep salt to two grams a day.
+[0:46] Clinician: We'll check a blood test in one week, and I'll see you in two weeks.
+[0:53] Clinician: If you have chest pain or can't breathe when you rest, call nine one one.

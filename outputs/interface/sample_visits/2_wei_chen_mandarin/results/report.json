@@ -1,0 +1,40 @@
+{
+ "visit": "2_wei_chen_mandarin",
+ "patient": "Wei Chen",
+ "language": "Mandarin",
+ "errors": [],
+ "outputs": {
+  "zh": [
+   "email_patient_zh.txt",
+   "phone_patient_zh.txt",
+   "email_family_zh.txt",
+   "phone_family_zh.txt",
+   "printout_zh.pdf",
+   "review_zh.png",
+   "phone_call_zh.m4a"
+  ],
+  "en": [
+   "email_patient_en.txt",
+   "phone_patient_en.txt",
+   "email_family_en.txt",
+   "phone_family_en.txt",
+   "printout_en.pdf",
+   "review_en.png",
+   "phone_call_en.m4a"
+  ]
+ },
+ "translation_flags": {
+  "zh": 20,
+  "en": 0
+ },
+ "conversation": "audio, transcribed",
+ "ready": true,
+ "reader": "A reader at grade 5 would likely know 99 of every 100 words; might not know 'COPD'. Sentences: 8.6 words on average, longest 20.",
+ "failed_checks": [],
+ "inputs_disagree": [
+  "Mentioned in the conversation but not in the note: ibuprofen",
+  "On the patient's check-in medicine list but not in the note: ibuprofen"
+ ],
+ "checklist_items": 10,
+ "seconds": 84
+}

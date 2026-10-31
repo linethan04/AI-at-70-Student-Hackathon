@@ -11,6 +11,8 @@ tools/transcription/transcripts/
 *.wav
 *.mp3
 *.m4a
+# except the sample visits: synthetic voices reading made-up visits, kept so they can be downloaded and tested
+!outputs/interface/sample_visits/**/*.m4a
 
 # Downloaded data and models (rebuild with scripts/setup/)
 tools/transcription/.cache/
@@ -24,5 +26,6 @@ tools/plain_language/output/
 scripts/video/build/
 scripts/presentation/build/
 
-# macOS
+# macOS and Office lock files
 .DS_Store
+~$*

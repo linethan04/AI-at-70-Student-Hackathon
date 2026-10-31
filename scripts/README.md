@@ -7,6 +7,7 @@ Run all commands from the repository root, inside the virtual environment (`sour
 | Script | What it does | Run |
 |---|---|---|
 | [`run_ai_at_70.py`](run_ai_at_70.py) | Starts the AI at 70 app: the clinician's page, the patient check-in form, the visit recorder and the summary, translation and voice services | `python scripts/run_ai_at_70.py`, then open http://localhost:5070 (`--port 5071` to change the port) |
+| [`test_sample_visits.py`](test_sample_visits.py) | Runs the five made-up visits in [`outputs/interface/sample_visits/`](../outputs/interface/sample_visits/) through the real page in Chrome (check-in, recording, note, approve, every language they need) and saves the printouts, emails, phone scripts and phone calls to each visit's `results/` | with the app running: `python scripts/test_sample_visits.py` (all, about 5 minutes), or `python scripts/test_sample_visits.py 3_joao_silva_portuguese`; `--audio` re-voices the conversations (macOS) |
 | [`setup/`](setup/) | One-time downloads and data builds | see [setup/README.md](setup/README.md) |
 | [`video/`](video/) | Builds the demo video from the real app | see [video/README.md](video/README.md) |
 | [`presentation/`](presentation/) | Builds the 4-slide presentation | see [presentation/README.md](presentation/README.md) |

@@ -1,0 +1,45 @@
+{
+  "questionnaire_version": "1.2.0",
+  "language": "ar",
+  "summary_language": "ar",
+  "submitted_at": "2026-10-31T11:00:00Z",
+  "answers": {
+    "email_risk_ack": [
+      "I understand"
+    ],
+    "caregiver_risk_ack": [
+      "I understand"
+    ],
+    "patient_full_name": "Fatima Haddad",
+    "patient_date_of_birth": "1953-09-09",
+    "visit_type": "New health concern",
+    "visit_reason": "حرقة عند التبول منذ ثلاثة أيام.",
+    "top_concern": "أذهب إلى الحمام كثيرًا. وأخاف من السقوط وكسر العظام.",
+    "symptom_start": "منذ ثلاثة أيام",
+    "conditions": "هشاشة العظام",
+    "medications": "Calcium 600 mg",
+    "allergies": "Sulfa",
+    "symptoms": [
+      "Painful or frequent urination"
+    ],
+    "support": "أعيش مع ابنتي ليلى.",
+    "barriers": [
+      "Language or understanding instructions",
+      "Physical limitations"
+    ],
+    "learning_style": "Very simple, short instructions",
+    "goal": "أن أفهم الدواء وأن تعرف ابنتي ماذا أفعل.",
+    "patient_email": "fatima.haddad@example.com",
+    "email_patient_consent": [
+      "Yes"
+    ],
+    "caregiver_share_consent": [
+      "Yes"
+    ],
+    "caregiver_name": "Layla Haddad",
+    "caregiver_relationship": "Daughter",
+    "caregiver_email": "layla.haddad@example.com",
+    "consent_name": "Fatima Haddad",
+    "consent_date": "2026-10-31"
+  }
+}

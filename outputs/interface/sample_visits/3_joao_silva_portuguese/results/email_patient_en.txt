@@ -1,0 +1,24 @@
+To: joao.silva@example.com
+Subject: Visit summary for João Silva
+
+Dear João Silva,
+Here is the summary of your visit today.
+YOUR VISIT
+You came in for a follow-up of heart failure.
+Heart failure means your heart can't pump enough oxygen-rich blood.
+The doctor thinks you have heart failure and high blood pressure.
+YOUR MEDICINES
+[Higher dose]
+- Water pill (Furosemide): Take 1 pill (40 mg) each day.
+- Blood pressure medicine (Lisinopril): Keep taking 1 pill (10 mg) each day.
+- Blood pressure medicine (Metoprolol): Keep taking 1 pill (25 mg) twice a day.
+WHAT TO DO NEXT
+- Weigh yourself every morning.
+- Limit salt to 2 grams a day.
+- Go to the lab in 1 week for a blood test (BMP).
+- Go to your follow-up visit in 2 weeks with Dr. Lee.
+- Call us if your weight goes up more than 3 pounds in 2 days.
+- Call 911 if you have chest pain or trouble breathing when you rest.
+Questions? Call the office: 555-0100.
+
+Reviewed by: Dr. Lee · 10/31/2026, 7:05:19 AM

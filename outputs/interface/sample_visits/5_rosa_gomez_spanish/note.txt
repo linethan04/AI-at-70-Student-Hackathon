@@ -1,0 +1,22 @@
+Riverside Primary Care - Progress note (synthetic, for testing)
+Patient: Rosa Gomez, 84F    Date: Oct 31
+
+CC: Medication review. Right knee pain. Fatigue. Fall at home 1 month ago, no injury.
+Meds: Levothyroxine 50 mcg daily, ibuprofen 400 mg TID PRN knee pain.
+Allergies: NKDA
+
+A:
+1. Hypothyroidism, TSH high.
+2. Osteoarthritis of the right knee.
+3. Fall risk.
+
+P:
+1. Increase levothyroxine to 75 mcg daily before breakfast.
+2. Stop ibuprofen.
+3. Start acetaminophen 650 mg every 8 hours as needed for knee pain.
+4. Referral to physical therapy for balance.
+5. Check TSH in 6 weeks.
+6. Follow up in 6 weeks with Dr. Lee.
+7. Call the office if you fall again.
+
+Dr. Lee

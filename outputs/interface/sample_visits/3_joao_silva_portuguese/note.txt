@@ -1,0 +1,22 @@
+Riverside Primary Care - Progress note (synthetic, for testing)
+Patient: Joao Silva, 76M    Date: Oct 31
+
+CC: Follow-up of heart failure. Bilateral ankle edema and DOE.
+Meds: Furosemide 20 mg daily, lisinopril 10 mg daily, metoprolol 25 mg BID.
+Allergies: NKDA
+
+A:
+1. Heart failure, volume overloaded.
+2. Hypertension, at goal.
+
+P:
+1. Increase furosemide to 40 mg daily.
+2. Continue lisinopril 10 mg daily.
+3. Continue metoprolol 25 mg BID.
+4. Weigh yourself every morning. Call if weight goes up more than 3 pounds in 2 days.
+5. Limit salt to 2 grams a day.
+6. Check BMP in 1 week.
+7. Follow up in 2 weeks with Dr. Lee.
+8. Call 911 if chest pain or trouble breathing at rest.
+
+Dr. Lee

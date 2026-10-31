@@ -20,6 +20,12 @@ python scripts/run_ai_at_70.py      # then open http://localhost:5070
 | 5. Print, email, call | **Printout** (large print), **Email** (a draft to the patient or a consenting family member), or **Phone call** (the script, played in a natural voice) | [6_printout.png](screenshots/6_printout.png), [7_email.png](screenshots/7_email.png), [8_phone_call.png](screenshots/8_phone_call.png) |
 | Another language | Spanish, Mandarin, Portuguese or Arabic for all three outputs; this needs a new approval | [9_spanish.png](screenshots/9_spanish.png) |
 
+## Test it
+
+[`sample_visits/`](sample_visits/) has five made-up visits (English, Mandarin, Portuguese, Arabic, Spanish), each with a check-in file, a recording and a typed note, to upload step by step. `python scripts/test_sample_visits.py` runs them all through the page and saves every printout, email and phone call. See [sample_visits/README.md](sample_visits/README.md).
+
+## Automatic checks
+
 The automatic checks sit in a dropdown under the send tabs:
 
 - reading level

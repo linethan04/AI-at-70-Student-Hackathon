@@ -422,6 +422,10 @@
  "_about_phrases": "phrases: whole clinical phrases -> how a person would say them out loud (CLAUDE.md: 'say it the way you would say it to the patient'). Matched before single words, so 'worsening breathlessness' becomes one plain phrase instead of two swapped words. Keys starting with '~' are regular expressions (case-insensitive). Model knowledge: every use is flagged 'no standard source' for the clinician.",
  "phrases": {
   "~worsening (?:breathlessness|shortness of breath|SOB|dyspno?ea)": "your breathing has gotten worse",
+  "~worsening cough and (?:SOB|shortness of breath|breathlessness|trouble breathing)": "your cough and breathing have been getting worse",
+  "~worsening cough": "your cough has been getting worse",
+  "trouble breathing at rest": "trouble breathing when you rest",
+  "~urine culture": "a urine test (urine culture)",
   "~(?:increased|worsening) (?:breathlessness|shortness of breath|SOB|dyspno?ea) on exertion": "more trouble breathing when you are active",
   "~(?:breathlessness|shortness of breath|SOB|dyspno?ea|DOE) on exertion": "trouble breathing when you are active",
   "~(?:breathlessness|shortness of breath|SOB|dyspno?ea) at rest": "trouble breathing when you rest",

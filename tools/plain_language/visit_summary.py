@@ -44,13 +44,14 @@ KINDS = ("med", "word", "keep", "drug")
 EVERYDAY_ZIPF = 3.5   # single words at least this common aren't counted as leftover jargon ("hypertension" is 3.4)
 MAX_TRIES = 6
 MARKUP = re.compile(r"\[\[([^\]|]*)\|([^\]|]*)\|([^\]|]*)\|([^\]|]*)\]\]")
-NAME_SUFFIXES = ("acid", "sodium", "potassium", "succinate", "tartrate", "hydrochloride", "hcl", "inhaler", "cream", "patch",
+NAME_SUFFIXES = ("acid", "sodium", "potassium", "succinate", "tartrate", "hydrochloride", "hcl", "carbonate", "citrate",
+                 "inhaler", "cream", "patch",
                  "spray", "drops", "gel", "xl", "sr", "er", "la", "cr")
 SALTS = {"succinate", "tartrate", "hydrochloride", "hcl", "sodium", "potassium", "calcium", "magnesium", "iron", "zinc",
          "chloride", "carbonate", "citrate", "sulfate", "oxygen", "alcohol", "nicotine", "caffeine", "glucose"}  # only a
 # medicine when the note gives it a dose ("calcium 600 mg"), not in "low sodium diet" or "metoprolol succinate"
 UNDECIDED = re.compile(r"\b(?:discuss|consider|may|might|could|possible|possibly|think about)\b[^.\n]*$", re.I)
-FORM_VERBS = [(r"inhaler|puff|spray|nebuli", "Use"), (r"cream|ointment|gel|emollient|patch|lotion", "Put on"),
+FORM_VERBS = [(r"inhal|puff|spray|nebuli", "Use"), (r"cream|ointment|gel|emollient|patch|lotion", "Put on"),
               (r"drops?\b", "Use")]
 MED_LINE_START = re.compile(r"^(?:start|stop|increase|decrease|reduce|lower|raise|restart|continue|keep taking|take|"
                             r"delayed|prescribed|advised|told|switch|change|hold)\b", re.I)
@@ -89,7 +90,8 @@ CATEGORIES = [  # the earliest match in the text wins: the reason in the note, t
     (r"prostat", "Prostate medicine"),
     (r"alzheimer|dementia|memory", "Memory medicine"),
     (r"heart|angina", "Heart medicine"),
-    (r"vitamin|supplement|calcium", "Supplement"),
+    (r"vitamin|supplement", "Vitamin"),
+    (r"calcium|magnesium|zinc|iron\b", "Mineral"),
     (r"nausea|vomit", "Nausea medicine"),
     (r"constipation|bowel", "Bowel medicine"),
 ]
@@ -172,7 +174,8 @@ STEP_RULES = [
     (r"^Or sooner if\b", "Come back sooner if"),
     (r"\bif worse\b", "if you feel worse"),
     (r"\bif you feel worse \(([^)]+)\)", r"if you feel worse, such as \1"),
-    (r"^((?:call|ring) (?:999|911|111)|go to [^.]+?) if (?!you\b)", r"\1 if you have "),
+    (r"\bif (lips|skin|face|weight|legs|feet|ankles|breathing) (turns?|goes|go|gets?|swell|becomes?)\b", r"if your \1 \2"),
+    (r"^((?:call|ring) (?:999|911|111)|go to [^.]+?) if (?!you\b|your\b)", r"\1 if you have "),
     (r"\bthinks you have (?!a |an |the )(viral|bacterial|new|possible)\b", r"thinks you have a \1"),
     (r"\bor possible\b", "or maybe a"),
     (r"(\d+ ?(?:mg|mcg|ml)) day (\d+),? then\b", r"\1 on day \2, then"),
@@ -202,14 +205,17 @@ STEP_RULES = [
     (r"^call if\b", "Call us if"),
     (r"\bif gain\b", "if you gain"),
     (r"\bif not improving\b", "if you are not better"),
-    (r"^((?:call|ring)(?: us| \d{3})?(?: or come back| or go to the emergency room)?|come back|go to the emergency room(?: or call \d{3})?|"
+    (r"^((?:call|ring)(?: us| \d{3}| the office| your doctor(?:'s office)?)?(?: or come back| or go to the emergency room)?|come back|go to the emergency room(?: or call \d{3})?|"
      r"get [^,]*?|Call us or come back) if (?!you\b|your\b|it\b|the\b|not\b|needed\b|there\b|we\b)", r"\1 if you have "),
     (r"\bif you have (fever|high fever)\b", r"if you have a \1"),
     (r"\bsymptoms? (?:>|more than) ?(\d+ \w+)", r"symptoms that last more than \1"),
     (r"^(.+? if you have )(.+)$", split_list),
     # tests and scans: what will happen
-    (r"^(an? [^.]*?(?:scan|ultrasound|x-ray|mammogram)\b(?: \([^)]*\))?)(?: (?:is )?(?:ordered|due|today|booked))?\.?$",
-     lambda m: f"You will get {m.group(1)[0].lower() + m.group(1)[1:]}."),
+    (r"^((?:chest |knee |hip )?x-ray)\b", lambda m: "a " + m.group(1).lower()),
+    (r"^(a urine test(?: \(urine culture\))?) (today|in \d+ \w+)\.?$", lambda m: f"Go to the lab {m.group(2)} for {lower_first(m.group(1))}."),
+    (r"\b(if your \w+ \w+ \w+) or (?!you\b|your\b)", r"\1 or you have "),
+    (r"^(an? [^.]*?(?:scan|ultrasound|x-ray|mammogram)\b(?: \([^)]*\))?)(?: (?:is )?(?:ordered|due|booked))?((?: today| in \d+ \w+)?)\.?$",
+     lambda m: f"You will get {m.group(1)[0].lower() + m.group(1)[1:]}{m.group(2)}."),
     # everyday wording
     (r"(\d+) minutes? walking\b", r"walk \1 minutes"),
     (r"\bat pharmacy\b", "at the pharmacy"),
@@ -220,6 +226,9 @@ STEP_RULES = [
     (r"(\d+(?:\.\d+)?) g\b(?= a day| each day| per day)", r"\1 grams"),
     (r"\bhigh cholesterol and other blood fats\b", "high cholesterol"),
     (r",?\s*(?:hemodynamically|haemodynamically) stable\b", ""),
+    (r",\s*(?:uncomplicated|volume overloaded|fluid overloaded|(?<!not )at (?:goal|target)|stable|[A-Z0-9]{2,5} (?:high|low|elevated))\b", ""),
+    (r"\bbecause of getting worse (.+?) for (\d+) (day|week|month)s?\b",
+     lambda m: f"because your {m.group(1)} got worse over the past " + (m.group(3) if m.group(2) == "1" else f"{m.group(2)} {m.group(3)}s")),
     (r", new\b(?= and|\.|$)", ""),
     (r", no signs of anything serious\b", ". There are no signs of anything serious"),
     (r", ((?-i:[A-Za-z]+)) for (fever or pain|fever|pain)\b", r", and take \1 for \2"),
@@ -565,6 +574,8 @@ def instruction_for(name: str, dose: str, change: str, keep_taking: bool, when: 
     dose = re.sub(r"\bthen back to\b", "then go back to", dose)
     dose = re.sub(r"\bnightly\b", "each night", dose)
     dose = re.sub(r"^(\d+(?:\.\d+)?\s?(?:mg|mcg|micrograms?))\s+(\d+ puffs?)\b", r"\2 (\1)", dose)  # "100mcg 2 puffs"
+    if verb in ("Use", "Keep using"):  # "18 mcg inhaled daily" -> "it (18 mcg) each day"
+        dose = re.sub(r"^(\d+(?:\.\d+)?\s?(?:mg|mcg|micrograms?))\s+(?:inhaled\s+)?", r"it (\1) ", dose)
     dose = re.sub(r"\s*/\s*(day|week|month|hour|night)\b", r" a \1", dose)
     dose = ORAL_AMOUNT.sub(lambda m: f"{m.group(1)} {m.group(2).lower()}", dose)  # "5mg" -> "5 mg"
     # "5 mg" -> "1 pill (5 mg)"; not for grams (1 g of paracetamol is 2 tablets) or combinations ("49/51 mg")
@@ -604,7 +615,7 @@ def category_for(purpose: str, why: str, reason: str = "", form: str = "") -> st
     for pattern, name in CLASSES if drug_class else []:
         if re.search(pattern, drug_class.group(1), re.I):
             return name
-    return earliest(purpose) or earliest(why) or "Medicine"
+    return earliest(purpose) or earliest(why) or earliest(form) or "Medicine"
 
 
 def find_medicines(note: str, level: int, grade: int) -> tuple[list[Medicine], set[str]]:
@@ -615,6 +626,7 @@ def find_medicines(note: str, level: int, grade: int) -> tuple[list[Medicine], s
     medicines = []
     for key in sorted(names, key=lambda n: note.lower().find(n)):
         shown_name, dose, change, keep_taking, when, in_plan, dose_from_meds = None, "", "", False, "", False, False
+        form = ""  # every dose the note gives, for the form ("inhaled", "puffs")
         reason, undecided = "", ""
         for kind, _, body in parts:
             for m in re.finditer(rf"\b{re.escape(key)}\b", body, re.I):
@@ -623,6 +635,7 @@ def find_medicines(note: str, level: int, grade: int) -> tuple[list[Medicine], s
                 name = body[m.start():end]
                 shown_name = shown_name or name[0].upper() + name[1:]
                 found = dose_after(body, end)
+                form += " " + found
                 plain = convert(found).plain_text if found else ""
                 has_dose = bool(found) and bool(re.search(r"\d", found) or DOSING_WORDS.search(plain))
                 line_start = body.rfind("\n", 0, m.start()) + 1
@@ -668,9 +681,11 @@ def find_medicines(note: str, level: int, grade: int) -> tuple[list[Medicine], s
                 purpose_text = shorten(purpose_text, 5)
         else:
             flags.append("no MedlinePlus drug page found: add what it is for, or leave the name only")
-        instruction, one_pill = instruction_for(shown_name or key, dose, change if in_plan else "", keep_taking, when)
+        instruction, one_pill = instruction_for(f"{shown_name or key} {form}", dose, change if in_plan else "", keep_taking, when)
         if one_pill:
             flags.append("\"1 pill\" assumed from the dose in the note: confirm the tablet strength")
+        if re.search(r"\binhal", form, re.I) and not re.search(r"puff", form, re.I):
+            flags.append("how many puffs is not in the note: add it to the action line")
         if not instruction:
             flags.append("how to take it is not in the note: fill in the blank line or add it to the note")
         if undecided:
@@ -678,11 +693,11 @@ def find_medicines(note: str, level: int, grade: int) -> tuple[list[Medicine], s
         purpose = rewrite(plain_segments(purpose_text), PURPOSE_RULES) if purpose_text else []
         if level >= 2:  # a condition MedlinePlus only defines at length stays as its name here
             purpose = [Segment(x.text) if x.kind == "med" and x.plain and len(x.plain.split()) > 4 else x for x in purpose]
-        category = category_for(purpose_text, info.get("why", ""), reason, f"{shown_name} {dose}")
+        category = category_for(purpose_text, info.get("why", ""), reason, f"{shown_name} {form}")
         category = "" if category == "Medicine" else category
         if category:
             flags.append(f"called \"{category}\" from " + ("the note" if reason and category_for("", "", reason) != "Medicine"
-                         else "its MedlinePlus page") + ": check that is why this patient takes it")
+                         else "its MedlinePlus page" if info.get("found") else "its name") + ": check that is why this patient takes it")
         medicines.append(Medicine(shown_name or key, purpose, instruction, info.get("url", ""),
                                   change if in_plan else "", flags, category))
     return medicines, names
@@ -754,7 +769,7 @@ def came_in_for(pc: str) -> str:
         pc = pc[AGE_SEX.match(plain).end():]
     pc = re.sub(r"^\s*\d+[- ](?:week|month|day|year)\s+(?=follow)", "", pc, flags=re.I)  # "6-week follow-up"
     start = strip_markers(pc).strip().lower()
-    if re.search(r"\b(?:visit|check-?up|physical)\b", start) and not start.startswith(("follow", "you ")):
+    if re.search(r"\b(?:visit|check-?up|physical|(?:medicine|medication) review)\b", start) and not start.startswith(("follow", "you ")):
         return f"You came in for {'' if start.startswith(('a ', 'an ', 'your ', 'the ')) else 'your '}{lower_first(pc)}."
     if start.startswith(("you ", "your ", "you've ", "you're ", "you'd ")):
         return f"You came in because {lower_first(pc)}."
@@ -782,9 +797,11 @@ def split_long(item: str, limit: int = 18) -> list[str]:
 
 
 def is_medicine_line(item: str, names: set[str]) -> bool:
-    words = re.findall(r"[a-z]+", strip_markers(item).lower())[:5]
-    return bool(MED_LINE_START.match(strip_markers(item).strip())) and any(w in names for w in words) \
-        or any(w in names for w in words[:2])
+    text = strip_markers(item).lower()
+    words = re.findall(r"[a-z0-9]+", text)[:5]
+    head = " ".join(words)
+    named = lambda ws: any(w in names for w in ws) or any(" " in n and re.search(rf"\b{re.escape(n)}\b", head) for n in names)
+    return bool(MED_LINE_START.match(strip_markers(item).strip())) and named(words) or named(words[:2])
 
 
 def offline_summary(note: str, level: int, grade: int) -> Summary:
@@ -1004,10 +1021,19 @@ def definitions_apart(items: list[list[Segment]], same_item: bool = False) -> li
             is_definition = x.kind == "keep" or x.defined
             if is_definition:
                 plain = essence(plain)
-            if is_definition and len(plain.split()) > 5 and re.match(r"(a|an|the)\b", plain, re.I) and known:
+            if is_definition and len(plain.split()) > 5 and re.match(r"(your|when|you)\b", plain, re.I):
+                # "heart failure" -> "your heart can't pump...": keep the name, say what it means after
+                name = x.text if not x.text[:1].isupper() or x.text.isupper() else x.text[0].lower() + x.text[1:]
+                new_item.append(Segment(name, "keep", "", x.source, x.flag))
+                verb = " is " if plain.lower().startswith("when") else " means "
+                extra.append([Segment(name[0].upper() + name[1:] + verb), Segment("", "med", plain.strip(" ,"), x.source, x.flag),
+                              Segment(".")])
+            elif is_definition and len(plain.split()) > 5 and re.match(r"(a|an|the)\b", plain, re.I) and known:
                 new_item.append(Segment(x.text if not x.text[:1].isupper() or x.text.isupper() else x.text[0].lower() + x.text[1:]))
             elif is_definition and len(plain.split()) > 5 and re.match(r"(a|an|the)\b", plain, re.I):
                 name = x.text if not x.text.isupper() or len(x.text) <= 5 else x.text.lower()
+                if re.match(r"[A-Z][a-z]+\b", name) and not EPONYM.match(name):  # "and Osteoarthritis" -> "and osteoarthritis"
+                    name = name[0].lower() + name[1:]
                 new_item.append(Segment(name, "keep", "", x.source, x.flag))
                 extra.append([Segment(f"{name[0].upper() + name[1:]} is "), Segment("", "med", plain.strip(" ,"), x.source,
                                                                                   x.flag), Segment(".")])
@@ -1021,7 +1047,10 @@ def definitions_apart(items: list[list[Segment]], same_item: bool = False) -> li
     return out if same_item else out[:5]
 
 
+EPONYM = re.compile(r"(?:Parkinson|Alzheimer|Crohn|Graves|Hashimoto|Cushing|Addison|Raynaud|Bell|Lyme|Hodgkin|Down|Paget)\b|\w+'s\b")
 DEFINITION_RULES = [  # the essence of a definition: "a group of lung diseases that make..." -> "a lung disease that makes..."
+    (r",?\s+to meet (?:your|the) body's needs\b", ""),
+    (r"\bthyroid gland\b", "thyroid"),
     (r"^(a|an) (?:group|type|kind|set) of (\w+) (disease|condition|problem)s that (\w+)\b",
      lambda m: f"{m.group(1)} {m.group(2)} {m.group(3)} that {m.group(4) if m.group(4).endswith('s') else verb3(m.group(4))}"),
     (r"^(a|an) (?:group|type|kind) of (\w+ )?(diseases|conditions|problems)\b", lambda m: f"{m.group(1)} {m.group(2) or ''}{m.group(3)[:-1]}"),
