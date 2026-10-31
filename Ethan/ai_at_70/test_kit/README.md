@@ -16,21 +16,27 @@ python Ethan/ai_at_70/test_kit/make_test_audio.py     # once, only to test audio
 
 ## The test patients
 
-Each row uses three files. The note is in the sample list on step 2; the other two are in this folder.
+Each row uses three files, in the page's order: check-in (`checkins/`), conversation (`conversations/` or `audio/`),
+then the clinician note: upload it from `Ethan/conversion_library/samples/synthetic_<name>.txt`.
 
-| # | Patient (language) | 1. Check-in (`checkins/`) | 2. Note (sample list) | 3. Conversation (`conversations/` or `audio/`) | What it shows |
+| # | Patient (language) | 1. Check-in (`checkins/`) | 3. Note (`samples/synthetic_…txt`) | 2. Conversation (`conversations/` or `audio/`) | What it shows |
 |---|---|---|---|---|---|
-| 1 | Maria Rodriguez (Spanish) | `1_maria_rodriguez_spanish.json` | diabetes followup | `1_maria_rodriguez_diabetes` | Lower and higher dose tags; "inputs disagree": lisinopril is on her check-in list and in the conversation but not in the note; email to the patient and her husband |
-| 2 | Wei Chen (Mandarin) | `2_wei_chen_mandarin.json` | heart failure followup | `2_wei_chen_heart_failure` | **Allergy warning**: the check-in says warfarin caused bleeding and the note has warfarin; family-only consent (daughter Lily); many Mandarin translation flags |
-| 3 | Fatima Haddad (Arabic) | `3_fatima_haddad_arabic.json` | copd uk style | `3_fatima_haddad_copd` | Right-to-left page; UK-style note (999); son Omar gets the email; no disagreements |
-| 4 | Ana Souza (Portuguese) | `4_ana_souza_portuguese.json` | uti older woman | `4_ana_souza_uti` | "Inputs disagree": ibuprofen (check-in and conversation, not in the note); patient and daughter both consent |
-| 5 | John Miller (English) | `5_john_miller_english.json` | afib new dx | `5_john_miller_afib` | English only; new medicines; no family consent, so email and call go to the patient only |
-| 6 | No check-in | Skip | back pain uk (or any) | none | Type a name on step 2; works without a check-in or a conversation |
+| 1 | Maria Rodriguez (Spanish) | `1_maria_rodriguez_spanish.json` | diabetes_followup | `1_maria_rodriguez_diabetes` | Lower and higher dose tags; "inputs disagree": lisinopril is on her check-in list and in the conversation but not in the note; email to the patient and her daughter Sofia |
+| 2 | Wei Chen (Mandarin) | `2_wei_chen_mandarin.json` | heart_failure_followup | `2_wei_chen_heart_failure` | **Allergy warning**: the check-in says warfarin caused bleeding and the note has warfarin; family-only consent (daughter Lily); many Mandarin translation flags |
+| 3 | Fatima Haddad (Arabic) | `3_fatima_haddad_arabic.json` | copd_uk_style | `3_fatima_haddad_copd` | Right-to-left page; UK-style note (999); son Omar gets the email; no disagreements |
+| 4 | Ana Souza (Portuguese) | `4_ana_souza_portuguese.json` | uti_older_woman | `4_ana_souza_uti` | "Inputs disagree": ibuprofen (check-in and conversation, not in the note); patient and daughter both consent |
+| 5 | John Miller (English) | `5_john_miller_english.json` | afib_new_dx | `5_john_miller_afib` | English only; new medicines; no family consent, so email and call go to the patient only |
+| 6 | No check-in | Skip | back_pain_uk (or any) | Skip | Type a name with the note; works without a check-in or a conversation |
+
+The English demo (`../demo/`) is the same visit as patient 1, in English: `maria_checkin.json`, `maria_visit.wav` (or
+`maria_conversation.txt`) and a photo of Dr. Lee's note, `maria_note_photo.jpg`, to try the photo upload.
 
 The page opens in the check-in's language (Spanish for Maria, Mandarin for Wei, ...). The English page is
 always there too.
 
 ## Page by page
+
+**Landing page**: what AI at 70 does; "Start a visit".
 
 **1. Check-in**
 - Drag a file from `checkins/` onto the box (or Choose file). The banner shows the patient, language and
@@ -38,18 +44,17 @@ always there too.
 - "Open the check-in questionnaire" opens Max's questionnaire in a new tab: fill it in, export, upload.
 - "Skip" goes on without one (patient 6).
 
-**2. Clinician note**
-- "Or try a sample note…" → pick the note from the table. Or upload a .txt/.pdf, or paste.
-- Fill in your name (e.g. `Dr. Lee`) and office phone (e.g. `555-0100`): they appear on the printout,
-  email and call. Next.
-
-**3. Conversation** (any one)
+**2. Conversation** (any one, or Skip)
 - Upload transcript (.txt) → `conversations/…txt` (instant).
 - Upload audio → `audio/…wav` (transcribed on this computer, about a minute; check the speakers after).
 - Record visit → read a few lines aloud, then Stop.
-- Leave it empty to skip.
+- "Skip" goes on without one.
 
-Then "Write the summary".
+**3. Clinician note**
+- "Upload note or photo" → the note from the table (`Ethan/conversion_library/samples/`), a .pdf, or a photo of a
+  written note (`../demo/maria_note_photo.jpg`: read with the Mac's text recognition; check the text). Or paste.
+- Fill in your name (e.g. `Dr. Lee`) and office phone (e.g. `555-0100`): they appear on the printout,
+  email and call. Then "Write the summary" (always at a 5th-grade reading level).
 
 **4. Review and approve**
 - Left: the patient's page. "Patient view" is what prints; "Show changes" strikes through the note's words
@@ -58,16 +63,16 @@ Then "Write the summary".
   "Translation" group to the checklist with every doubtful line (English, translation, back-translation).
 - Right: "Please check": inputs that disagree first, then medicines, changed words, translation. Tick each
   one, or "Select all". "Approve summary" unlocks when all are ticked: enter your name, confirm.
-- Automatic checks: reader level, everyday talk, medicines listed, numbers kept, no jargon; "Left out of the
-  summary" and "Sources" open below.
+- Automatic checks (reader level, everyday talk, medicines listed, numbers kept, no jargon, what was left out,
+  sources) are in the "Automatic checks" dropdown under the print, email and call tabs.
 - Try: change the language after approving: the approval is removed until you approve again.
 
 **5. Print, email, call** (tabs under the page; locked until approved)
 - Printout → "Print patient copy" (print preview: only the patient's page, large print, no changes shown).
 - Email → choose the person (only people with consent and an email address) → "Open email draft" opens your
   mail app; nothing is sent until you press Send there. Or "Copy text".
-- Phone call → choose the person, read the script, or "▶ Play the message" (the computer's voice for that
-  language; add voices in System Settings → Accessibility → Spoken Content if one is missing).
+- Phone call → choose the person, read the script, or "▶ Play the message": a natural neural voice for the
+  language (Kokoro; Piper for Arabic), made on this computer, highlighting each line as it's read.
   "Call from this device" needs a phone number and a phone app.
 
 ## What to look for

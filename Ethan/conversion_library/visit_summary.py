@@ -453,8 +453,8 @@ def familiar(item: list[Segment], grade: int, skip: set[str], unknown: bool = Tr
             for w in hard:  # a definition that itself has a hard word (not a word-list gloss inside MedlinePlus text)
                 easier = easier_word(w, grade)
                 if easier and easier[1] != LWV:
-                    s = Segment(s.text, s.kind, re.sub(rf"\b{re.escape(w)}\b", easier[0], s.plain), s.source,
-                                s.flag or ("" if easier[1] != MODEL else "no standard source (model knowledge, verify)"))
+                    s = replace(s, plain=re.sub(rf"\b{re.escape(w)}\b", easier[0], s.plain),
+                                flag=s.flag or ("" if easier[1] != MODEL else "no standard source (model knowledge, verify)"))
             out.append(s)
         else:
             out.append(s)
@@ -864,8 +864,7 @@ def offline_summary(note: str, level: int, grade: int) -> Summary:
                 left_out.append({"text": strip_markers(item), "reason": f"not needed for a short summary ({section.title.lower()})"})
 
     overview_segs = define_once([capitalize(rewrite(to_segments(tidy_item(i), p.findings), STEP_RULES)) for i in overview])[:4]
-    if level >= 1:
-        overview_segs = definitions_apart(overview_segs)
+    overview_segs = definitions_apart(overview_segs)  # a long definition never sits inside a sentence
     step_segs = [direct_step(capitalize(rewrite(to_segments(tidy_item(i), p.findings), STEP_RULES))) for i in steps]
     if level >= 1:
         step_segs = definitions_apart(step_segs, same_item=True)
@@ -883,7 +882,8 @@ def offline_summary(note: str, level: int, grade: int) -> Summary:
 
 CLINICIAN_RECORD = re.compile(r"\b(understands?|happy with (?:the )?(?:plan|management)|agrees? with|agreeable|"
                              r"consent(?:ed)?|safety[- ]?net(?:ting)?(?: advice)? (?:given|discussed|provided)|advice given|"
-                             r"questions answered)\b|^(?:repeat|recheck|review|discuss|reassess)\b.*\bat (?:the |your )?next visit",
+                             r"questions answered)\b|^(?:repeat|recheck|review|discuss|reassess)\b.*\bat (?:the |your )?next visit|"
+                             r"^\W*(?:Dr|Doctor)\.? [A-Z][A-Za-z-]+\W*$",  # the clinician's signature
                              re.I)
 LAB_VERBS = re.compile(r"^(?:check|order|obtain|get|draw|repeat|do|send|arrange)\b", re.I)
 WHEN = re.compile(r"\b(today|tomorrow|this week|next week|before (?:your|the) next visit|in \d+ (?:days?|weeks?|months?))\b", re.I)
@@ -984,6 +984,8 @@ def tidy_definition(text: str, grade: int = READER_GRADE) -> str:
         first, second = m.group(1), m.group(2)
         known = lambda t: all(is_known(w, grade) for w in WORD.findall(t))
         jargon = lambda t: bool(lay_dictionary()[1].get(t.lower(), {}).get("plain"))  # "blood glucose" -> "blood sugar"
+        if first.lower() == second.lower():
+            return first  # "blood sugar, or blood sugar"
         return first if known(first) and not jargon(first) or not known(second) else second
     return re.sub(r"\b([\w-]+(?: [\w-]+)?), or ([\w-]+(?: [\w-]+)?),?", pick, text)
 
@@ -997,7 +999,7 @@ def definitions_apart(items: list[list[Segment]], same_item: bool = False) -> li
         new_item = []
         for x in item:
             plain = tidy_definition(re.sub(r"\s*\(([^)]*)\)", r", or \1,", x.plain) if x.kind == "keep" else x.plain) \
-                if x.kind in ("med", "keep") else ""
+                if x.kind in ("med", "keep") else ""  # "blood glucose, or blood sugar" -> "blood sugar"
             known = all(is_known(w) for w in WORD.findall(x.text)) and not re.fullmatch(r"[A-Z0-9]{2,6}", x.text.strip())
             is_definition = x.kind == "keep" or x.defined
             if is_definition:

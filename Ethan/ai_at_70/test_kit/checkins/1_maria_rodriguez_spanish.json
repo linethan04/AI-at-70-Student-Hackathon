@@ -12,7 +12,7 @@
     "conditions": "Diabetes tipo 2, presión alta, colesterol alto",
     "medications": "Metformin 1000 mg, amlodipine 10 mg, atorvastatin 40 mg, lisinopril 10 mg",
     "allergies": "Ninguna",
-    "support": "Vivo sola. Mi esposo Daniel me ayuda con las medicinas.",
+    "support": "Vivo sola. Mi hija Sofia me ayuda con las medicinas.",
     "learning_style": "Simple explanations with a little detail",
     "patient_email": "maria.rodriguez@example.com",
     "email_patient_consent": [
@@ -24,9 +24,9 @@
     "caregiver_share_consent": [
       "Yes"
     ],
-    "caregiver_name": "Daniel Rodriguez",
-    "caregiver_relationship": "Husband",
-    "caregiver_email": "daniel.rodriguez@example.com",
+    "caregiver_name": "Sofia Rodriguez",
+    "caregiver_relationship": "Daughter",
+    "caregiver_email": "sofia.rodriguez@example.com",
     "caregiver_risk_ack": [
       "I understand"
     ],

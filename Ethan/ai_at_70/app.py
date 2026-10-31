@@ -4,7 +4,7 @@
 
 Inputs (any combination):
     check-in       the patient's questionnaire (Max/PCP_Questionnaire_..., exported as JSON)
-    clinician note typed, pasted, uploaded (.txt / .pdf) or a sample
+    clinician note typed, pasted, uploaded (.txt / .pdf) or a photo of a written note (read with macOS Live Text)
     conversation   recorded or uploaded audio, transcribed by Ethan/audio_workflow (mounted at /audio), or pasted
 Outputs, after the clinician ticks every check and approves:
     printout, email to the patient or family (next of kin), phone-call script; each in English, Mandarin,
@@ -24,7 +24,7 @@ import sys
 from pathlib import Path
 
 from dotenv import find_dotenv, load_dotenv
-from flask import Flask, abort, jsonify, request, send_from_directory
+from flask import Flask, Response, abort, jsonify, request, send_from_directory
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -35,10 +35,10 @@ sys.path[:0] = [str(CONVERSION), str(AUDIO)]
 
 from deliver import document, outputs  # noqa: E402  (after the path is set)
 from translate import LANGUAGES, available  # noqa: E402
+from voices import available as voice_available, speak  # noqa: E402
 from visit_summary import checklist, note_medicines, sources_used, summarize_note  # noqa: E402
 
 MAX_CHARS = 60_000
-SAMPLES = CONVERSION / "samples"
 
 load_dotenv(find_dotenv())
 app = Flask(__name__)
@@ -69,26 +69,51 @@ def config():
     return jsonify({
         "claude": bool(os.getenv("ANTHROPIC_API_KEY")),
         "elevenlabs": bool(os.getenv("ELEVENLABS_API_KEY")),
-        "languages": [{"code": c, "name": n, "ready": available(c)} for c, n in LANGUAGES.items()],
-        "samples": sorted(p.stem for p in SAMPLES.glob("*.txt")),
+        "languages": [{"code": c, "name": n, "ready": available(c), "voice": voice_available(c)} for c, n in LANGUAGES.items()],
     })
 
 
-@app.get("/api/samples/<name>")
-def sample(name: str):
-    path = SAMPLES / f"{Path(name).name}.txt"
-    if not path.is_file():
-        abort(404)
-    return jsonify({"text": path.read_text()})
+# Common misreadings of clinic shorthand in photos of notes: (misread, fixed). Each fix is shown to the clinician.
+OCR_FIXES = [(r"\b9[lI1|]{2}\b|\b9l1\b|\b91l\b", "911"), (r"\b9[lI|]9\b", "999"), (r"\bghs\b", "qhs"), (r"\bgd\b", "qd"),
+             (r"\bgid\b", "qid"), (r"\bBlD\b", "BID"), (r"\bTlD\b", "TID"), (r"(\d)\s?rng\b", r"\1 mg"), (r"(\d)\s?mq\b", r"\1 mg")]
+
+
+def fix_ocr(text: str) -> tuple[str, list[str]]:
+    fixed = []
+    for pattern, new in OCR_FIXES:
+        for m in re.finditer(pattern, text):
+            fixed.append(f"{m.group(0)} → {m.expand(new)}")
+        text = re.sub(pattern, new, text)
+    return text, fixed
+
+
+def read_photo(data: bytes, suffix: str) -> str:
+    """Text from a photo of a note, with the Mac's built-in text recognition (Apple Vision, on this computer)."""
+    import tempfile
+    from ocrmac import ocrmac
+    with tempfile.NamedTemporaryFile(suffix=suffix) as f:
+        f.write(data)
+        f.flush()
+        lines = ocrmac.OCR(f.name, recognition_level="accurate", language_preference=["en-US"]).recognize()
+    # Vision gives boxes with y measured from the bottom: read top to bottom, then left to right.
+    lines.sort(key=lambda r: (-round(r[2][1] + r[2][3], 2), r[2][0]))
+    return "\n".join(text for text, _, _ in lines)
 
 
 @app.post("/api/read-file")
 def read_file():
-    """A note uploaded as .txt or .pdf, as text."""
+    """A note uploaded as .txt, .pdf or a photo, as text."""
     upload = request.files.get("file")
     if not upload:
         return jsonify({"error": "No file."}), 400
     data = upload.read()
+    suffix = Path(upload.filename or "").suffix.lower()
+    if (upload.mimetype or "").startswith("image/") or suffix in (".jpg", ".jpeg", ".png", ".heic", ".tif", ".tiff"):
+        try:
+            text, fixed = fix_ocr(read_photo(data, suffix or ".jpg"))
+            return jsonify({"text": text[:MAX_CHARS], "ocr": True, "fixed": fixed})
+        except Exception as e:  # not on a Mac, or an unreadable image
+            return jsonify({"error": f"Couldn't read the photo ({e.__class__.__name__}). Type or paste the note instead."}), 400
     if upload.filename.lower().endswith(".pdf"):
         from pypdf import PdfReader
         text = "\n".join(page.extract_text() or "" for page in PdfReader(io.BytesIO(data)).pages)
@@ -135,7 +160,7 @@ def summary():
     context = "".join([f"<visit_conversation>\n{transcript}\n</visit_conversation>\n" if transcript else "",
                        f"<questionnaire>\n{answers_text(q)}\n</questionnaire>" if q else ""])
     try:
-        s = summarize_note(note, use_claude, int(data.get("grade") or 7), context)
+        s = summarize_note(note, use_claude, int(data.get("grade") or 5), context)
     except Exception as e:  # Claude errors: say so instead of failing silently
         return jsonify({"error": f"Couldn't write the summary: {e.__class__.__name__}: {e}"}), 500
     r = s.readability
@@ -158,6 +183,16 @@ def make_outputs():
                                  "python Ethan/conversion_library/build_translation_models.py"}), 400
     fields = {k: (data.get(k) or "").strip() for k in ("patient", "recipient", "relationship", "clinician", "office_phone")}
     return jsonify(outputs(data["doc"], lang, **fields))
+
+
+@app.post("/api/speak")
+def speak_line():
+    """One line of the phone script, read aloud by the neural voice for its language (voices.py)."""
+    data = request.get_json(force=True)
+    text, lang = (data.get("text") or "").strip()[:600], data.get("lang", "en")
+    if not text or not voice_available(lang):
+        return jsonify({"error": "No voice for this language: run python Ethan/conversion_library/build_voices.py"}), 400
+    return Response(speak(text, lang), mimetype="audio/wav")
 
 
 if __name__ == "__main__":

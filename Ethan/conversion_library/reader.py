@@ -25,10 +25,11 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 KNOWLEDGE = HERE / "data" / "word_knowledge.json"
 
-READER_GRADE = 7          # CLAUDE.md: 5th-7th grade; the app can set 5, 6 or 7
+READER_GRADE = 5          # CLAUDE.md: 5th-7th grade, ideally 5th
 COVERAGE_TARGET = 0.98    # share of words the reader knows
 ADULT_KNOWN = 0.99        # for words without a school grade: known by this share of adults
-ADULT_GRADE_WINDOW = 1    # a word taught one grade later still counts if 99% of adults know it ("urine")
+ADULT_GRADE = 8           # our readers are adults: a word first tested by grade 8 (the Living Word Vocabulary
+                          # tests at grades 4, 6, 8, ...) still counts if 99% of adults know it ("urine", "diabetes")
 TITLES = {"dr", "mr", "mrs", "ms"}
 UNITS = {"mg", "mcg", "ml", "g", "kg", "mmol", "iu", "x", "mls", "hrs", "hr"}
 MAX_SENTENCE_WORDS = 20   # longest sentence
@@ -90,7 +91,7 @@ def is_known(word: str, grade: int = READER_GRADE) -> bool:
     g = word_grade(word)
     adults = any(knowledge().get(f, {}).get("known", 0) >= ADULT_KNOWN for f in forms(word))
     if g is not None:
-        return g <= grade or (g <= grade + ADULT_GRADE_WINDOW and adults)
+        return g <= grade or (g <= max(grade + 1, ADULT_GRADE) and adults)
     return adults
 
 

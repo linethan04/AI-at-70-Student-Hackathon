@@ -1,6 +1,6 @@
 """Turn each test conversation into a two-voice recording (macOS `say`), for testing audio upload.
 
-    python Ethan/ai_at_70/test_kit/make_test_audio.py     # writes test_kit/audio/*.wav (git-ignored)
+    python Ethan/ai_at_70/test_kit/make_test_audio.py     # writes test_kit/audio/*.wav and demo/maria_visit.wav (git-ignored)
 
 Synthetic voices reading fictional visits: no real patient audio (CLAUDE.md, Privacy).
 """
@@ -23,7 +23,8 @@ def main() -> None:
     out_dir = HERE / "audio"
     out_dir.mkdir(exist_ok=True)
     pause = np.zeros(int(0.6 * SAMPLE_RATE), dtype=np.float32)
-    for convo in sorted((HERE / "conversations").glob("*.txt")):
+    demo = HERE.parent / "demo" / "maria_conversation.txt"
+    for convo in sorted((HERE / "conversations").glob("*.txt")) + [demo]:
         pieces = []
         with tempfile.TemporaryDirectory() as tmp:
             for i, line in enumerate(convo.read_text().splitlines()):
@@ -38,7 +39,7 @@ def main() -> None:
                                 f"--data-format=LEI16@{SAMPLE_RATE}", text], check=True)
                 audio, _ = sf.read(wav, dtype="float32")
                 pieces += [audio, pause]
-        path = out_dir / f"{convo.stem}.wav"
+        path = convo.with_name("maria_visit.wav") if convo == demo else out_dir / f"{convo.stem}.wav"
         sf.write(path, np.concatenate(pieces), SAMPLE_RATE, subtype="PCM_16")
         print(f"Wrote {path}")
 

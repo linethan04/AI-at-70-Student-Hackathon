@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>AI at 70 cartoon scenes</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* Scenes for the AI at 70 demo video (make_video.py renders each one frame by frame at 1280x720).
+   One story throughout: Maria Rodriguez, 78; her daughter Sofia; Dr. Lee. Made-up people. */
+:root{--ink:#12303d;--blue:#1c5d84;--teal:#38b6a9;--green:#1d7a55;--sky:#35a5e0;--amber:#f2b33d;--paper:#fffdf6}
+*{box-sizing:border-box}html,body{margin:0;width:1280px;height:720px;overflow:hidden;background:#000}
+#stage{position:relative;width:1280px;height:720px;overflow:hidden;font-family:"Nunito Sans",system-ui,sans-serif;color:var(--ink)}
+svg.bg{position:absolute;inset:0}
+.chip{position:absolute;top:26px;left:30px;font:900 20px "Nunito",sans-serif;letter-spacing:.14em;padding:8px 16px;border-radius:8px}
+.chip.today{background:#5f6b75;color:#fff}.chip.better{background:var(--teal);color:#fff}
+.cap{--tx:-50%;position:absolute;left:50%;bottom:34px;transform:translateX(-50%);background:rgba(18,48,61,.88);color:#fff;font:800 30px "Nunito",sans-serif;
+  padding:12px 26px;border-radius:12px;white-space:nowrap;animation:fadeup .5s ease-out both}
+.bubble{position:absolute;background:#fff;border:3px solid var(--ink);border-radius:22px;padding:12px 18px;font:800 24px "Nunito",sans-serif;box-shadow:0 6px 0 rgba(0,0,0,.08)}
+.bubble.jargon{background:#fff4f3;border-color:#b3261e;color:#9b1c14;font-size:22px}
+.bubble.tail-l::after,.bubble.tail-r::after{content:"";position:absolute;bottom:-18px;width:26px;height:26px;background:inherit;border-right:3px solid;border-bottom:3px solid;border-color:inherit;transform:rotate(45deg)}
+.bubble.tail-l::after{left:34px;transform:rotate(45deg) skew(10deg,10deg)}.bubble.tail-r::after{right:34px}
+.q{position:absolute;font:900 64px "Nunito",sans-serif;color:#7c8a95;animation:floatq 2.4s ease-in-out infinite both}
+.pop{animation:pop .45s cubic-bezier(.2,1.6,.4,1) both}
+.fadeup{animation:fadeup .6s ease-out both}
+.slidein{animation:slidein .7s cubic-bezier(.2,1,.3,1) both}
+.bob{animation:bob 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:bottom}
+.talk{animation:talk .28s steps(2) infinite}
+.sparkle{position:absolute;font-size:40px;animation:twinkle 1.6s ease-in-out infinite both}
+.card{position:absolute;background:#fff;border-radius:16px;box-shadow:0 18px 40px rgba(18,48,61,.25);overflow:hidden}
+.namecard{position:absolute;left:760px;top:170px;width:400px;padding:22px 26px;background:#fff;border-left:8px solid var(--teal);border-radius:12px;box-shadow:0 14px 34px rgba(0,0,0,.18)}
+.namecard b{display:block;font:900 44px "Nunito",sans-serif;color:var(--blue)}.namecard span{display:block;font:700 24px "Nunito Sans",sans-serif;color:#4f6877;margin-top:6px}
+.mail{font:16px/1.45 "Nunito Sans",sans-serif;white-space:pre-wrap;padding:18px 22px;color:#1b2b36}
+.mailhead{background:#eef5f4;padding:14px 22px;border-bottom:1px solid #d6e5e2;font:700 17px "Nunito Sans",sans-serif}
+.mailhead b{display:block;font:900 22px "Nunito",sans-serif;color:var(--blue)}
+.wave{position:absolute;border:5px solid var(--teal);border-radius:50%;animation:wave 1.4s ease-out infinite both}
+.end{position:absolute;inset:0;display:grid;place-items:center;text-align:center;background:linear-gradient(135deg,#f1f8f6,#dcefeb)}
+.end img{width:230px}.end h1{font:900 92px "Nunito",sans-serif;color:var(--blue);margin:6px 0 0;letter-spacing:-.02em}
+.end .words{display:flex;gap:26px;justify-content:center;margin-top:14px}.end .words span{font:900 40px "Nunito",sans-serif;color:var(--green)}
+.end p{font:700 26px "Nunito Sans",sans-serif;color:#4f6877;margin-top:18px}
+@keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes fadeup{from{transform:translate(var(--tx,0),18px);opacity:0}to{transform:translate(var(--tx,0),0);opacity:1}}
+@keyframes slidein{from{transform:translateX(120px);opacity:0}to{transform:none;opacity:1}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes talk{0%{transform:scaleY(1)}100%{transform:scaleY(.35)}}
+@keyframes floatq{0%{transform:translateY(10px);opacity:0}25%{opacity:1}100%{transform:translateY(-60px);opacity:0}}
+@keyframes twinkle{0%,100%{transform:scale(.6);opacity:.3}50%{transform:scale(1.15);opacity:1}}
+@keyframes wave{from{transform:scale(.4);opacity:.9}to{transform:scale(1.6);opacity:0}}
+@keyframes printout{from{transform:translateY(0)}to{transform:translateY(-330px)}}
+@keyframes grayin{from{filter:saturate(1)}to{filter:saturate(.35)}}
+</style></head><body><div id="stage"></div>
+<script>
+const P = new URLSearchParams(location.search);
+const DATA = JSON.parse(decodeURIComponent(P.get("data") || "%7B%7D"));
+const stage = document.getElementById("stage");
+
+// ---------- people ----------
+// x, y = feet position; s = scale. pose: "stand" | "sit". look: "happy" | "sad" | "talk" | "confused"
+function person(o) {
+  const { x, y, s = 1, skin, hair, hairStyle, top, bottom = "#3d4b5c", pose = "stand", look = "happy", glasses, coat, swollen, flip, prop } = o;
+  const sit = pose === "sit", legY = sit ? -70 : -150;
+  const mouth = look === "sad" ? '<path d="M-14 -152 q14 -12 28 0" stroke="#5a2a1f" stroke-width="4" fill="none" stroke-linecap="round"/>'
+    : look === "confused" ? '<path d="M-12 -150 q8 -6 14 0 q6 6 12 0" stroke="#5a2a1f" stroke-width="4" fill="none" stroke-linecap="round"/>'
+    : look === "talk" ? '<ellipse class="talk" cx="0" cy="-152" rx="10" ry="8" fill="#5a2a1f" style="transform-box:fill-box;transform-origin:center"/>'
+    : '<path d="M-16 -158 q16 16 32 0" stroke="#5a2a1f" stroke-width="4" fill="none" stroke-linecap="round"/>';
+  const brows = look === "confused" ? '<path d="M-26 -196 l16 -6 M10 -200 l16 6" stroke="#5a3a2a" stroke-width="4" stroke-linecap="round"/>'
+    : look === "sad" ? '<path d="M-26 -198 l16 4 M10 -194 l16 -4" stroke="#5a3a2a" stroke-width="4" stroke-linecap="round"/>' : "";
+  const hairBack = hairStyle === "long" ? `<path d="M-50 -200 q-6 70 6 110 h88 q12 -40 6 -110z" fill="${hair}"/>` : "";
+  const hairTop = hairStyle === "bun" ? `<circle cx="0" cy="-252" r="22" fill="${hair}"/><path d="M-48 -196 q0 -50 48 -52 q48 2 48 52 q-20 -26 -48 -24 q-28 -2 -48 24z" fill="${hair}"/>`
+    : hairStyle === "long" ? `<path d="M-48 -192 q0 -56 48 -56 q48 0 48 56 q-30 -30 -96 0z" fill="${hair}"/>`
+    : `<path d="M-46 -196 q2 -50 46 -52 q46 2 46 52 q-16 -18 -46 -20 q-30 2 -46 20z" fill="${hair}"/>`;
+  const specs = glasses ? '<g stroke="#3b3b3b" stroke-width="3.5" fill="rgba(255,255,255,.25)"><circle cx="-17" cy="-182" r="12"/><circle cx="17" cy="-182" r="12"/><path d="M-5 -182 h10"/></g>' : "";
+  const coatG = coat ? `<path d="M-60 ${legY - 10} v-118 q0 -20 26 -22 l34 34 l34 -34 q26 2 26 22 v118z" fill="#fff" stroke="#d5dde2" stroke-width="3"/>
+    <path d="M-22 -116 q-4 40 18 46" stroke="#3a6f8f" stroke-width="5" fill="none"/><circle cx="-4" cy="-68" r="7" fill="#3a6f8f"/>` : "";
+  const legs = sit
+    ? `<rect x="-52" y="-78" width="104" height="34" rx="16" fill="${bottom}"/>
+       <rect x="${swollen ? -58 : -52}" y="-50" width="${swollen ? 50 : 40}" height="56" rx="16" fill="${bottom}"/><rect x="${swollen ? 8 : 12}" y="-50" width="${swollen ? 50 : 40}" height="56" rx="16" fill="${bottom}"/>
+       ${swollen ? '<path d="M-64 -10 q6 -8 0 -16 M64 -10 q-6 -8 0 -16" stroke="#c0392b" stroke-width="3" fill="none"/>' : ""}
+       <ellipse cx="-30" cy="6" rx="28" ry="11" fill="#2b2b2b"/><ellipse cx="34" cy="6" rx="28" ry="11" fill="#2b2b2b"/>`
+    : `<rect x="-44" y="-152" width="38" height="146" rx="16" fill="${bottom}"/><rect x="6" y="-152" width="38" height="146" rx="16" fill="${bottom}"/>
+       <ellipse cx="-26" cy="-4" rx="28" ry="11" fill="#2b2b2b"/><ellipse cx="26" cy="-4" rx="28" ry="11" fill="#2b2b2b"/>`;
+  const bodyTop = sit ? -200 : -270, bodyH = sit ? 140 : 140;
+  return `<g transform="translate(${x} ${y}) scale(${flip ? -s : s} ${s})"><g class="bob">
+    ${legs}
+    <rect x="-62" y="${bodyTop}" width="124" height="${bodyH}" rx="40" fill="${top}"/>
+    ${coatG}
+    <rect x="-84" y="${bodyTop + 14}" width="30" height="108" rx="15" fill="${coat ? "#fff" : top}" ${coat ? 'stroke="#d5dde2" stroke-width="3"' : ""}/>
+    <rect x="54" y="${bodyTop + 14}" width="30" height="108" rx="15" fill="${coat ? "#fff" : top}" ${coat ? 'stroke="#d5dde2" stroke-width="3"' : ""}/>
+    <circle cx="-69" cy="${bodyTop + 126}" r="15" fill="${skin}"/><circle cx="69" cy="${bodyTop + 126}" r="15" fill="${skin}"/>
+    <g transform="translate(0 ${sit ? 70 : 0})">
+      ${hairBack}
+      <rect x="-14" y="-142" width="28" height="22" fill="${skin}"/>
+      <circle cx="0" cy="-180" r="50" fill="${skin}"/>
+      <circle cx="-17" cy="-182" r="5" fill="#2b1d16"/><circle cx="17" cy="-182" r="5" fill="#2b1d16"/>
+      <circle cx="-28" cy="-160" r="8" fill="#f08a7a" opacity=".35"/><circle cx="28" cy="-160" r="8" fill="#f08a7a" opacity=".35"/>
+      ${brows}${mouth}${hairTop}${specs}
+    </g>
+    ${prop || ""}
+  </g></g>`;
+}
+const MARIA = { skin: "#d9a47c", hair: "#d7d4d0", hairStyle: "bun", top: "#9b7fc4", bottom: "#5a5f7a", glasses: true };
+const SOFIA = { skin: "#c98e66", hair: "#4a2c1d", hairStyle: "long", top: "#2fa596", bottom: "#33475b" };
+const DOCTOR = { skin: "#e8c19a", hair: "#1f1f1f", hairStyle: "short", top: "#7fb2d6", bottom: "#46546a", coat: true };
+
+// ---------- rooms ----------
+const livingRoom = (dim) => `<svg class="bg" viewBox="0 0 1280 720" style="${dim ? "filter:saturate(.45) brightness(.92)" : ""}">
+  <rect width="1280" height="720" fill="#f4e7d6"/><rect y="520" width="1280" height="200" fill="#c79d74"/>
+  <rect x="120" y="110" width="300" height="230" rx="10" fill="#bfe3f5" stroke="#fff" stroke-width="14"/><path d="M270 110 v230 M120 225 h300" stroke="#fff" stroke-width="10"/>
+  <circle cx="200" cy="170" r="30" fill="#ffe27a" opacity=".8"/>
+  <rect x="980" y="300" width="160" height="230" rx="10" fill="#a87b55"/><rect x="996" y="320" width="128" height="80" rx="6" fill="#8d6444"/>
+  <path d="M0 520 h1280" stroke="#b08661" stroke-width="6"/></svg>`;
+const clinic = (dim) => `<svg class="bg" viewBox="0 0 1280 720" style="${dim ? "filter:saturate(.45) brightness(.95)" : ""}">
+  <rect width="1280" height="720" fill="#e3eef3"/><rect y="530" width="1280" height="190" fill="#b9c7cf"/>
+  <rect x="80" y="90" width="210" height="150" rx="8" fill="#fff" stroke="#c6d4db" stroke-width="6"/><path d="M110 130 h150 M110 160 h120 M110 190 h140" stroke="#c6d4db" stroke-width="8" stroke-linecap="round"/>
+  <rect x="840" y="410" width="360" height="40" rx="12" fill="#7fb2d6"/><rect x="860" y="450" width="24" height="90" fill="#8a9aa6"/><rect x="1156" y="450" width="24" height="90" fill="#8a9aa6"/>
+  <path d="M1080 110 h120 v60 h-120z" fill="#fff" stroke="#c6d4db" stroke-width="5"/><path d="M1130 120 v40 M1110 140 h40" stroke="#d64541" stroke-width="10"/></svg>`;
+const chair = (x, y, c = "#7a5c8a") => `<g transform="translate(${x} ${y})"><rect x="-90" y="-150" width="180" height="150" rx="40" fill="${c}"/><rect x="-110" y="-80" width="40" height="90" rx="18" fill="${c}"/><rect x="70" y="-80" width="40" height="90" rx="18" fill="${c}"/><rect x="-80" y="-12" width="160" height="40" rx="14" fill="${c}" opacity=".85"/></g>`;
+const svg = (inner) => `<svg class="bg" viewBox="0 0 1280 720">${inner}</svg>`;
+const pills = (x, y) => `<g transform="translate(${x} ${y})">${[0, 40, 80].map((d, i) => `<rect x="${d}" y="${-60 + i * 6}" width="30" height="${54 - i * 6}" rx="5" fill="#f08a24"/><rect x="${d - 2}" y="${-66 + i * 6}" width="34" height="12" rx="3" fill="#fff"/>`).join("")}</g>`;
+const tableTop = (x, y, w) => `<rect x="${x}" y="${y}" width="${w}" height="22" rx="8" fill="#9a6e4c"/><rect x="${x + 20}" y="${y + 20}" width="16" height="${720 - y}" fill="#83593a"/><rect x="${x + w - 36}" y="${y + 20}" width="16" height="${720 - y}" fill="#83593a"/>`;
+
+// ---------- helpers ----------
+const add = (html) => stage.insertAdjacentHTML("beforeend", html);
+const delay = (s) => `style="animation-delay:${s}s"`;
+const el = (cls, css, html, d = 0) => `<div class="${cls}" style="${css};animation-delay:${d}s">${html}</div>`;
+const caption = (text, d = 0.3) => add(`<div class="cap" style="animation-delay:${d}s">${text}</div>`);
+const chip = (kind) => add(`<div class="chip ${kind}">${kind === "today" ? "TODAY" : "WITH AI AT 70"}</div>`);
+const qs = (x, y, n = 3) => { for (let i = 0; i < n; i++) add(`<div class="q" style="left:${x + i * 34}px;top:${y + (i % 2) * 20}px;animation-delay:${i * 0.6}s">?</div>`); };
+
+// ---------- scenes ----------
+const SCENES = {
+  maria() {  // Meet Maria
+    add(livingRoom());
+    add(svg(chair(420, 560) + person({ ...MARIA, x: 420, y: 560, pose: "sit", look: "sad", swollen: true }) + tableTop(560, 470, 200) + pills(600, 470)));
+    add(`<div class="namecard slidein" ${delay(0.4)}><b>Maria, 78</b><span>Type 2 diabetes · high blood pressure</span><span>Swollen legs for two weeks</span></div>`);
+    chip("today"); caption("Meet Maria", 0.2);
+  },
+  doctor() {  // she hears jargon
+    add(clinic(true));
+    add(svg(chair(330, 590, "#6b7c8c") + person({ ...MARIA, x: 330, y: 590, pose: "sit", look: "confused" }) + person({ ...DOCTOR, x: 900, y: 600, look: "talk", flip: true })));
+    [["Bilateral leg edema", 560, 70, 0.3], ["Titrate amlodipine", 740, 150, 1.0], ["Metformin 1000 mg BID", 520, 220, 1.6],
+     ["Check BMP + microalbumin", 760, 300, 2.2], ["HbA1c 8.1%, not at goal", 540, 370, 2.8]]
+      .forEach(([t, x, y, d]) => add(`<div class="bubble jargon pop" style="left:${x}px;top:${y}px;animation-delay:${d}s">${t}</div>`));
+    qs(250, 230); chip("today"); caption("At the doctor: a flood of medical words", 0.2);
+  },
+  home() {  // home, both confused
+    add(livingRoom(true));
+    add(svg(tableTop(380, 470, 520) + person({ ...MARIA, x: 330, y: 600, look: "confused", s: 0.95 }) + person({ ...SOFIA, x: 960, y: 600, look: "confused", flip: true }) + pills(560, 470)));
+    add(`<div class="bubble tail-r pop" style="left:760px;top:110px;animation-delay:.4s">What did the doctor say, Mom?</div>`);
+    add(`<div class="bubble tail-l pop" style="left:180px;top:150px;animation-delay:1.8s">I… don't remember.</div>`);
+    qs(560, 250, 4); chip("today"); caption("Home again, and just as confused", 0.2);
+  },
+  intro() {  // Sofia introduces AI at 70
+    add(livingRoom());
+    const tablet = `<g transform="translate(-150 -190)"><rect x="0" y="0" width="150" height="110" rx="12" fill="#1f2d36"/><rect x="8" y="8" width="134" height="94" rx="6" fill="#fff"/><image href="${DATA.logo}" x="38" y="20" width="74" height="55"/></g>`;
+    add(svg(chair(400, 570) + person({ ...MARIA, x: 400, y: 570, pose: "sit", look: "happy" }) + person({ ...SOFIA, x: 760, y: 600, look: "happy", prop: tablet })));
+    add(`<div class="card pop" style="left:820px;top:120px;width:360px;padding:22px;text-align:center;animation-delay:.5s"><img src="${DATA.logo}" style="width:120px"><div style="font:900 40px Nunito,sans-serif;color:#1c5d84">AI at 70</div><div style="font:700 20px 'Nunito Sans';color:#4f6877">Visit summaries you can understand</div></div>`);
+    [[560, 120, 0.2], [1210, 90, 0.8], [700, 330, 1.2]].forEach(([x, y, d]) => add(`<div class="sparkle" style="left:${x}px;top:${y}px;animation-delay:${d}s">✨</div>`));
+    chip("better"); caption("There's a better way", 0.2);
+  },
+  photo() {  // Dr. Lee photographs the notes
+    add(clinic());
+    const phone = `<g transform="translate(70 -200) rotate(-8)"><rect x="0" y="0" width="70" height="120" rx="12" fill="#1f2d36"/><rect x="6" y="10" width="58" height="100" rx="6" fill="#bfe3f5"/></g>`;
+    add(svg(person({ ...DOCTOR, x: 330, y: 620, look: "happy", prop: phone })));
+    add(`<div class="card pop" style="left:560px;top:90px;width:620px;transform:rotate(1.5deg);animation-delay:.2s"><img src="${DATA.note}" style="width:100%;display:block"></div>`);
+    add(`<div style="position:absolute;inset:0;background:#fff;opacity:0;animation:flash .5s ease-out .9s both"></div><style>@keyframes flash{0%{opacity:0}20%{opacity:.85}100%{opacity:0}}</style>`);
+    chip("better"); caption("Snap a photo of the visit notes", 0.2);
+  },
+  printer() {  // the printout
+    add(clinic());
+    add(`<div style="position:absolute;left:390px;top:500px;width:500px;height:0;overflow:visible"><div class="card" style="left:40px;top:-40px;width:420px;animation:printout 1.6s ease-out .2s both"><img src="${DATA.printout}" style="width:100%;display:block"></div></div>`);
+    add(svg(`<rect x="360" y="440" width="560" height="170" rx="26" fill="#3d4b5c"/><rect x="400" y="470" width="480" height="24" rx="10" fill="#1f2a35"/><circle cx="860" cy="560" r="12" fill="#3ddc84"/><rect x="360" y="600" width="560" height="30" rx="10" fill="#2f3a46"/>`));
+    add(`<div class="bubble pop" style="left:960px;top:150px;background:#dff2e8;border-color:#1d7a55;color:#16633f;animation-delay:1.4s">✓ Approved by Dr. Lee</div>`);
+    chip("better"); caption("One page. Plain words. Approved and printed.", 0.2);
+  },
+  email() {  // email at home
+    add(livingRoom());
+    add(svg(chair(250, 600) + person({ ...MARIA, x: 250, y: 600, pose: "sit", look: "happy", s: 0.9 })));
+    add(`<div class="card slidein" style="left:470px;top:70px;width:740px;height:540px;animation-delay:.2s"><div class="mailhead"><b>Visit summary for Maria Rodriguez</b>From: Dr. Lee's office · AI at 70</div><div class="mail">${DATA.email}</div></div>`);
+    chip("better"); caption("The same summary, by email", 0.2);
+  },
+  phone() {  // a phone call walks her through it
+    add(livingRoom());
+    const handset = `<g transform="translate(46 -150) rotate(14)"><rect x="0" y="0" width="34" height="70" rx="10" fill="#1f2d36"/></g>`;
+    add(svg(chair(330, 600) + person({ ...MARIA, x: 330, y: 600, pose: "sit", look: "happy", prop: handset })));
+    [0, 0.45, 0.9].forEach((d) => add(`<div class="wave" style="left:405px;top:120px;width:90px;height:90px;animation-delay:${d}s"></div>`));
+    add(`<div class="card slidein" style="left:640px;top:90px;width:520px;padding:26px 30px;animation-delay:.2s">
+      <div style="font:800 18px 'Nunito Sans';color:#4f6877">📞 Incoming call · AI at 70</div><div style="font:900 34px Nunito,sans-serif;color:#1c5d84;margin:4px 0 16px">Dr. Lee's office</div>
+      ${DATA.phone.map((l, i) => `<div class="fadeup" style="font:700 25px/1.35 'Nunito Sans';margin:10px 0;padding:10px 14px;background:#eef8f6;border-radius:10px;animation-delay:${DATA.phoneAt[i]}s">“${l}”</div>`).join("")}</div>`);
+    chip("better"); caption("A phone call, in a warm, clear voice", 0.2);
+  },
+  family() {  // the family stays informed
+    add(svg(`<rect width="1280" height="720" fill="#dceef7"/><rect y="540" width="1280" height="180" fill="#9fc9a8"/><circle cx="1120" cy="120" r="60" fill="#ffe27a"/>
+      <rect x="80" y="300" width="60" height="250" fill="#8d6444"/><circle cx="110" cy="270" r="90" fill="#5daa6b"/>` + person({ ...SOFIA, x: 330, y: 620, look: "happy" })));
+    add(`<div class="card slidein" style="left:560px;top:60px;width:440px;height:600px;border:14px solid #1f2d36;border-radius:40px;animation-delay:.2s">
+      <div style="background:#1c5d84;color:#fff;padding:14px 18px;font:800 18px Nunito,sans-serif">✉️ New email · AI at 70</div>
+      <div class="mail" style="font-size:16px">${DATA.familyEmail}</div></div>`);
+    add(`<div class="bubble tail-l pop" style="left:150px;top:140px;animation-delay:1.2s">Mom's visit went well 💚</div>`);
+    chip("better"); caption("Family stays in the loop", 0.2);
+  },
+  end() {
+    add(`<div class="end"><div><img src="${DATA.logo}"><h1>AI at 70</h1>
+      <div class="words"><span class="fadeup" ${delay(0.5)}>Quick.</span><span class="fadeup" ${delay(1.2)}>Reliable.</span><span class="fadeup" ${delay(1.9)}>Understandable.</span></div>
+      <p class="fadeup" ${delay(2.4)}>Health for all ages</p></div></div>`);
+  },
+};
+SCENES[P.get("scene") || "maria"]();
+// make_video.py pauses every animation and steps through time: window.seek(seconds)
+window.seek = (t) => document.getAnimations().forEach((a) => { a.pause(); a.currentTime = t * 1000; });
+window.ready = true;
+</script></body></html>

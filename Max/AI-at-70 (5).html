@@ -119,10 +119,28 @@ body:not(.approved) .sheet{outline:3px dashed #e4bd57;outline-offset:6px}
 .script{margin:0;padding-inline-start:26px;display:grid;gap:6px;font-size:1.02rem}.script li.speaking{background:#fff3c4;border-radius:4px}
 .tflags{display:grid;gap:8px}.tflag{border:1px solid #ecd28c;background:#fffaea;border-radius:8px;padding:8px 10px;font-size:.88rem}
 .tflag b{display:block}.tflag span{display:block;color:var(--muted)}
+/* landing */
+.hero{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:48px;align-items:center;padding:20px 0 10px}
+@media(max-width:900px){.hero{grid-template-columns:1fr;gap:26px}}
+.hero h1{font-size:clamp(2.2rem,4.6vw,3.4rem);line-height:1.06;font-weight:800;letter-spacing:-.02em;color:var(--blue);margin:8px 0 16px}
+.hero .kicker{font:800 .8rem "Nunito",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+.hero .lead{font-size:1.2rem}.hero .submit{margin-top:22px}
+.flow{display:grid;gap:12px}.flowrow{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center}
+.flowcol{display:grid;gap:8px}.fcard{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-weight:700;display:flex;gap:10px;align-items:center;box-shadow:0 6px 18px rgb(28 93 132/.07)}
+.fcard span{font-size:1.4rem}.fcard small{display:block;font-weight:400;color:var(--muted);font-size:.82rem}
+.arrow{font:800 1.6rem "Nunito",sans-serif;color:var(--teal)}
+.promise{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:34px}@media(max-width:760px){.promise{grid-template-columns:1fr}}
+.promise div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px}.promise b{display:block;font:800 1.1rem "Nunito",sans-serif;color:var(--blue);margin-bottom:4px}
+.promise p{color:var(--muted);font-size:.95rem}
+body[data-screen=s0] .track,body[data-screen=s0] .pbanner{display:none!important}
+/* automatic checks under sending */
+.autochecks{margin-top:14px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+.autochecks>summary{font:800 1.05rem "Nunito",sans-serif;color:var(--blue)}.autochecks .inner{display:grid;gap:10px;margin-top:10px}
+.voicebar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.voicebar audio{height:36px}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:6;background:var(--ink);color:#fff;padding:12px 22px;border-radius:8px;max-width:calc(100% - 32px);font-weight:700}
 @media print{
   @page{margin:14mm}body{background:#fff}
-  .top,.track,.pbanner,.result-head,.toolbar,.aside,.send,.toast,.legend,#s1,#s2,#s3,#working,#error{display:none!important}
+  .top,.track,.pbanner,.result-head,.toolbar,.aside,.send,.toast,.legend,#s0,#s1,#s2,#s3,#working,#error{display:none!important}
   .stage{padding:0;max-width:none}.rgrid{display:block}
   .sheet{box-shadow:none;outline:0!important;padding:0;font-size:15pt;line-height:1.45;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .sheet del{display:none!important}.sheet .plain-med,.sheet .plain-word{background:none!important;padding:0}
@@ -131,14 +149,14 @@ body:not(.approved) .sheet{outline:3px dashed #e4bd57;outline-offset:6px}
 }
 </style></head><body>
 <header class="top">
-  <a class="brand" href="#" aria-label="AI at 70, health for all ages">
+  <a class="brand" href="#" id="home" aria-label="AI at 70, health for all ages">
     <img data-logo alt="" width="58" height="43">
     <span class="bt"><b>AI at 70</b><small>Health for all ages</small></span>
   </a>
   <span class="env">Clinician view · fake patient data only</span>
 </header>
 <nav class="track" aria-label="Steps"><ol id="steps">
-  <li data-s="1"><i></i>Check-in</li><li data-s="2"><i></i>Clinician note</li><li data-s="3"><i></i>Conversation</li><li data-s="4"><i></i>Review and approve</li><li data-s="5"><i></i>Print, email, call</li>
+  <li data-s="1"><i></i>Check-in</li><li data-s="2"><i></i>Conversation</li><li data-s="3"><i></i>Clinician note</li><li data-s="4"><i></i>Review and approve</li><li data-s="5"><i></i>Print, email, call</li>
 </ol></nav>
 <div class="pbanner" id="pbanner" hidden>
   <div class="avatar" id="pbAvatar">?</div>
@@ -146,19 +164,52 @@ body:not(.approved) .sheet{outline:3px dashed #e4bd57;outline-offset:6px}
   <div class="chips" id="pbChips"></div>
 </div>
 <div class="stage">
-  <section id="s1" class="screen split">
+  <section id="s0" class="screen">
+    <div class="hero">
+      <div>
+        <p class="kicker">For primary care teams caring for older adults</p>
+        <h1>Visit summaries your patients can understand.</h1>
+        <p class="lead">AI at 70 turns the visit into a short, plain-language summary at a 5th-grade reading level, then delivers it the way each family needs: on paper, by email, or as a phone call, in English, Mandarin, Spanish, Portuguese or Arabic.</p>
+        <p class="note">You review and approve every word. Nothing reaches a patient or family member until you do.</p>
+        <div class="submit"><button class="btn primary" type="button" data-go="s1">Start a visit</button>
+          <a class="btn" href="/questionnaire" target="_blank" rel="noopener">Patient check-in form ↗</a></div>
+      </div>
+      <div class="flow" aria-label="How it works">
+        <div class="flowrow">
+          <div class="flowcol">
+            <div class="fcard"><span>📝</span><div>Check-in<small>the patient's own words</small></div></div>
+            <div class="fcard"><span>🎙️</span><div>Conversation<small>record the visit</small></div></div>
+            <div class="fcard"><span>🩺</span><div>Clinician note<small>type, upload or photo</small></div></div>
+          </div>
+          <div class="arrow" aria-hidden="true">➜</div>
+          <div class="flowcol">
+            <div class="fcard"><span>🖨️</span><div>Printout<small>large print, plain words</small></div></div>
+            <div class="fcard"><span>✉️</span><div>Email<small>patient and family</small></div></div>
+            <div class="fcard"><span>📞</span><div>Phone call<small>read in a natural voice</small></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="promise">
+      <div><b>Quick</b><p>Three inputs in, a checked summary out in seconds. Recordings are transcribed on this computer.</p></div>
+      <div><b>Reliable</b><p>Every medicine, dose and number is checked against your note. Disagreements are flagged, never guessed.</p></div>
+      <div><b>Understandable</b><p>Everyday words a 5th-grade reader knows, said the way you'd say it out loud, so families stay informed too.</p></div>
+    </div>
+  </section>
+
+  <section id="s1" class="screen split" hidden>
     <div class="copy">
       <img data-logo class="bigmark" alt="" width="190" height="142">
       <h1>Start with the patient's check-in</h1>
       <p class="lead">The patient fills in the check-in (in English, Mandarin, Spanish, Portuguese or Arabic) and exports it. Upload it here. It sets their language and who may get the summary.</p>
-      <p class="note">No check-in? Skip it: you can type the patient's name on the next step.</p>
+      <p class="note">No check-in? Skip it: you can type the patient's name with your note.</p>
     </div>
     <div class="work"><div class="panel">
       <div class="drop" data-for="qFile"><p>Check-in file (.json)</p>
         <label class="btn primary" for="qFile">Choose file</label><input id="qFile" type="file" accept=".json,application/json" hidden>
         <div id="qInfo" class="info" hidden></div></div>
       <div class="row"><a class="btn" href="/questionnaire" target="_blank" rel="noopener">Open the check-in questionnaire ↗</a>
-        <button class="btn" type="button" data-go="s2">Skip</button></div>
+        <button class="btn" type="button" data-go="s3">Skip</button></div>
     </div></div>
   </section>
 
@@ -166,39 +217,36 @@ body:not(.approved) .sheet{outline:3px dashed #e4bd57;outline-offset:6px}
     <div class="copy">
       <h1>What did you find today?</h1>
       <p class="lead">Add your note from the visit: assessment, medicine changes, tests ordered, follow-up plan. The summary is written from this note.</p>
-      <p class="note">Type or paste it, upload a .txt or .pdf, or try a sample note.</p>
+      <p class="note">Type or paste it, upload a .txt or .pdf, or take a photo of your written note.</p>
     </div>
     <div class="work"><div class="panel">
       <textarea id="notes" rows="11" placeholder="Assessment, medication changes, tests ordered, follow-up plan…" aria-label="Clinician note"></textarea>
-      <div class="drop slim" data-for="nFile"><label class="btn" for="nFile">Upload note (.txt, .pdf)</label><input id="nFile" type="file" accept=".txt,.pdf,text/plain,application/pdf" hidden>
-        <select id="sample" aria-label="Sample note" style="width:auto"><option value="">Or try a sample note…</option></select></div>
+      <div class="drop slim" data-for="nFile"><label class="btn" for="nFile">Upload note or photo</label><input id="nFile" type="file" accept=".txt,.pdf,text/plain,application/pdf,image/*" hidden></div>
+      <div id="nStatus" class="info" hidden></div>
       <div class="fields">
         <label>Patient name<input id="pName" type="text" autocomplete="off"></label>
         <label>Visit date<input id="pDate" type="text" autocomplete="off"></label>
         <label>Your name and title<input id="clinName" type="text" placeholder="Dr. Lee" autocomplete="off"></label>
         <label>Office phone<input id="office" type="tel" placeholder="555-0100" autocomplete="off"></label>
+        <label id="claudeWrap" hidden>Writer<select id="claude"><option value="">Offline rewriter</option><option value="1">Claude</option></select></label>
       </div></div>
-      <div class="submit"><button class="btn" type="button" data-go="s1">Back</button><button id="next2" class="btn primary" type="button" disabled>Next</button></div></div>
+      <div class="submit"><button class="btn" type="button" data-go="s3">Back</button><button id="go" class="btn primary" type="button" disabled>Write the summary</button></div>
+      <p class="fine">Nothing is printed, emailed or read to anyone until a clinician approves it.</p></div>
   </section>
 
   <section id="s3" class="screen split" hidden>
     <div class="copy">
       <h1>Add the conversation</h1>
       <p class="lead">Record the visit, upload its audio, or paste a transcript. It's transcribed on this computer, and anything it says that isn't in your note is flagged for you.</p>
-      <p class="note">Optional. The summary itself only uses facts from your note.</p>
+      <p class="note">Optional: skip it if you didn't record. The summary itself only uses facts from your note.</p>
     </div>
     <div class="work"><div class="panel">
       <div class="row"><button id="recBtn" class="btn rec" type="button">● Record visit</button>
         <label class="btn" for="aFile">Upload audio</label><input id="aFile" type="file" accept="audio/*,.wav,.mp3,.m4a,.webm,.ogg" hidden>
         <label class="btn" for="tFile">Upload transcript (.txt)</label><input id="tFile" type="file" accept=".txt,text/plain" hidden></div>
       <div id="aStatus" class="info" hidden></div>
-      <textarea id="convo" rows="9" placeholder="[0:00] Clinician: …" aria-label="Visit conversation"></textarea>
-      <div class="fields">
-        <label>Patient reads at<select id="grade"><option value="5">Grade 5 (needs a lot of help)</option><option value="6">Grade 6</option><option value="7" selected>Grade 7 (reads fairly well)</option></select></label>
-        <label id="claudeWrap" hidden>Writer<select id="claude"><option value="">Offline rewriter</option><option value="1">Claude</option></select></label>
-      </div></div>
-      <div class="submit"><button class="btn" type="button" data-go="s2">Back</button><button id="go" class="btn primary" type="button" disabled>Write the summary</button></div>
-      <p class="fine">Nothing is printed, emailed or read to anyone until a clinician approves it.</p></div>
+      <textarea id="convo" rows="9" placeholder="[0:00] Clinician: …" aria-label="Visit conversation"></textarea></div>
+      <div class="submit"><button class="btn" type="button" data-go="s1">Back</button><button class="btn" type="button" id="skip3">Skip</button><button id="next3" class="btn primary" type="button">Next</button></div></div>
   </section>
 
   <section id="working" class="screen center" hidden><div class="orb" aria-hidden="true"><span></span></div><h2 id="workTitle">Writing the summary…</h2><p class="muted" id="workText">Rewriting and checking until a reader at the chosen grade can follow it.</p></section>
@@ -219,9 +267,6 @@ body:not(.approved) .sheet{outline:3px dashed #e4bd57;outline-offset:6px}
         <div class="card"><h2>Please check <span class="count" id="count"></span></h2>
           <div class="row"><button id="selectAll" class="btn small" type="button">Select all</button><button id="clearAll" class="btn small" type="button">Clear</button></div>
           <ul class="checks" id="checklist"></ul></div>
-        <div class="card"><h2>Automatic checks</h2><p class="small muted" id="readerLine"></p><ul class="gate" id="gate"></ul>
-          <details id="leftOut"><summary>Left out of the summary</summary><ul></ul></details>
-          <details id="sources"><summary>Sources for word choices</summary><ul></ul></details></div>
       </aside>
     </div>
     <div class="send" id="send">
@@ -236,7 +281,12 @@ body:not(.approved) .sheet{outline:3px dashed #e4bd57;outline-offset:6px}
         <div class="fields"><label>Call<select id="phoneTo"></select></label><label>Phone number<input id="phoneNum" type="tel" placeholder="Their phone number" autocomplete="off"></label></div>
         <ol class="script" id="script"></ol>
         <div class="row"><button id="speak" class="btn primary" type="button">▶ Play the message</button><button id="stopSpeak" class="btn" type="button">Stop</button><a id="dial" class="btn" href="#">Call from this device</a><button id="phoneCopy" class="btn" type="button">Copy script</button></div>
-        <p class="small muted">Read the script on the call, or play it on speaker. The voice is your computer's built-in voice for the language. Automatic calling needs a phone service and isn't connected.</p></div>
+        <div class="voicebar"><audio id="voice" controls preload="none" hidden></audio><span id="voiceStatus" class="small muted"></span></div>
+        <p class="small muted">Read the script on the call, or play it on speaker: a natural neural voice for the language, made on this computer. Automatic calling needs a phone service and isn't connected.</p></div>
+      <details class="autochecks" id="autochecks"><summary>Automatic checks</summary><div class="inner">
+        <p class="small muted" id="readerLine"></p><ul class="gate" id="gate"></ul>
+        <details id="leftOut"><summary>Left out of the summary</summary><ul></ul></details>
+        <details id="sources"><summary>Sources for word choices</summary><ul></ul></details></div></details>
     </div>
   </section>
 </div>
@@ -247,10 +297,10 @@ const LOGO = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXwAAAEbCAYAAADZFj8o
 const $ = (id) => document.getElementById(id);
 document.querySelectorAll("img[data-logo]").forEach((i) => (i.src = LOGO));
 { const f = document.createElement("link"); f.rel = "icon"; f.href = LOGO; document.head.append(f); }
-const SCREENS = ["s1", "s2", "s3", "working", "error", "review"];
+const SCREENS = ["s0", "s1", "s2", "s3", "working", "error", "review"];
+const GRADE = 5;  // CLAUDE.md: ideally 5th grade
 const NATIVE = { en: "English", zh: "中文", es: "Español", pt: "Português", ar: "العربية" };
-const VOICE = { en: "en-US", zh: "zh-CN", es: "es-US", pt: "pt-BR", ar: "ar-SA" };
-let cur = "s1", cfg = { languages: [], samples: [] }, q = null, res = null, doc = null, lang = "en", approval = null;
+let cur = "s0", cfg = { languages: [], samples: [] }, q = null, res = null, doc = null, lang = "en", approval = null;
 const outCache = {};
 
 // ---------- small helpers ----------
@@ -270,16 +320,17 @@ const post = (path, body) => api(path, { method: "POST", headers: { "content-typ
 // ---------- steps ----------
 const show = (n) => { cur = n; document.body.dataset.screen = n; SCREENS.forEach((s) => ($(s).hidden = s !== n)); scrollTo({ top: 0 }); markSteps(n); };
 function markSteps(screen) {
-  const done = [!!q, !!$("notes").value.trim(), !!$("convo").value.trim(), !!approval, false];
-  const at = { s1: 0, s2: 1, s3: 2, error: 2, working: 2 }[screen] ?? (approval ? 4 : 3);
+  const done = [!!q, !!$("convo").value.trim(), !!$("notes").value.trim(), !!approval, false];
+  const at = { s0: -1, s1: 0, s3: 1, s2: 2, error: 2, working: 2 }[screen] ?? (approval ? 4 : 3);
   document.querySelectorAll("#steps li").forEach((li, i) => { li.classList.toggle("done", done[i]); li.classList.toggle("active", i === at); });
 }
 document.querySelectorAll("#steps li").forEach((li, i) => li.addEventListener("click", () => {
   if (i >= 3) { if (res) { show("review"); if (i === 4) $("send").scrollIntoView({ behavior: "smooth" }); } return; }
-  if (i === 0 || i === 1 || (i === 2 && $("notes").value.trim())) show(["s1", "s2", "s3"][i]);
+  show(["s1", "s3", "s2"][i]);
 }));
 document.querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => show(b.dataset.go)));
-const refresh = () => { $("next2").disabled = !$("notes").value.trim(); $("go").disabled = !$("notes").value.trim(); markSteps(cur); };
+const refresh = () => { $("go").disabled = !$("notes").value.trim(); markSteps(cur); };
+$("home").addEventListener("click", (e) => { e.preventDefault(); show("s0"); });
 ["notes", "convo"].forEach((id) => $(id).addEventListener("input", refresh));
 
 // ---------- 1. check-in ----------
@@ -301,7 +352,7 @@ $("qFile").addEventListener("change", async (e) => {
   $("qInfo").hidden = !q; if (q) $("qInfo").textContent = "✓ " + f.name + " loaded";
   if (q?.answers?.patient_full_name) $("pName").value = q.answers.patient_full_name;
   const l = q?.summary_language || q?.language; if (l && NATIVE[l]) lang = l;
-  setBanner(); if (q) show("s2"); refresh();
+  setBanner(); if (q) show("s3"); refresh();
 });
 $("pName").addEventListener("input", setBanner);
 
@@ -309,13 +360,13 @@ $("pName").addEventListener("input", setBanner);
 $("nFile").addEventListener("change", async (e) => {
   const f = e.target.files[0]; if (!f) return;
   const form = new FormData(); form.append("file", f);
-  try { $("notes").value = (await api("/api/read-file", { method: "POST", body: form })).text; refresh(); toast("Note loaded"); } catch (err) { toast(err.message); }
+  const status = $("nStatus"); status.hidden = false;
+  status.textContent = f.type.startsWith("image/") ? "Reading the photo of your note…" : "Loading the note…";
+  try { const r = await api("/api/read-file", { method: "POST", body: form }); $("notes").value = r.text; refresh();
+    status.textContent = r.ocr ? "✓ Read from the photo: check the text above before you go on" + (r.fixed?.length ? ` (fixed ${r.fixed.join(", ")})` : "") : "✓ Note loaded"; } catch (err) { status.textContent = err.message; }
 });
-$("sample").addEventListener("change", async () => {
-  if (!$("sample").value) return;
-  try { $("notes").value = (await api(`/api/samples/${encodeURIComponent($("sample").value)}`)).text; refresh(); } catch (err) { toast(err.message); }
-});
-$("next2").addEventListener("click", () => show("s3"));
+$("next3").addEventListener("click", () => show("s2"));
+$("skip3").addEventListener("click", () => { $("convo").value = ""; show("s2"); });
 
 // ---------- 3. conversation: record or upload audio -> Visit Recorder (/audio) ----------
 let recorder = null, chunks = [];
@@ -355,15 +406,15 @@ async function transcribe(blob, name) {
 $("go").addEventListener("click", async () => {
   $("workTitle").textContent = "Writing the summary…"; show("working");
   try {
-    res = await post("/api/summary", { note: $("notes").value, transcript: $("convo").value, questionnaire: q, grade: $("grade").value, claude: !!$("claude").value });
+    res = await post("/api/summary", { note: $("notes").value, transcript: $("convo").value, questionnaire: q, grade: GRADE, claude: !!$("claude").value });
     doc = res.doc; approval = null; Object.keys(outCache).forEach((k) => delete outCache[k]);
     document.body.classList.remove("approved");
     if (!available(lang)) lang = "en";
     await loadOutputs(); renderReview(); show("review");
   } catch (e) { fail(e.message); }
 });
-$("retry").addEventListener("click", () => show("s3"));
-$("back").addEventListener("click", () => (!approval || confirm("Go back? The approval will be removed.")) && show("s3"));
+$("retry").addEventListener("click", () => show("s2"));
+$("back").addEventListener("click", () => (!approval || confirm("Go back? The approval will be removed.")) && show("s2"));
 
 // ---------- outputs in the chosen language ----------
 const available = (code) => (cfg.languages.find((l) => l.code === code) || {}).ready;
@@ -530,15 +581,26 @@ const copy = async (t) => { try { await navigator.clipboard.writeText(t); toast(
 $("emailCopy").addEventListener("click", () => copy($("emailBody").textContent));
 $("phoneCopy").addEventListener("click", () => copy([...$("script").children].map((li) => li.textContent).join("\n")));
 $("dial").addEventListener("click", (ev) => { ev.preventDefault(); if (!approval) return toast("Approve the summary first."); const n = $("phoneNum").value.replace(/[^\d+]/g, ""); if (!n) return toast("Enter their phone number."); location.href = "tel:" + n; });
-$("speak").addEventListener("click", () => {
+// The call is read by a neural voice made on the server (Kokoro / Piper), one line at a time: the next line is
+// prepared while this one plays, and the line being read is highlighted.
+let speaking = 0;
+const lineAudio = (text) => fetch("/api/speak", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text, lang }) })
+  .then((r) => (r.ok ? r.blob() : Promise.reject(new Error("no voice"))));
+$("speak").addEventListener("click", async () => {
   if (!approval) return toast("Approve the summary first.");
-  speechSynthesis.cancel();
-  const lines = [...$("script").children], voice = speechSynthesis.getVoices().find((v) => v.lang.replace("_", "-").startsWith(VOICE[lang].slice(0, 2)));
-  if (!voice && lang !== "en") toast(`No ${NATIVE[lang]} voice on this computer: add one in the system's speech settings.`);
-  lines.forEach((li) => { const u = new SpeechSynthesisUtterance(li.textContent); u.lang = VOICE[lang]; if (voice) u.voice = voice; u.rate = 0.85;
-    u.onstart = () => { lines.forEach((x) => x.classList.remove("speaking")); li.classList.add("speaking"); }; u.onend = () => li.classList.remove("speaking"); speechSynthesis.speak(u); });
+  const run = ++speaking, lines = [...$("script").children], player = $("voice");
+  player.hidden = false; $("voiceStatus").textContent = "Preparing the voice…";
+  let next = lineAudio(lines[0].textContent);
+  for (let i = 0; i < lines.length && run === speaking; i++) {
+    let blob; try { blob = await next; } catch { $("voiceStatus").textContent = "No neural voice for this language: run python Ethan/conversion_library/build_voices.py"; return; }
+    if (i + 1 < lines.length) next = lineAudio(lines[i + 1].textContent);
+    lines.forEach((x) => x.classList.toggle("speaking", x === lines[i])); $("voiceStatus").textContent = `Reading line ${i + 1} of ${lines.length}`;
+    player.src = URL.createObjectURL(blob);
+    await new Promise((done) => { player.onended = done; player.onpause = () => run !== speaking && done(); player.play().catch(done); });
+  }
+  if (run === speaking) { lines.forEach((x) => x.classList.remove("speaking")); $("voiceStatus").textContent = "Done"; }
 });
-$("stopSpeak").addEventListener("click", () => { speechSynthesis.cancel(); [...$("script").children].forEach((x) => x.classList.remove("speaking")); });
+$("stopSpeak").addEventListener("click", () => { speaking++; $("voice").pause(); $("voiceStatus").textContent = "Stopped"; [...$("script").children].forEach((x) => x.classList.remove("speaking")); });
 
 // ---------- start ----------
 document.querySelectorAll(".drop").forEach((d) => {
@@ -548,9 +610,6 @@ document.querySelectorAll(".drop").forEach((d) => {
   d.addEventListener("drop", (e) => { if (e.dataTransfer.files.length) { input.files = e.dataTransfer.files; input.dispatchEvent(new Event("change")); } });
 });
 $("pDate").value = new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
-api("/api/config").then((c) => {
-  cfg = c; $("claudeWrap").hidden = !c.claude;
-  $("sample").append(...c.samples.map((s) => el("option", { value: s }, s.replace(/^synthetic_/, "").replaceAll("_", " "))));
-}).catch((e) => toast(e.message));
-markSteps("s1"); document.body.dataset.screen = "s1"; refresh();
+api("/api/config").then((c) => { cfg = c; $("claudeWrap").hidden = !c.claude; }).catch((e) => toast(e.message));
+show("s0"); refresh();
 </script></body></html>

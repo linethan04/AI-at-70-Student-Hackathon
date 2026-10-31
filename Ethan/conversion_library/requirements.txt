@@ -9,3 +9,8 @@ flask
 openpyxl
 sentencepiece
 ctranslate2
+kokoro-onnx
+piper-tts
+sherpa-onnx
+soundfile
+numpy
