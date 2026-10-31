@@ -68,6 +68,7 @@ python Ethan/audio_workflow/EL_audio.py transcribe <file.wav> --clean           
 python Ethan/audio_workflow/clean_transcript.py Ethan/audio_workflow/transcripts/<name>.json [--num-speakers 2]   # cleanup on its own
 python Ethan/audio_workflow/medical_dictionary.py medication glipizide             # check a single term
 python Ethan/audio_workflow/app.py                                                 # web app: http://localhost:5050 (full settings at /advanced)
+python Ethan/audio_workflow/app.py --public & cloudflared tunnel --protocol http2 --url http://localhost:5050   # phone access: prints an https://….trycloudflare.com link (brew install cloudflared); works while the Mac is on
 python Ethan/audio_workflow/fetch_test_audio.py day1_consultation06                # real mock visit + answer key
 python Ethan/audio_workflow/evaluate.py Ethan/audio_workflow/transcripts/primock_day1_consultation06.clean.json Ethan/audio_workflow/test_data/primock_day1_consultation06.reference.json
 ```

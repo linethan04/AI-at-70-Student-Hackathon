@@ -75,17 +75,25 @@ async function startRecording() {
   show("recording");
 }
 
+const WAVE_BARS = 28;
+
+// Live waveform: one bar per frequency band, so it visibly reacts to speech.
 function startMeter() {
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   const analyser = audioCtx.createAnalyser();
-  analyser.fftSize = 512;
+  analyser.fftSize = 256;
+  analyser.smoothingTimeConstant = 0.75;
   audioCtx.createMediaStreamSource(stream).connect(analyser);
-  const data = new Uint8Array(analyser.fftSize);
+  const bars = Array.from({ length: WAVE_BARS }, () => document.createElement("span"));
+  $("wave").replaceChildren(...bars);
+  const data = new Uint8Array(analyser.frequencyBinCount);
   const tick = () => {
-    analyser.getByteTimeDomainData(data);
-    let peak = 0;
-    for (const v of data) peak = Math.max(peak, Math.abs(v - 128));
-    $("meterFill").style.width = `${Math.min(100, (peak / 128) * 170)}%`;
+    analyser.getByteFrequencyData(data);
+    bars.forEach((bar, i) => {
+      // Mirror around the middle so the shape looks balanced; speech lives in the low bins.
+      const bin = 2 + Math.round(Math.abs(i - WAVE_BARS / 2) * 1.6);
+      bar.style.height = `${Math.max(6, (data[bin] / 255) * 72)}px`;
+    });
     meterId = requestAnimationFrame(tick);
   };
   tick();
@@ -98,7 +106,7 @@ function cleanupRecording() {
   stream?.getTracks().forEach((t) => t.stop());
   wakeLock?.release?.();
   wakeLock = null;
-  $("meterFill").style.width = "0";
+  $("wave").replaceChildren();
 }
 
 $("recordBtn").addEventListener("click", startRecording);
@@ -158,7 +166,7 @@ function setProgress(step, note, started) {
   });
   $("workTitle").textContent = note || STEP_TITLES[step] || "Working…";
   if (started) {
-    $("workDetail").textContent = `${fmtTime((Date.now() - started) / 1000)} so far. About a minute for every 7 minutes of audio.`;
+    $("workDetail").textContent = `${fmtTime((Date.now() - started) / 1000)} so far · about a minute for every 7 minutes of audio`;
   }
 }
 
@@ -183,6 +191,14 @@ function speakerName(label, speakers) {
 function speakerColor(label, speakers) {
   const i = Math.max(0, speakers.findIndex((s) => s.label === label));
   return `var(${SPEAKER_COLORS[i % SPEAKER_COLORS.length]})`;
+}
+
+function playIcon() {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 10 10");
+  svg.setAttribute("aria-hidden", "true");
+  svg.innerHTML = '<path d="M2 1l7 4-7 4z"/>';
+  return svg;
 }
 
 function playFrom(seconds) {
@@ -226,8 +242,11 @@ function showResult(r) {
       el("div", { class: "turn-head" },
         el("span", { class: "who" }, speakerName(t.speaker, r.speakers)),
         el("button", { class: "ts", type: "button", "aria-label": `Play from ${fmtTime(t.start)}`, onclick: () => playFrom(t.start) },
-          `▶ ${fmtTime(t.start)}`)),
+          playIcon(), fmtTime(t.start))),
       el("p", {}, ...t.items.map(([u, i]) => utteranceNode(u, i, corrections))))));
+
+  const duration = r.utterances.length ? r.utterances[r.utterances.length - 1].end : 0;
+  $("summary").textContent = `${fmtTime(duration)} · ${named.length} speaker${named.length === 1 ? "" : "s"}`;
 
   plainText = turns.map((t) =>
     `[${fmtTime(t.start)}] ${speakerName(t.speaker, r.speakers)}: ${t.items.map(([u]) => u.text).join(" ")}`).join("\n\n");
@@ -260,5 +279,7 @@ $("copyBtn").addEventListener("click", async () => {
     toast("Couldn't copy. Use Download instead.");
   }
 });
-$("newBtn").addEventListener("click", () => { $("player").pause(); show("start"); });
+for (const id of ["newBtn", "newBtn2"]) {
+  $(id).addEventListener("click", () => { $("player").pause(); show("start"); });
+}
 $("retryBtn").addEventListener("click", () => show("start"));
