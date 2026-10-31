@@ -1,5 +1,5 @@
 {%- macro segment(x) -%}
-{%- if x.kind == "med" -%}<span class="chg"><del class="orig-med">{{ x.text }}</del> <span class="plain-med">{{ x.plain }}</span></span>
+{%- if x.kind == "med" -%}<span class="chg">{% if x.text %}<del class="orig-med">{{ x.text }}</del> {% endif %}<span class="plain-med">{{ x.plain }}</span></span>
 {%- elif x.kind == "word" -%}<span class="chg"><del class="orig-word">{{ x.text }}</del> <span class="plain-word">{{ x.plain }}</span></span>
 {%- elif x.kind in ("keep", "drug") -%}<span class="kept">{{ x.text }}</span>{% if x.plain %} <span class="plain-med">({{ x.plain }})</span>{% endif %}
 {%- else -%}{{ x.text }}{%- endif -%}
@@ -13,16 +13,36 @@
     </dl>
   </header>
 
-  {% for key, title in sections.items() %}{% if s.sections[key] %}
   <section class="pr-section">
-    <h2>{{ title }}</h2>
+    <h2>Your visit</h2>
+    <p class="overview">{% for item in s.overview %}{% for x in item %}{{ segment(x) }}{% endfor %} {% endfor %}</p>
+  </section>
+
+  {% if s.medicines %}
+  <section class="pr-section meds">
+    <h2>Your medicines</h2>
     <ul>
-      {% for item in s.sections[key] %}
-      <li{% if (key, loop.index0) in s.urgent %} class="urgent"{% endif %}>{% for x in item %}{{ segment(x) }}{% endfor %}</li>
+      {% for m in s.medicines %}
+      <li>
+        <div class="med-head">{% if m.category %}<span class="med-name">{{ m.category }}</span> ({{ m.name }}){% else %}<span class="med-name">{{ m.name }}</span>{% endif %}{% if m.change %} <span class="med-tag">{{ m.change }}</span>{% endif %}</div>
+        <div class="med-how">➜ {% if m.instruction %}{% for x in m.instruction %}{{ segment(x) }}{% endfor %}{% else %}How to take: ______________________{% endif %}</div>
+        {% if m.note %}<div class="med-note">{% for x in m.note %}{{ segment(x) }}{% endfor %}</div>{% endif %}
+      </li>
       {% endfor %}
     </ul>
   </section>
-  {% endif %}{% endfor %}
+  {% endif %}
+
+  {% if s.steps %}
+  <section class="pr-section">
+    <h2>What to do next</h2>
+    <ul>
+      {% for item in s.steps %}
+      <li{% if loop.index0 in s.urgent %} class="urgent"{% endif %}>{% for x in item %}{{ segment(x) }}{% endfor %}</li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
 
   <footer class="pr-foot">
     <p>Questions? Call your doctor's office{% if phone %}: <strong>{{ phone }}</strong>{% else %}: ____________________{% endif %}</p>

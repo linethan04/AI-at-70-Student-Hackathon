@@ -10,7 +10,7 @@
 <div class="wrap">
   <div class="app-head">
     <h1>Visit summary maker</h1>
-    <p>Paste or upload a primary care note. The printout unlocks only when it passes every check.</p>
+    <p>Paste or upload a primary care note to get a short summary for the patient.</p>
   </div>
 
   <form class="input" method="post" enctype="multipart/form-data">
@@ -22,7 +22,7 @@
           <option value="">Choose a sample note…</option>
           {% for group, names in samples.items() %}
           <optgroup label="{{ group }}">
-            {% for n in names %}<option value="{{ group }}/{{ n }}" {% if sample == group ~ '/' ~ n %}selected{% endif %}>{{ n }}{% if n in rewritten %} ✓ summary written{% endif %}</option>{% endfor %}
+            {% for n in names %}<option value="{{ group }}/{{ n }}" {% if sample == group ~ '/' ~ n %}selected{% endif %}>{{ n }}</option>{% endfor %}
           </optgroup>
           {% endfor %}
         </select>
@@ -32,6 +32,12 @@
       <label>Patient name<input name="name" value="{{ name }}"></label>
       <label>Visit date<input name="visit_date" value="{{ visit_date_input }}" placeholder="today"></label>
       <label>Office phone (optional)<input name="phone" value="{{ phone }}"></label>
+      <label>Patient reads at
+        <select name="grade">
+          {% for g, label in [(5, "grade 5 (needs a lot of help reading)"), (6, "grade 6"), (7, "grade 7 (reads fairly well)")] %}
+          <option value="{{ g }}" {% if grade == g %}selected{% endif %}>{{ label }}</option>{% endfor %}
+        </select>
+      </label>
       {% if claude_available %}<label class="toggle"><input type="checkbox" name="claude" {% if use_claude %}checked{% endif %}> Write with Claude</label>{% endif %}
       <button class="btn" type="submit">Make summary</button>
     </div>

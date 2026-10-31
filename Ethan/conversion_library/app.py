@@ -2,15 +2,13 @@
 
     python Ethan/conversion_library/app.py        # http://localhost:5051
 
-Uses a summary written for the note in rewrites/ if there is one, Claude if ANTHROPIC_API_KEY is set
-and "Write with Claude" is ticked, and otherwise the offline draft. The printout is only shown when
-the summary passes every check (visit_summary.py), and printing unlocks when the clinician has
-ticked every item. Notes are processed in memory and not saved.
+Writes the summary with Claude if ANTHROPIC_API_KEY is set and "Write with Claude" is ticked, otherwise
+with the offline rewriter; both retry until the reading level is in range and show the best try.
+Printing unlocks when the clinician has ticked every item. Notes are processed in memory and not saved.
 """
 
 import argparse
 import io
-import json
 import os
 from pathlib import Path
 
@@ -18,7 +16,8 @@ from dotenv import find_dotenv, load_dotenv
 from flask import Flask, render_template, request
 
 from make_printout import TEMPLATES
-from visit_summary import REWRITES, context, summarize_note
+from reader import READER_GRADE
+from visit_summary import context, summarize_note
 
 HERE = Path(__file__).resolve().parent
 SAMPLE_DIRS = {"Synthetic samples": HERE / "samples",
@@ -34,10 +33,6 @@ app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
 def samples() -> dict[str, list[str]]:
     return {group: sorted(p.stem for p in folder.glob("*.txt"))
             for group, folder in SAMPLE_DIRS.items() if folder.is_dir() and any(folder.glob("*.txt"))}
-
-
-def rewritten() -> set[str]:
-    return {Path(json.loads(p.read_text())["note"]).stem for p in REWRITES.glob("*.json")}
 
 
 def read_sample(value: str) -> str:
@@ -68,11 +63,12 @@ def index():
     elif not note.strip() and sample:
         note = read_sample(sample)
     note = note.replace("\r\n", "\n")
+    grade = int(form.get("grade") or READER_GRADE)
     claude_available = bool(os.environ.get("ANTHROPIC_API_KEY"))
     use_claude = claude_available and bool(form.get("claude"))
-    page = {"note": note, "sample": sample, "samples": samples(), "rewritten": rewritten(), "s": None,
+    page = {"note": note, "sample": sample, "samples": samples(), "s": None,
             "visit_date_input": details["visit_date"], "claude_available": claude_available,
-            "use_claude": use_claude, "name": details["name"], "phone": details["phone"]}
+            "use_claude": use_claude, "name": details["name"], "phone": details["phone"], "grade": grade}
     if request.method == "POST":
         if not note.strip():
             error = "Paste a note, upload a file, or pick a sample."
@@ -80,7 +76,7 @@ def index():
             error = f"That note is very long ({len(note):,} characters). Try a single visit note."
         else:
             try:
-                page.update(context(summarize_note(note, use_claude), **details))
+                page.update(context(summarize_note(note, use_claude, grade), **details))
             except Exception as e:  # Claude errors, unreadable files
                 error = f"Couldn't make a summary: {e.__class__.__name__}: {e}"
     page["error"] = error

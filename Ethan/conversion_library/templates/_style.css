@@ -115,3 +115,22 @@ del.orig-word { background: var(--word-old); color: var(--word-old-ink); text-de
   .printout .plain-med, .printout .plain-word { background: none !important; padding: 0; }
   .blocked, .draft-box { display: none !important; }
 }
+
+/* ---- three-part summary ---- */
+.printout p.overview { margin: 0; }
+.meds li { margin-bottom: 10px; }
+.med-name { font-weight: 700; }
+.med-tag { font-size: 12pt; font-weight: 700; border: 2px solid #000; border-radius: 4px; padding: 0 6px; margin-left: 4px; }
+.med-how { font-size: 15pt; }
+.tries { margin: 0 0 6px; padding-left: 20px; font-size: 13px; }
+.tries li span { color: var(--muted); }
+.tries li.pass strong { color: var(--good); } .tries li.fail strong { color: var(--bad); }
+.warn { background: #fff4d6; border: 1px solid #e9c46a; border-left: 5px solid var(--ok); border-radius: 6px; padding: 10px 14px; margin-bottom: 12px; }
+.left-out { margin: 6px 0 0; padding-left: 18px; font-size: 12.5px; }
+.left-out span { color: var(--muted); }
+
+.med-head { line-height: 1.4; }
+.med-how { font-size: 17pt; font-weight: 700; margin: 2px 0 0 0.2em; }
+p.reader { margin: 0 0 6px; font-size: 13.5px; }
+
+.med-note { font-size: 14pt; margin: 2px 0 0 1.4em; }

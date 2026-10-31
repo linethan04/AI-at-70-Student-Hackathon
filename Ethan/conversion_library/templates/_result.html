@@ -1,4 +1,9 @@
-{% if s.ready %}
+{% if not s.reading_ok %}
+<div class="warn no-print">
+  After {{ s.tries | length }} tries: {{ s.readability.describe }} This is the clearest version.
+  Edit it or confirm it in the checklist before printing.
+</div>
+{% endif %}
 <div class="actions no-print">
   <button class="btn" id="print" type="button" disabled onclick="window.print()">Print patient copy</button>
   <label class="toggle"><input type="checkbox" id="show-changes" checked> Show changes on screen</label>
@@ -11,20 +16,6 @@
   {% include "_summary.html" %}
   {% include "_checklist.html" %}
 </div>
-{% else %}
-<div class="blocked">
-  <h2>Not ready to print</h2>
-  <p>The summary didn't pass every check, so no printout was made. The patient copy must be at
-    SMOG grade {{ max_grade }} or lower, keep every number and medicine, and have no medical jargon left.</p>
-  <p>{% if "Offline" in s.origin %}This note has no written summary yet, and the offline rules alone can't reach the
-    reading level. Add <code>ANTHROPIC_API_KEY</code> to <code>.env</code> to let Claude write one, or ask Claude Code to
-    write <code>rewrites/&lt;note&gt;.json</code> for it.{% endif %}</p>
-</div>
-<div class="layout">
-  <details class="draft-box"><summary>See the draft that failed (not for patients)</summary>{% include "_summary.html" %}</details>
-  {% include "_checklist.html" %}
-</div>
-{% endif %}
 <script>
 (() => {
   const boxes = [...document.querySelectorAll("#checklist input[type=checkbox]")];

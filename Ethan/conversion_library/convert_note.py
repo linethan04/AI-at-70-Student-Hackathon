@@ -57,6 +57,14 @@ def lay_dictionary() -> tuple[dict, dict, dict]:
         # Lab-test short names ("BNP", "HbA1c") are matched like abbreviations.
         is_abbrev = e.get("kind") == "abbreviation" or any(c.isupper() for c in e["term"])
         (abbrevs if is_abbrev else terms)[e["term"]] = e
+    aliases = json.loads((DATA / "simple_words.json").read_text()).get("aliases", {})
+    for alias, target in aliases.items():  # "urine microalbumin" -> MedlinePlus "microalbumin creatinine ratio"
+        if target in terms and alias not in terms:
+            terms[alias] = {**terms[target], "term": alias}
+    for e in data["entries"]:
+        for k in ("plain", "explain"):
+            if e.get(k):
+                e[k] = re.sub(r"\s+([,.;:)])", r"\1", e[k])  # "blood sugar , levels" -> "blood sugar, levels"
     return abbrevs, terms, data["sources"]
 
 
@@ -229,10 +237,11 @@ def analyze(note: str) -> list[Finding]:
         default = next((simple["abbreviations"][c] for c in candidates if c in simple["abbreviations"]), None)
         if meaning and default in entry.get("meanings", []):
             meaning = default  # "PRN": "as needed" rather than "as necessary"
-        if meaning is None and default and entry.get("kind") != "lab_test":
+        if default and (meaning is None or not entry.get("standard")) and entry.get("kind") != "lab_test":
             # "CT", "BP", "DH": several listed meanings, but one is the usual one in a clinic note.
+            flag = f"{flag}; read as \"{default}\", confirm" if flag else "no standard source"
             claim(Finding(tok, m.start(), m.end(), "abbreviation", replace_with=default, source=simple["source"],
-                          flag=f"{flag}; read as \"{default}\", confirm" if not DOSING_WORDS.search(default)
+                          flag=flag if not DOSING_WORDS.search(default)
                           else "dosing abbreviation: confirm the exact times with the clinician (CLAUDE.md)"))
             continue
         if entry.get("kind") == "lab_test":

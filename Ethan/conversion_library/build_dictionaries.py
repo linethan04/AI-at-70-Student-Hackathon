@@ -268,6 +268,12 @@ def parse_lab_tests(refresh: bool) -> tuple[list[dict], set[str]]:
     for page in pages:
         title = page["title"]
         explanation = next((d for d in map(short_definition, first_sentences(page["what_is"])[:2]) if d), None)
+        if not explanation:  # "A basic metabolic panel (BMP) measures eight different substances in your blood."
+            m = re.match(r"(?:An? |The )?[^.]*?\b(?:test|panel|count|ratio|screening)s?\b(?: \([^)]*\))? "
+                         r"(measures?|checks?|looks? for|shows?|counts?|tests? for) ([^.]+)\.", page["what_is"])
+            if m:
+                verb = re.sub(r"^(measure|check|look|show|count|test)\b(?!s)", r"\1s", m.group(1))
+                explanation = f"a test that {verb} {m.group(2)}"
         base = re.sub(r"\s*\(.*?\)", "", title)
         variants = {base, re.sub(r"\s+(Blood |Urine )?Tests?$", "", base, flags=re.I)}
         variants |= {abbr for group in re.findall(r"\((.*?)\)", title) for abbr in re.split(r",\s*", group)}

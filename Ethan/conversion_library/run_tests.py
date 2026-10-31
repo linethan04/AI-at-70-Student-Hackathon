@@ -10,15 +10,59 @@ medicine name went missing. Writes output/test_report.md plus a review copy and 
 """
 
 import argparse
+import json
 from collections import Counter
 from pathlib import Path
 from statistics import mean
 
 from convert_note import MAX_GRADE, OUTPUT, TARGET_GRADE, convert_file, summarize
 from make_printout import ONE_PAGE_WORDS, make_printout, render_page
+from reader import READER_GRADE
+from visit_summary import render_page as render_summary, summarize_note
+
+PRIMARY_CARE = ("primock57/", "mtsamples/general_medicine", "mtsamples/office", "mtsamples/soap")  # not hospital discharges
 
 HERE = Path(__file__).resolve().parent
 TEST_NOTES = HERE / "test_notes"
+
+
+def summary_tests() -> list[str]:
+    """The patient visit summary (visit_summary.py) on every primary care note."""
+    results = []
+    for path in sorted(TEST_NOTES.glob("*/*.txt")):
+        rel = f"{path.parent.name}/{path.stem}"
+        if not rel.startswith(PRIMARY_CARE):
+            continue
+        s = summarize_note(path.read_text())
+        (OUTPUT / f"{path.stem}.summary.html").write_text(render_summary(s))
+        r = s.readability
+        results.append({"collection": path.parent.name, "note": path.stem, "known": r["reader"]["known_per_100"],
+                        "max_sentence": r["reader"]["max_sentence"], "reader_ok": s.reading_ok, "ready": s.ready,
+                        "unknown": r["reader"]["unknown"], "smog": r["smog"], "smog_note": r["smog_note"],
+                        "tries": len(s.tries), "words": r["reader"]["words"], "medicines": len(s.medicines),
+                        "no_instruction": sum(1 for m in s.medicines if not m.instruction),
+                        "failed": [c["name"] for c in s.checks if not c["ok"]]})
+    (OUTPUT / "summary_results.json").write_text(json.dumps(results, indent=1))
+    lines = ["## Patient visit summary (primary care notes)", ""]
+    for collection in sorted({r["collection"] for r in results}):
+        rs = [r for r in results if r["collection"] == collection]
+        ok = [r for r in rs if r["reader_ok"]]
+        meds = sum(r["medicines"] for r in rs)
+        lines += [f"### {collection} ({len(rs)} notes)", "",
+                  f"- Reader check passed (grade {READER_GRADE}: knows 98+ of 100 words, short sentences): {len(ok)} of {len(rs)}",
+                  f"- Every check passed (reader, medicines, numbers, no jargon): {sum(1 for r in rs if r['ready'])} of {len(rs)}",
+                  f"- Words the reader knows: {mean(r['known'] for r in rs):.1f} of 100 on average "
+                  f"(lowest {min(r['known'] for r in rs)})",
+                  "- Tries needed (notes that passed): " + ", ".join(
+                      f"{n}: {sum(1 for r in ok if r['tries'] == n)}" for n in range(1, 7)),
+                  f"- Summary length: {mean(r['words'] for r in rs):.0f} words on average",
+                  f"- Medicines with a how-to-take instruction from the note: {meds - sum(r['no_instruction'] for r in rs)} of {meds}",
+                  f"- For reference, SMOG: {mean(scored(rs, 'smog_note')):.1f} note -> {mean(scored(rs, 'smog')):.1f} summary",
+                  "- Words the reader most often may not know: " + ", ".join(
+                      f"{w} ({n})" for w, n in Counter(w for r in rs for w in r["unknown"]).most_common(12)),
+                  f"- Failing other checks: " + (", ".join(f"{k} {v}" for k, v in Counter(
+                      f for r in rs for f in r["failed"] if f != "Reading level").most_common()) or "none"), ""]
+    return lines
 
 
 def scored(rows: list[dict], key: str) -> list[float]:
@@ -81,6 +125,7 @@ def main() -> None:
     lines += [f"| {r['collection']} | {r['note']} | {r['found']} | {r['replaced']} | {r['explained']} | {r['flagged']} "
               f"| {r['smog_before']} | {r['smog_after']} | {r['smog_printout']} | {r['printout_words']} | {', '.join(r['missing'])} |"
               for r in rows]
+    lines += summary_tests()
     report = OUTPUT / "test_report.md"
     report.write_text("\n".join(lines) + "\n")
     print("\n".join(lines[: lines.index("## Per note")]))

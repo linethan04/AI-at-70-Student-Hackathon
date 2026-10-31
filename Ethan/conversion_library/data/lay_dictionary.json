@@ -1,5 +1,5 @@
 {
- "built": "2026-10-30",
+ "built": "2026-10-31",
  "sources": {
   "CDC Everyday Words": {
    "url": "https://www.cdc.gov/other/pdf/EverydayWordsForPublicHealthCommunication.pdf",
@@ -307,6 +307,7 @@
   },
   {
    "term": "A/G",
+   "explain": "a test that measures the total amount of protein in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/total-protein-and-albumin-globulin-a-g-ratio/",
@@ -612,6 +613,7 @@
   },
   {
    "term": "ABG",
+   "explain": "a test that measures the amount of oxygen and carbon dioxide (CO2) in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/arterial-blood-gas-abg-test/",
@@ -2633,6 +2635,7 @@
   },
   {
    "term": "allergy blood test",
+   "explain": "a test that measures the amount of allergy-causing antibodies called immunoglobulin E (IgE)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/allergy-blood-test/",
@@ -2783,6 +2786,7 @@
   },
   {
    "term": "ALT",
+   "explain": "a test that measures the amount of ALT in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/alt-blood-test/",
@@ -2797,6 +2801,7 @@
   },
   {
    "term": "alt blood test",
+   "explain": "a test that measures the amount of ALT in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/alt-blood-test/",
@@ -3185,6 +3190,7 @@
   },
   {
    "term": "ANCA",
+   "explain": "a test that looks for antineutrophil cytoplasmic antibodies (ANCA) in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/antineutrophil-cytoplasmic-antibodies-anca-test/",
@@ -3462,6 +3468,7 @@
   },
   {
    "term": "anti-müllerian hormone",
+   "explain": "a test that measures the amount of AMH in a blood sample",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/anti-mullerian-hormone-test/",
@@ -3470,6 +3477,7 @@
   },
   {
    "term": "anti-müllerian hormone test",
+   "explain": "a test that measures the amount of AMH in a blood sample",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/anti-mullerian-hormone-test/",
@@ -3519,6 +3527,7 @@
   },
   {
    "term": "antibody serology",
+   "explain": "a test that looks for specific antibodies in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/antibody-serology-tests/",
@@ -3527,6 +3536,7 @@
   },
   {
    "term": "antibody serology tests",
+   "explain": "a test that looks for specific antibodies in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/antibody-serology-tests/",
@@ -3588,6 +3598,7 @@
   },
   {
    "term": "antineutrophil cytoplasmic antibodies",
+   "explain": "a test that looks for antineutrophil cytoplasmic antibodies (ANCA) in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/antineutrophil-cytoplasmic-antibodies-anca-test/",
@@ -3596,6 +3607,7 @@
   },
   {
    "term": "antineutrophil cytoplasmic antibodies test",
+   "explain": "a test that looks for antineutrophil cytoplasmic antibodies (ANCA) in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/antineutrophil-cytoplasmic-antibodies-anca-test/",
@@ -4283,6 +4295,7 @@
   },
   {
    "term": "arterial blood gas",
+   "explain": "a test that measures the amount of oxygen and carbon dioxide (CO2) in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/arterial-blood-gas-abg-test/",
@@ -4291,6 +4304,7 @@
   },
   {
    "term": "arterial blood gas test",
+   "explain": "a test that measures the amount of oxygen and carbon dioxide (CO2) in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/arterial-blood-gas-abg-test/",
@@ -4727,6 +4741,7 @@
   },
   {
    "term": "AST",
+   "explain": "a test that measures the amount of AST in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/ast-test/",
@@ -4741,6 +4756,7 @@
   },
   {
    "term": "ast test",
+   "explain": "a test that measures the amount of AST in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/ast-test/",
@@ -5393,6 +5409,7 @@
   },
   {
    "term": "B2M",
+   "explain": "a test that measures the amount of a protein called beta-2 microglobulin (B2M) in your body fluids",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/beta-2-microglobulin-b2m-tumor-marker-test/",
@@ -5488,6 +5505,7 @@
   },
   {
    "term": "bacterial vaginosis",
+   "explain": "a test that checks for a bacterial infection in the vagina ",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/bacterial-vaginosis-test/",
@@ -5496,6 +5514,7 @@
   },
   {
    "term": "bacterial vaginosis test",
+   "explain": "a test that checks for a bacterial infection in the vagina ",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/bacterial-vaginosis-test/",
@@ -5626,6 +5645,7 @@
   },
   {
    "term": "basic metabolic panel",
+   "explain": "a test that measures eight different substances in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/basic-metabolic-panel-bmp/",
@@ -6069,6 +6089,7 @@
   },
   {
    "term": "beta 2 microglobulin tumor marker",
+   "explain": "a test that measures the amount of a protein called beta-2 microglobulin (B2M) in your body fluids",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/beta-2-microglobulin-b2m-tumor-marker-test/",
@@ -6077,6 +6098,7 @@
   },
   {
    "term": "beta 2 microglobulin tumor marker test",
+   "explain": "a test that measures the amount of a protein called beta-2 microglobulin (B2M) in your body fluids",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/beta-2-microglobulin-b2m-tumor-marker-test/",
@@ -6245,6 +6267,7 @@
   },
   {
    "term": "bilirubin in urine",
+   "explain": "a test that measures the levels of bilirubin in your urine",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/bilirubin-in-urine/",
@@ -6517,6 +6540,7 @@
   },
   {
    "term": "blood alcohol level",
+   "explain": "a test that measures the amount of alcohol (also called ethanol) in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/blood-alcohol-level/",
@@ -6565,6 +6589,7 @@
   },
   {
    "term": "blood differential",
+   "explain": "a test that measures the amount of each type of white blood cell (WBC) that you have in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/blood-differential/",
@@ -6756,6 +6781,7 @@
   },
   {
    "term": "BMP",
+   "explain": "a test that measures eight different substances in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/basic-metabolic-panel-bmp/",
@@ -8055,6 +8081,7 @@
   },
   {
    "term": "c-reactive protein",
+   "explain": "a test that measures the level of c-reactive protein (CRP) in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/c-reactive-protein-crp-test/",
@@ -8063,6 +8090,7 @@
   },
   {
    "term": "c-reactive protein test",
+   "explain": "a test that measures the level of c-reactive protein (CRP) in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/c-reactive-protein-crp-test/",
@@ -8412,6 +8440,7 @@
   },
   {
    "term": "calcium blood test",
+   "explain": "a test that measures the amount of calcium in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/calcium-blood-test/",
@@ -8420,6 +8449,7 @@
   },
   {
    "term": "calcium in",
+   "explain": "a test that measures the amount of calcium in your urine (pee)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/calcium-in-urine-test/",
@@ -8428,6 +8458,7 @@
   },
   {
    "term": "calcium in urine test",
+   "explain": "a test that measures the amount of calcium in your urine (pee)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/calcium-in-urine-test/",
@@ -8466,6 +8497,7 @@
   },
   {
    "term": "calprotectin stool",
+   "explain": "a test that measures a protein called calprotectin in a sample of your stool (poop)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/calprotectin-stool-test/",
@@ -8474,6 +8506,7 @@
   },
   {
    "term": "calprotectin stool test",
+   "explain": "a test that measures a protein called calprotectin in a sample of your stool (poop)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/calprotectin-stool-test/",
@@ -9532,6 +9565,7 @@
   },
   {
    "term": "CEA",
+   "explain": "a test that measures how much of a specific protein called carcinoembryonic antigen (CEA) you have",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/cea-test/",
@@ -9542,6 +9576,7 @@
   },
   {
    "term": "cea test",
+   "explain": "a test that measures how much of a specific protein called carcinoembryonic antigen (CEA) you have",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/cea-test/",
@@ -9655,6 +9690,7 @@
   },
   {
    "term": "ceruloplasmin",
+   "explain": "a test that measures the amount of ceruloplasmin in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/ceruloplasmin-test/",
@@ -9663,6 +9699,7 @@
   },
   {
    "term": "ceruloplasmin test",
+   "explain": "a test that measures the amount of ceruloplasmin in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/ceruloplasmin-test/",
@@ -11575,6 +11612,7 @@
   },
   {
    "term": "complement",
+   "explain": "a test that measures the levels and/or activity of a group of proteins that are part of the complement system",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/complement-blood-test/",
@@ -11583,6 +11621,7 @@
   },
   {
    "term": "complement blood test",
+   "explain": "a test that measures the levels and/or activity of a group of proteins that are part of the complement system",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/complement-blood-test/",
@@ -12516,6 +12555,7 @@
   },
   {
    "term": "creatine kinase",
+   "explain": "a test that measures the amount of creatine kinase (CK) in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/creatine-kinase/",
@@ -12723,6 +12763,7 @@
   },
   {
    "term": "CRP",
+   "explain": "a test that measures the level of c-reactive protein (CRP) in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/c-reactive-protein-crp-test/",
@@ -12848,6 +12889,7 @@
   },
   {
    "term": "crystals in urine",
+   "explain": "a test that checks a sample of your urine (pee) under a microscope to look for crystals",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/crystals-in-urine/",
@@ -14368,6 +14410,7 @@
   },
   {
    "term": "dhea sulfate",
+   "explain": "a test that measures the levels of DHEA sulfate (DHEAS) in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/dhea-sulfate-test/",
@@ -14376,6 +14419,7 @@
   },
   {
    "term": "dhea sulfate test",
+   "explain": "a test that measures the levels of DHEA sulfate (DHEAS) in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/dhea-sulfate-test/",
@@ -16814,6 +16858,7 @@
   },
   {
    "term": "egfr",
+   "explain": "a test that checks how well your kidneys are working",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/estimated-glomerular-filtration-rate-egfr-and-gfr-tests/",
@@ -17902,6 +17947,7 @@
   },
   {
    "term": "esophageal ph",
+   "explain": "a test that measures how often stomach acid enters your esophagus (the muscular tube that carries food and liquids from your mouth to your stomach)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/esophageal-ph-test/",
@@ -17910,6 +17956,7 @@
   },
   {
    "term": "esophageal ph test",
+   "explain": "a test that measures how often stomach acid enters your esophagus (the muscular tube that carries food and liquids from your mouth to your stomach)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/esophageal-ph-test/",
@@ -18004,6 +18051,7 @@
   },
   {
    "term": "estimated glomerular filtration rate and gfr",
+   "explain": "a test that checks how well your kidneys are working",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/estimated-glomerular-filtration-rate-egfr-and-gfr-tests/",
@@ -18012,6 +18060,7 @@
   },
   {
    "term": "estimated glomerular filtration rate and gfr tests",
+   "explain": "a test that checks how well your kidneys are working",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/estimated-glomerular-filtration-rate-egfr-and-gfr-tests/",
@@ -18874,6 +18923,7 @@
   },
   {
    "term": "fecal occult",
+   "explain": "a test that checks for blood in a sample of your stool (poop)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/fecal-occult-blood-test-fobt/",
@@ -18882,6 +18932,7 @@
   },
   {
    "term": "fecal occult blood test",
+   "explain": "a test that checks for blood in a sample of your stool (poop)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/fecal-occult-blood-test-fobt/",
@@ -19541,6 +19592,7 @@
   },
   {
    "term": "FOBT",
+   "explain": "a test that checks for blood in a sample of your stool (poop)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/fecal-occult-blood-test-fobt/",
@@ -19838,6 +19890,7 @@
   },
   {
    "term": "free light chains",
+   "explain": "a test that measures the level of free light chains in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/free-light-chains/",
@@ -20143,6 +20196,7 @@
   },
   {
    "term": "G6PD",
+   "explain": "a test that measures the amount of G6PD in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/g6pd-test/",
@@ -20165,6 +20219,7 @@
   },
   {
    "term": "g6pd test",
+   "explain": "a test that measures the amount of G6PD in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/g6pd-test/",
@@ -20294,6 +20349,7 @@
   },
   {
    "term": "gamma-glutamyl transferase",
+   "explain": "a test that measures the amount of GGT in your blood GGT is an enzyme",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/gamma-glutamyl-transferase-ggt-test/",
@@ -20302,6 +20358,7 @@
   },
   {
    "term": "gamma-glutamyl transferase test",
+   "explain": "a test that measures the amount of GGT in your blood GGT is an enzyme",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/gamma-glutamyl-transferase-ggt-test/",
@@ -20375,6 +20432,7 @@
   },
   {
    "term": "gastric emptying",
+   "explain": "a test that measures the time it takes for food to empty out of your stomach",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/gastric-emptying-tests/",
@@ -20383,6 +20441,7 @@
   },
   {
    "term": "gastric emptying tests",
+   "explain": "a test that measures the time it takes for food to empty out of your stomach",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/gastric-emptying-tests/",
@@ -20756,6 +20815,7 @@
   },
   {
    "term": "GGT",
+   "explain": "a test that measures the amount of GGT in your blood GGT is an enzyme",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/gamma-glutamyl-transferase-ggt-test/",
@@ -21287,6 +21347,7 @@
   },
   {
    "term": "gonorrhea test",
+   "explain": "a test that looks for signs of a gonorrhea bacterial infection in a sample of your urine (pee) or saliva",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/gonorrhea-test/",
@@ -22750,6 +22811,7 @@
   },
   {
    "term": "hearing tests for adults",
+   "explain": "a test that measures how well you are able to hear",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/hearing-tests-for-adults/",
@@ -22758,6 +22820,7 @@
   },
   {
    "term": "hearing tests for children",
+   "explain": "a test that measures how well your baby or child can hear different sounds",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/hearing-tests-for-children/",
@@ -23296,6 +23359,7 @@
   },
   {
    "term": "her2 tumor marker",
+   "explain": "a test that looks for the tumor marker called human epidermal growth factor receptor 2 (HER2)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/her2-tumor-marker-test/",
@@ -23304,6 +23368,7 @@
   },
   {
    "term": "her2 tumor marker test",
+   "explain": "a test that looks for the tumor marker called human epidermal growth factor receptor 2 (HER2)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/her2-tumor-marker-test/",
@@ -23418,6 +23483,7 @@
   },
   {
    "term": "herpes",
+   "explain": "a test that looks for signs of the herpes simplex virus (HSV), a common viral infection ",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/herpes-hsv-test/",
@@ -23450,6 +23516,7 @@
   },
   {
    "term": "herpes test",
+   "explain": "a test that looks for signs of the herpes simplex virus (HSV), a common viral infection ",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/herpes-hsv-test/",
@@ -23943,6 +24010,7 @@
   },
   {
    "term": "hiv viral load",
+   "explain": "a test that measures the amount of HIV in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/hiv-viral-load/",
@@ -24406,6 +24474,7 @@
   },
   {
    "term": "how to understand your lab results",
+   "explain": "a test that checks a sample of your blood , urine (pee), or other body fluid or tissue to learn about your health",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/how-to-understand-your-lab-results/",
@@ -24695,7 +24764,11 @@
    "also_in": [
     "MedlinePlus Lab Tests",
     "Wikipedia: List of medical abbreviations"
-   ]
+   ],
+   "explain": "a test that looks for signs of the herpes simplex virus (HSV), a common viral infection ",
+   "field_sources": {
+    "explain": "MedlinePlus Lab Tests"
+   }
   },
   {
    "term": "HT",
@@ -25916,6 +25989,7 @@
   },
   {
    "term": "immunoglobulins",
+   "explain": "a test that measures the amount of immunoglobulins in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/immunoglobulins-blood-test/",
@@ -25924,6 +25998,7 @@
   },
   {
    "term": "immunoglobulins blood test",
+   "explain": "a test that measures the amount of immunoglobulins in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/immunoglobulins-blood-test/",
@@ -27827,6 +27902,7 @@
   },
   {
    "term": "ketones in blood",
+   "explain": "a test that measures the level of ketones in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/ketones-in-blood/",
@@ -27835,6 +27911,7 @@
   },
   {
    "term": "ketones in urine",
+   "explain": "a test that measures ketone levels in your urine",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/ketones-in-urine/",
@@ -28211,6 +28288,7 @@
   },
   {
    "term": "lactate",
+   "explain": "a test that measures the level of lactate, also called lactic acid, in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/lactate-test/",
@@ -28227,6 +28305,7 @@
   },
   {
    "term": "lactate dehydrogenase isoenzymes",
+   "explain": "a test that measures lactate dehydrogenase (LDH) isoenzymes in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/lactate-dehydrogenase-ldh-isoenzymes-test/",
@@ -28235,6 +28314,7 @@
   },
   {
    "term": "lactate dehydrogenase isoenzymes test",
+   "explain": "a test that measures lactate dehydrogenase (LDH) isoenzymes in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/lactate-dehydrogenase-ldh-isoenzymes-test/",
@@ -28251,6 +28331,7 @@
   },
   {
    "term": "lactate test",
+   "explain": "a test that measures the level of lactate, also called lactic acid, in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/lactate-test/",
@@ -28711,6 +28792,7 @@
   },
   {
    "term": "LDH",
+   "explain": "a test that measures lactate dehydrogenase (LDH) isoenzymes in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/lactate-dehydrogenase-ldh-isoenzymes-test/",
@@ -29110,6 +29192,7 @@
   },
   {
    "term": "lipase",
+   "explain": "a test that measures the level of lipase in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/lipase-tests/",
@@ -29118,6 +29201,7 @@
   },
   {
    "term": "lipase tests",
+   "explain": "a test that measures the level of lipase in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/lipase-tests/",
@@ -29143,6 +29227,7 @@
   },
   {
    "term": "lipoprotein",
+   "explain": "a test that measures the level of lipoprotein (a) in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/lipoprotein-a-blood-test/",
@@ -29151,6 +29236,7 @@
   },
   {
    "term": "lipoprotein blood test",
+   "explain": "a test that measures the level of lipoprotein (a) in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/lipoprotein-a-blood-test/",
@@ -29904,6 +29990,7 @@
   },
   {
    "term": "lung cancer genetic",
+   "explain": "a test that looks for changes in the genes of cancer cells in your lungs",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/lung-cancer-genetic-tests/",
@@ -29912,6 +29999,7 @@
   },
   {
    "term": "lung cancer genetic tests",
+   "explain": "a test that looks for changes in the genes of cancer cells in your lungs",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/lung-cancer-genetic-tests/",
@@ -30396,6 +30484,7 @@
   },
   {
    "term": "malaria tests",
+   "explain": "a test that looks for signs of a malaria infection in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/malaria-tests/",
@@ -31650,6 +31739,7 @@
   },
   {
    "term": "microalbumin creatinine ratio",
+   "explain": "a test that checks the levels of the protein albumin in your urine (pee)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/microalbumin-creatinine-ratio/",
@@ -32455,10 +32545,15 @@
    "also_in": [
     "MedlinePlus Lab Tests",
     "Wikipedia: List of medical abbreviations"
-   ]
+   ],
+   "explain": "a test that looks for MRSA bacteria in a sample of fluid or tissue from your body",
+   "field_sources": {
+    "explain": "MedlinePlus Lab Tests"
+   }
   },
   {
    "term": "mrsa tests",
+   "explain": "a test that looks for MRSA bacteria in a sample of fluid or tissue from your body",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/mrsa-tests/",
@@ -32657,6 +32752,7 @@
   },
   {
    "term": "mthfr gene",
+   "explain": "a test that checks a sample of your blood for two very common changes in a gene called MTHFR ",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/mthfr-gene-test/",
@@ -32665,6 +32761,7 @@
   },
   {
    "term": "mthfr gene test",
+   "explain": "a test that checks a sample of your blood for two very common changes in a gene called MTHFR ",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/mthfr-gene-test/",
@@ -33900,6 +33997,7 @@
   },
   {
    "term": "nitrites in urine",
+   "explain": "a test that checks for different cells, chemicals, and other substances in a sample of your urine (pee)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/nitrites-in-urine/",
@@ -34964,6 +35062,7 @@
   },
   {
    "term": "obesity screening",
+   "explain": "a test that checks for obesity and overweight in adults and children, starting as early as age 2",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/obesity-screening/",
@@ -35672,6 +35771,7 @@
   },
   {
    "term": "osmolality",
+   "explain": "a test that measures the amount of certain substances in your blood, urine, or stool (poop)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/osmolality-tests/",
@@ -35680,6 +35780,7 @@
   },
   {
    "term": "osmolality tests",
+   "explain": "a test that measures the amount of certain substances in your blood, urine, or stool (poop)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/osmolality-tests/",
@@ -35863,6 +35964,7 @@
   },
   {
    "term": "ova and parasite",
+   "explain": "a test that looks for intestinal parasites and their eggs (ova) by checking a sample of your stool (poop) under a microscope",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/ova-and-parasite-test/",
@@ -35871,6 +35973,7 @@
   },
   {
    "term": "ova and parasite test",
+   "explain": "a test that looks for intestinal parasites and their eggs (ova) by checking a sample of your stool (poop) under a microscope",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/ova-and-parasite-test/",
@@ -36529,6 +36632,7 @@
   },
   {
    "term": "parathyroid hormone",
+   "explain": "a test that measures the level of parathyroid hormone (PTH) in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/parathyroid-hormone-pth-test/",
@@ -36537,6 +36641,7 @@
   },
   {
    "term": "parathyroid hormone test",
+   "explain": "a test that measures the level of parathyroid hormone (PTH) in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/parathyroid-hormone-pth-test/",
@@ -37771,6 +37876,7 @@
   },
   {
    "term": "phenylketonuria screening",
+   "explain": "a test that measures the amount of a protein called phenylalanine (Phe) in a sample of a newborn's blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/phenylketonuria-pku-screening/",
@@ -37845,6 +37951,7 @@
   },
   {
    "term": "phosphate in blood",
+   "explain": "a test that measures the amount of phosphate in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/phosphate-in-blood/",
@@ -37853,6 +37960,7 @@
   },
   {
    "term": "phosphate in urine",
+   "explain": "a test that measures the amount of phosphate in a urine (pee) sample that you collect over a 24-hour period",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/phosphate-in-urine/",
@@ -38796,6 +38904,7 @@
   },
   {
    "term": "porphyrin",
+   "explain": "a test that measures the level of porphyrins in your blood, urine (pee), or stool (poop)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/porphyrin-tests/",
@@ -38804,6 +38913,7 @@
   },
   {
    "term": "porphyrin tests",
+   "explain": "a test that measures the level of porphyrins in your blood, urine (pee), or stool (poop)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/porphyrin-tests/",
@@ -39737,6 +39847,7 @@
   },
   {
    "term": "procalcitonin",
+   "explain": "a test that measures the level of procalcitonin in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/procalcitonin-test/",
@@ -39745,6 +39856,7 @@
   },
   {
    "term": "procalcitonin test",
+   "explain": "a test that measures the level of procalcitonin in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/procalcitonin-test/",
@@ -39950,6 +40062,7 @@
   },
   {
    "term": "protein electrophoresis by immunofixation",
+   "explain": "a test that measures the number and type of proteins in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/protein-electrophoresis-by-immunofixation-blood-test/",
@@ -39958,6 +40071,7 @@
   },
   {
    "term": "protein electrophoresis by immunofixation blood test",
+   "explain": "a test that measures the number and type of proteins in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/protein-electrophoresis-by-immunofixation-blood-test/",
@@ -39966,6 +40080,7 @@
   },
   {
    "term": "protein in urine",
+   "explain": "a test that measures how much protein is in your urine (pee)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/protein-in-urine/",
@@ -39974,6 +40089,7 @@
   },
   {
    "term": "prothrombin time test and inr",
+   "explain": "a test that measures how many seconds it takes for a clot to form in a blood sample",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/prothrombin-time-test-and-inr-ptinr/",
@@ -40231,6 +40347,7 @@
   },
   {
    "term": "PT/INR",
+   "explain": "a test that measures how many seconds it takes for a clot to form in a blood sample",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/prothrombin-time-test-and-inr-ptinr/",
@@ -40323,6 +40440,7 @@
   },
   {
    "term": "PTH",
+   "explain": "a test that measures the level of parathyroid hormone (PTH) in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/parathyroid-hormone-pth-test/",
@@ -41452,6 +41570,7 @@
   },
   {
    "term": "RBC",
+   "explain": "a test that measures the number of red blood cells, also known as erythrocytes, in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/red-blood-cell-rbc-count/",
@@ -41566,6 +41685,7 @@
   },
   {
    "term": "RDW",
+   "explain": "a test that measures how much the volume and size of your red blood cells (erythrocytes) varies",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/rdw-red-cell-distribution-width/",
@@ -41637,6 +41757,7 @@
   },
   {
    "term": "red blood cell count",
+   "explain": "a test that measures the number of red blood cells, also known as erythrocytes, in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/red-blood-cell-rbc-count/",
@@ -41653,6 +41774,7 @@
   },
   {
    "term": "red cell distribution width",
+   "explain": "a test that measures how much the volume and size of your red blood cells (erythrocytes) varies",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/rdw-red-cell-distribution-width/",
@@ -42086,6 +42208,7 @@
   },
   {
    "term": "reticulocyte count",
+   "explain": "a test that measures the number of reticulocytes in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/reticulocyte-count/",
@@ -42147,6 +42270,7 @@
   },
   {
    "term": "RF",
+   "explain": "a test that checks a sample of your blood for rheumatoid factor, a protein made by the immune system ",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/rheumatoid-factor-rf-test/",
@@ -42251,6 +42375,7 @@
   },
   {
    "term": "rheumatoid factor",
+   "explain": "a test that checks a sample of your blood for rheumatoid factor, a protein made by the immune system ",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/rheumatoid-factor-rf-test/",
@@ -42259,6 +42384,7 @@
   },
   {
    "term": "rheumatoid factor test",
+   "explain": "a test that checks a sample of your blood for rheumatoid factor, a protein made by the immune system ",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/rheumatoid-factor-rf-test/",
@@ -44323,6 +44449,7 @@
   },
   {
    "term": "SHBG",
+   "explain": "a test that measures the level of a protein called sex hormone binding globulin (SHBG) in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/shbg-blood-test/",
@@ -44337,6 +44464,7 @@
   },
   {
    "term": "shbg blood test",
+   "explain": "a test that measures the level of a protein called sex hormone binding globulin (SHBG) in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/shbg-blood-test/",
@@ -44669,6 +44797,7 @@
   },
   {
    "term": "skin cancer screening",
+   "explain": "a test that checks your skin for signs of skin cancer before you have any symptoms",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/skin-cancer-screening/",
@@ -45049,6 +45178,7 @@
   },
   {
    "term": "smooth muscle antibody",
+   "explain": "a test that looks for smooth muscle antibodies (SMAs) in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/smooth-muscle-antibody-sma-test/",
@@ -45057,6 +45187,7 @@
   },
   {
    "term": "smooth muscle antibody test",
+   "explain": "a test that looks for smooth muscle antibodies (SMAs) in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/smooth-muscle-antibody-sma-test/",
@@ -46419,6 +46550,7 @@
   },
   {
    "term": "stress tests",
+   "explain": "a test that shows how well your heart works when under stress",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/stress-tests/",
@@ -47121,6 +47253,7 @@
   },
   {
    "term": "t3",
+   "explain": "a test that measures the level of T3 in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/triiodothyronine-t3-tests/",
@@ -47414,6 +47547,7 @@
   },
   {
    "term": "TCA",
+   "explain": "a test that checks whether tricyclic antidepressants (TCA) can be found in your blood or urine",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/tricyclic-antidepressant-tca-screen/",
@@ -47916,6 +48050,7 @@
   },
   {
    "term": "testosterone levels",
+   "explain": "a test that measures the amount of the hormone testosterone in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/testosterone-levels-test/",
@@ -47924,6 +48059,7 @@
   },
   {
    "term": "testosterone levels test",
+   "explain": "a test that measures the amount of the hormone testosterone in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/testosterone-levels-test/",
@@ -48261,6 +48397,7 @@
   },
   {
    "term": "thyroglobulin",
+   "explain": "a test that measures the amount of a protein called thyroglobulin (Tg) in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/thyroglobulin/",
@@ -48989,6 +49126,7 @@
   },
   {
    "term": "total protein and albumin/globulin ratio",
+   "explain": "a test that measures the total amount of protein in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/total-protein-and-albumin-globulin-a-g-ratio/",
@@ -49299,6 +49437,7 @@
   },
   {
    "term": "tricyclic antidepressant screen",
+   "explain": "a test that checks whether tricyclic antidepressants (TCA) can be found in your blood or urine",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/tricyclic-antidepressant-tca-screen/",
@@ -49336,6 +49475,7 @@
   },
   {
    "term": "triiodothyronine",
+   "explain": "a test that measures the level of T3 in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/triiodothyronine-t3-tests/",
@@ -49344,6 +49484,7 @@
   },
   {
    "term": "triiodothyronine tests",
+   "explain": "a test that measures the level of T3 in a sample of your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/triiodothyronine-t3-tests/",
@@ -49690,6 +49831,7 @@
   },
   {
    "term": "tumor marker",
+   "explain": "a test that looks for tumor markers, which are sometimes called cancer markers",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/tumor-marker-tests/",
@@ -49698,6 +49840,7 @@
   },
   {
    "term": "tumor marker tests",
+   "explain": "a test that looks for tumor markers, which are sometimes called cancer markers",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/tumor-marker-tests/",
@@ -50455,6 +50598,7 @@
   },
   {
    "term": "urobilinogen in urine",
+   "explain": "a test that measures the amount of urobilinogen in your urine (pee)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/urobilinogen-in-urine/",
@@ -51386,6 +51530,7 @@
   },
   {
    "term": "vision screening",
+   "explain": "a test that checks how well you can see things up close and far away",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/vision-screening/",
@@ -51410,6 +51555,7 @@
   },
   {
    "term": "vitamin b",
+   "explain": "a test that measures the amount of one or more B vitamins in your blood or urine (pee)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/vitamin-b-test/",
@@ -51426,6 +51572,7 @@
   },
   {
    "term": "vitamin b test",
+   "explain": "a test that measures the amount of one or more B vitamins in your blood or urine (pee)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/vitamin-b-test/",
@@ -51456,7 +51603,11 @@
    "standard": true,
    "also_in": [
     "MedlinePlus Lab Tests"
-   ]
+   ],
+   "explain": "a test that measures the levels of vitamin D in your blood",
+   "field_sources": {
+    "explain": "MedlinePlus Lab Tests"
+   }
   },
   {
    "term": "vitamin d deficiency",
@@ -51470,6 +51621,7 @@
   },
   {
    "term": "vitamin d test",
+   "explain": "a test that measures the levels of vitamin D in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/vitamin-d-test/",
@@ -52073,6 +52225,7 @@
   },
   {
    "term": "WBC",
+   "explain": "a test that looks for white blood cells in a sample of your stool (poop)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/white-blood-cell-wbc-in-stool/",
@@ -52260,6 +52413,7 @@
   },
   {
    "term": "white blood cell in stool",
+   "explain": "a test that looks for white blood cells in a sample of your stool (poop)",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/white-blood-cell-wbc-in-stool/",
@@ -52268,6 +52422,7 @@
   },
   {
    "term": "white blood count",
+   "explain": "a test that measures the number of white blood cells (WBCs) in your blood",
    "kind": "lab_test",
    "source": "MedlinePlus Lab Tests",
    "source_url": "https://medlineplus.gov/lab-tests/white-blood-count-wbc/",

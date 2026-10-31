@@ -6,3 +6,4 @@ textstat
 wordfreq
 python-dotenv
 flask
+openpyxl

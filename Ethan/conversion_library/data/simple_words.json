@@ -316,6 +316,15 @@
   },
   "upper extremity": {
    "plain": "arm"
+  },
+  "bilateral leg edema": {
+   "plain": "swelling in both legs"
+  },
+  "bilateral leg swelling": {
+   "plain": "swelling in both legs"
+  },
+  "bilateral lower extremity edema": {
+   "plain": "swelling in both legs"
   }
  },
  "abbreviations": {
@@ -354,7 +363,14 @@
   "QID": "four times a day",
   "qid": "four times a day",
   "qhs": "at bedtime",
-  "QHS": "at bedtime"
+  "QHS": "at bedtime",
+  "URTI": "infection of the nose and throat",
+  "LRTI": "chest infection",
+  "temp": "temperature",
+  "abdo": "belly",
+  "Rx": "prescription",
+  "rx": "prescription",
+  "obs": "checks of your vital signs"
  },
  "medications": [
   "paracetamol",
@@ -377,5 +393,11 @@
   "followup",
   "rectal",
   "breathlessness"
- ]
+ ],
+ "aliases": {
+  "urine microalbumin": "microalbumin creatinine ratio",
+  "microalbumin": "microalbumin creatinine ratio",
+  "urine albumin": "microalbumin creatinine ratio",
+  "a1c": "hemoglobin a1c"
+ }
 }
