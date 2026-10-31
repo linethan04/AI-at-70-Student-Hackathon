@@ -41,7 +41,7 @@ always there too.
 **1. Check-in**
 - Drag a file from `checkins/` onto the box (or Choose file). The banner shows the patient, language and
   consent chips. It moves on to step 2 by itself.
-- "Open the check-in questionnaire" opens Max's questionnaire in a new tab: fill it in, export, upload.
+- "Open the check-in questionnaire" opens the questionnaire in a new tab: fill it in, export, upload.
 - "Skip" goes on without one (patient 6).
 
 **2. Conversation** (any one, or Skip)

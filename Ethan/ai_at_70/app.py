@@ -3,14 +3,14 @@
     python Ethan/ai_at_70/app.py        # then open http://localhost:5070
 
 Inputs (any combination):
-    check-in       the patient's questionnaire (Max/PCP_Questionnaire_..., exported as JSON)
+    check-in       the patient's questionnaire (static/questionnaire.html, exported as JSON)
     clinician note typed, pasted, uploaded (.txt / .pdf) or a photo of a written note (read with macOS Live Text)
     conversation   recorded or uploaded audio, transcribed by Ethan/audio_workflow (mounted at /audio), or pasted
 Outputs, after the clinician ticks every check and approves:
     printout, email to the patient or family (next of kin), phone-call script; each in English, Mandarin,
     Spanish, Portuguese or Arabic (translated from the checked English, Ethan/conversion_library/translate.py)
 
-The page itself is Max/AI-at-70 (5).html; this server gives it the tools behind it. Nothing is sent from
+The page itself is static/index.html; this server gives it the tools behind it. Nothing is sent from
 here: email opens a draft in the clinician's mail app, and the call script is read (or played) by a person.
 """
 
@@ -28,9 +28,10 @@ from flask import Flask, Response, abort, jsonify, request, send_from_directory
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 
 ROOT = Path(__file__).resolve().parents[2]
-CONVERSION, AUDIO, MAX = ROOT / "Ethan" / "conversion_library", ROOT / "Ethan" / "audio_workflow", ROOT / "Max"
-PAGE = MAX / "AI-at-70 (5).html"
-QUESTIONNAIRE = MAX / "PCP_Questionnaire_5_Languages_With_Name_And_DOB.html"
+CONVERSION, AUDIO = ROOT / "Ethan" / "conversion_library", ROOT / "Ethan" / "audio_workflow"
+STATIC = Path(__file__).resolve().parent / "static"
+PAGE = STATIC / "index.html"            # the clinician's page (from Max's design)
+QUESTIONNAIRE = STATIC / "questionnaire.html"  # copy of Max/PCP_Questionnaire_5_Languages_With_Name_And_DOB.html
 sys.path[:0] = [str(CONVERSION), str(AUDIO)]
 
 from deliver import document, outputs  # noqa: E402  (after the path is set)
