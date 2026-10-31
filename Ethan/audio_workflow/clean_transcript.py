@@ -11,7 +11,11 @@
    pass both checks are applied; everything else is left as heard and flagged for the
    clinician. Claude never rewrites the text itself: this script makes the exact substitutions.
 
-    python Ethan/clean_transcript.py Ethan/transcripts/visit.json [--num-speakers 2]
+No Anthropic API key? Steps 1-2 fall back to offline_cleanup.py (speakers by voice,
+terms by fuzzy dictionary match). Step 3 and the output format are the same.
+
+    python Ethan/audio_workflow/clean_transcript.py Ethan/audio_workflow/transcripts/visit.json [--num-speakers 2]
+    python Ethan/audio_workflow/clean_transcript.py ... --engine offline   # force offline (default: auto)
 
 Writes <name>.clean.txt (for people) and <name>.clean.json (for the next pipeline step).
 """
@@ -24,7 +28,7 @@ from pathlib import Path
 from typing import Literal
 
 import anthropic
-from dotenv import load_dotenv
+from dotenv import find_dotenv, load_dotenv
 from pydantic import BaseModel
 
 from EL_audio import fmt_time
@@ -83,7 +87,7 @@ class TermCandidate(BaseModel):
     heard: str
     corrected_text: str
     dictionary_term: str
-    category: Literal["medication", "drug_class", "condition", "lab_test", "procedure", "other"]
+    category: Literal["medication", "drug_class", "condition", "lab_test", "procedure", "medical_term", "other"]
 
 
 class Issue(BaseModel):
@@ -96,6 +100,10 @@ class TranscriptReview(BaseModel):
     utterances: list[UtteranceSpeaker]
     terms: list[TermCandidate]
     issues: list[Issue]
+
+
+class NoCredentials(Exception):
+    pass
 
 
 def review_with_claude(segments: list[dict], acoustic_labels: bool, num_speakers: int | None) -> TranscriptReview:
@@ -120,7 +128,7 @@ def review_with_claude(segments: list[dict], acoustic_labels: bool, num_speakers
     except (TypeError, anthropic.AuthenticationError) as e:
         if isinstance(e, TypeError) and "authentication" not in str(e):
             raise
-        sys.exit("No valid Anthropic credentials. Add ANTHROPIC_API_KEY=... to .env in the project root.")
+        raise NoCredentials from e
     if response.stop_reason == "refusal" or response.parsed_output is None:
         sys.exit(f"Claude did not return a review (stop_reason={response.stop_reason}).")
     return response.parsed_output
@@ -194,16 +202,16 @@ STATUS_MARK = {"corrected": "✓ corrected", "confirmed": "✓ confirmed", "need
                "not in dictionary": "✗ not found", "not checked": "- unchecked"}
 
 
-def render_text(speakers: list[dict], turns: list[dict], term_results: list[dict], issues: list[dict],
+def render_text(method: str, speakers: list[dict], turns: list[dict], term_results: list[dict], issues: list[dict],
                 low_confidence: list[dict]) -> str:
-    out = ["SPEAKERS"]
+    out = [f"Reviewed by: {method}", "", "SPEAKERS"]
     out += [f"  {s['label']}: {s['role']} ({s['evidence']})" for s in speakers]
 
     out += ["", "TRANSCRIPT"]
     for t in turns:
         out.append(f"[{fmt_time(t['start'])}] {t['speaker']} ({t['role']}): {t['text']}\n")
 
-    out += ["MEDICAL TERM CHECK (NLM: RxNorm, RxClass, ICD-10-CM, LOINC, HCPCS)"]
+    out += ["MEDICAL TERM CHECK (RxNorm, RxClass, ICD-10-CM, LOINC, HCPCS, medical spelling list)"]
     for r in term_results:
         change = f'"{r["heard"]}" -> "{r["corrected_text"]}"' if r["heard"] != r["corrected_text"] else f'"{r["heard"]}"'
         detail = f"{r['dictionary_source']}: {r['dictionary_match']}" if r["dictionary_match"] else r["dictionary_source"]
@@ -219,13 +227,37 @@ def render_text(speakers: list[dict], turns: list[dict], term_results: list[dict
     return "\n".join(out) + "\n"
 
 
-def clean_transcript(json_path: Path, num_speakers: int | None = None) -> Path:
+OFFLINE_METHOD = "offline (TitaNet voice clustering + dictionary fuzzy matching)"
+
+
+def find_audio(raw: dict, json_path: Path) -> Path | None:
+    """The transcript records where its audio was; fall back to recordings/ if files moved."""
+    if not raw.get("source_audio"):
+        return None
+    recorded = Path(raw["source_audio"])
+    for candidate in (recorded, HERE / "recordings" / recorded.name, json_path.parent.parent / "recordings" / recorded.name):
+        if candidate.exists():
+            return candidate
+    return recorded
+
+
+def clean_transcript(json_path: Path, num_speakers: int | None = None, engine: str = "auto") -> Path:
     raw = json.loads(json_path.read_text())
     segments = [dict(s) for s in raw["segments"]]
     acoustic = raw.get("engine") == "elevenlabs"
 
-    print(f"Reviewing {len(segments)} utterances with Claude ({MODEL})...")
-    review = review_with_claude(segments, acoustic, num_speakers)
+    review = None
+    if engine in ("auto", "claude"):
+        print(f"Reviewing {len(segments)} utterances with Claude ({MODEL})...")
+        try:
+            review, method = review_with_claude(segments, acoustic, num_speakers), MODEL
+        except NoCredentials:
+            if engine == "claude":
+                sys.exit("No valid Anthropic credentials. Add ANTHROPIC_API_KEY=... to .env in the project root.")
+            print("No Anthropic API key found; using the offline method instead.")
+    if review is None:
+        from offline_cleanup import review_offline
+        review, method = review_offline(segments, find_audio(raw, json_path), num_speakers), OFFLINE_METHOD
 
     assigned = {u.id: u for u in review.utterances}
     roles = {s.label: s.role for s in review.speakers}
@@ -250,14 +282,14 @@ def clean_transcript(json_path: Path, num_speakers: int | None = None) -> Path:
     out_txt = json_path.with_name(json_path.stem + ".clean.txt")
     out_json.write_text(json.dumps({
         "source_transcript": str(json_path),
-        "model": MODEL,
+        "method": method,
         "speakers": speakers,
         "turns": turns,
         "utterances": segments,
         "term_checks": term_results,
         "issues": issues,
     }, indent=2))
-    out_txt.write_text(render_text(speakers, turns, term_results, issues, low_confidence))
+    out_txt.write_text(render_text(method, speakers, turns, term_results, issues, low_confidence))
 
     print("\n" + out_txt.read_text())
     print(f"Saved {out_txt}\nSaved {out_json}")
@@ -265,14 +297,16 @@ def clean_transcript(json_path: Path, num_speakers: int | None = None) -> Path:
 
 
 def main() -> None:
-    load_dotenv(HERE.parent / ".env")
+    load_dotenv(find_dotenv())  # searches upward for the project-root .env
     parser = argparse.ArgumentParser(description="Separate speakers and verify medical terms in a transcript.")
     parser.add_argument("transcript", type=Path, help="a .json transcript from EL_audio.py")
     parser.add_argument("--num-speakers", type=int, help="how many people were in the room, if known")
+    parser.add_argument("--engine", choices=("auto", "claude", "offline"), default="auto",
+                        help="auto = Claude if an API key works, otherwise offline")
     args = parser.parse_args()
     if not args.transcript.exists():
         parser.error(f"file not found: {args.transcript}")
-    clean_transcript(args.transcript, args.num_speakers)
+    clean_transcript(args.transcript, args.num_speakers, args.engine)
 
 
 if __name__ == "__main__":

@@ -36,8 +36,11 @@ Out of scope for now: health record (EHR) integration, patient accounts or login
 
 The repo is early-stage. Each teammate has a working folder:
 
-- `Ethan/` — audio input (pipeline step 1)
-  - `EL_audio.py`: records the visit from the mic (or takes a file) and transcribes it. Engines: ElevenLabs Scribe (`scribe_v2`, speaker labels, medical keyterms) or local `faster-whisper` (offline, no speaker labels). Writes `Ethan/transcripts/<name>.txt` and `.json`; the JSON `segments` list (`speaker`, `start`, `end`, `text`) is the input contract for the Claude steps.
+- `Ethan/audio_workflow/` — audio input (pipeline step 1)
+  - `EL_audio.py`: records the visit from the mic (or takes a file) and transcribes it. Engines: ElevenLabs Scribe (`scribe_v2`, speaker labels, medical keyterms) or local `faster-whisper` (offline, no speaker labels). Writes `Ethan/audio_workflow/transcripts/<name>.txt` and `.json`; the JSON `segments` list (`speaker`, `start`, `end`, `text`) is the input contract for the Claude steps.
+  - `clean_transcript.py`: step 1b. Claude (`claude-opus-5-5`, structured output) assigns each sentence to Speaker 1/2/3 with a role, using conversation context (and ElevenLabs' acoustic labels as hints), and proposes fixes for garbled medical terms. Each fix is applied only if the term exists in an NLM vocabulary **and** sounds like what was heard; otherwise it's flagged. Claude never edits text directly; the script does the exact substitution. Writes `<name>.clean.txt` / `.clean.json`.
+  - `offline_cleanup.py`: no-API-key fallback used automatically by `clean_transcript.py`. Speakers are separated by voice (NVIDIA TitaNet speaker model via `sherpa-onnx`, run locally; sentences grouped by voice similarity); roles guessed from word use. Terms: unknown words fuzzy-matched (`rapidfuzz`) against RxNorm + a ~98k medical spelling list; strong matches corrected, weaker ones suggested. Can't decode multi-word garbles ("glitz preside"); Claude can.
+  - `medical_dictionary.py`: free NLM lookups, no key needed: RxNorm (drugs, generic and brand; full list cached in `Ethan/audio_workflow/.cache/`), RxClass (drug classes), ICD-10-CM and Conditions (diagnoses), LOINC (labs), HCPCS (procedures)
   - `make_sample_audio.py`: builds a synthetic two-voice visit with macOS `say` for testing
 - `Jason/`, `Max/`, `Tanner/` — personal scratch folders (placeholders for now)
 
@@ -47,15 +50,20 @@ Shared code should move into a common package (e.g. `app/` or `src/`) once piece
 
 No app entry point exists yet, and the stack isn't fixed. Each component can use whatever language or tooling its author prefers.
 
-**Audio transcription (`Ethan/`, Python):**
+**Audio transcription (`Ethan/audio_workflow/`, Python):**
 
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
-pip install -r Ethan/requirements.txt
-python Ethan/make_sample_audio.py                                   # synthetic test visit (macOS)
-python Ethan/EL_audio.py transcribe Ethan/recordings/sample_visit.wav --keyterms "lisinopril,metformin,A1C"
-python Ethan/EL_audio.py record                                     # live mic; press Enter to stop
+pip install -r Ethan/audio_workflow/requirements.txt
+python Ethan/audio_workflow/make_sample_audio.py                                   # synthetic test visit (macOS)
+python Ethan/audio_workflow/EL_audio.py transcribe Ethan/audio_workflow/recordings/sample_visit.wav --keyterms "lisinopril,metformin,A1C"
+python Ethan/audio_workflow/EL_audio.py record                                     # live mic; press Enter to stop
+python Ethan/audio_workflow/EL_audio.py transcribe <file.wav> --clean              # + speakers and medical term check
+python Ethan/audio_workflow/clean_transcript.py Ethan/audio_workflow/transcripts/<name>.json [--num-speakers 2]   # cleanup on its own
+python Ethan/audio_workflow/medical_dictionary.py medication glipizide             # check a single term
 ```
+
+`--clean` and `clean_transcript.py` use Claude when `ANTHROPIC_API_KEY` is in `.env`, and otherwise fall back to the offline method (`--engine auto|claude|offline`). The first offline run downloads the speaker model (~40 MB) and medical word list into `Ethan/audio_workflow/.cache/`.
 
 The engine defaults to ElevenLabs when `ELEVENLABS_API_KEY` is set (in `.env` or the environment), otherwise local Whisper. Force one with `--engine elevenlabs|whisper`. Recordings and transcripts are git-ignored.
 

@@ -4,10 +4,10 @@ Step 1 of the pipeline (see CLAUDE.md): audio -> transcript. The JSON output is
 what the later Claude steps (fact extraction, plain-language rewrite) will read.
 
 Usage:
-    python Ethan/EL_audio.py record                  # record mic until Enter, then transcribe
-    python Ethan/EL_audio.py transcribe visit.wav    # transcribe an existing file
-    python Ethan/EL_audio.py transcribe visit.wav --engine whisper --keyterms "metformin,lisinopril"
-    python Ethan/EL_audio.py transcribe visit.wav --clean   # + speaker separation and medical term check
+    python Ethan/audio_workflow/EL_audio.py record                  # record mic until Enter, then transcribe
+    python Ethan/audio_workflow/EL_audio.py transcribe visit.wav    # transcribe an existing file
+    python Ethan/audio_workflow/EL_audio.py transcribe visit.wav --engine whisper --keyterms "metformin,lisinopril"
+    python Ethan/audio_workflow/EL_audio.py transcribe visit.wav --clean   # + speaker separation and medical term check
 
 Engines:
     elevenlabs  ElevenLabs Scribe (cloud). Speaker diarization + medical keyterm biasing.
@@ -22,7 +22,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from dotenv import load_dotenv
+from dotenv import find_dotenv, load_dotenv
 
 HERE = Path(__file__).resolve().parent
 RECORDINGS_DIR = HERE / "recordings"
@@ -180,7 +180,7 @@ def save_transcript(audio_path: Path, engine: str, segments: list[dict]) -> tupl
 # ---------- CLI ----------
 
 def main() -> None:
-    load_dotenv(HERE.parent / ".env")
+    load_dotenv(find_dotenv())  # searches upward for the project-root .env
 
     parser = argparse.ArgumentParser(description="Record and transcribe a clinical appointment.")
     sub = parser.add_subparsers(dest="command", required=True)

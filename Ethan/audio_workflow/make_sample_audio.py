@@ -2,8 +2,8 @@
 
 Uses the built-in `say` voices so we never need real patient audio (see CLAUDE.md, Privacy).
 
-    python Ethan/make_sample_audio.py
-    python Ethan/EL_audio.py transcribe Ethan/recordings/sample_visit.wav
+    python Ethan/audio_workflow/make_sample_audio.py
+    python Ethan/audio_workflow/EL_audio.py transcribe Ethan/audio_workflow/recordings/sample_visit.wav
 """
 
 import subprocess

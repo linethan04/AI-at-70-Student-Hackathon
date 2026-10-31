@@ -1,13 +1,14 @@
 """Check medical terms against free U.S. National Library of Medicine (NLM) vocabularies.
 
 No API key needed.
-    medication   RxNorm drug names (~28k names, downloaded once and cached in Ethan/.cache/)
+    medication   RxNorm drug names (~28k names, downloaded once and cached in Ethan/audio_workflow/.cache/)
     drug_class   RxClass (e.g. "sulfonylureas", "ACE inhibitors")
     condition    ICD-10-CM diagnoses, then the consumer-friendly Conditions list
     lab_test     LOINC lab and observation names
     procedure    HCPCS procedure names, then LOINC studies
+    medical_term ~98k-word medical spelling list (OpenMedSpel-based, cached; used by the offline cleanup)
 
-    python Ethan/medical_dictionary.py medication glipizide
+    python Ethan/audio_workflow/medical_dictionary.py medication glipizide
 """
 
 import difflib
@@ -24,8 +25,9 @@ HERE = Path(__file__).resolve().parent
 CACHE_DIR = HERE / ".cache"
 RXNAV = "https://rxnav.nlm.nih.gov/REST"
 CLINICAL_TABLES = "https://clinicaltables.nlm.nih.gov/api"
+MEDICAL_WORDLIST_URL = "https://raw.githubusercontent.com/glutanimate/wordlist-medicalterms-en/master/wordlist.txt"
 
-CATEGORIES = ("medication", "drug_class", "condition", "lab_test", "procedure", "other")
+CATEGORIES = ("medication", "drug_class", "condition", "lab_test", "procedure", "medical_term", "other")
 
 
 @dataclass
@@ -63,6 +65,18 @@ def drug_names() -> dict[str, str]:
     return {normalize(t): t for t in json.loads(cache.read_text())}
 
 
+@lru_cache(maxsize=1)
+def medical_words() -> set[str]:
+    """Lowercase medical spelling list, e.g. 'orthostatic', 'hypoglycemic', 'sulfonylureas'."""
+    cache = CACHE_DIR / "medical_wordlist.txt"
+    if not cache.exists():
+        CACHE_DIR.mkdir(parents=True, exist_ok=True)
+        resp = httpx.get(MEDICAL_WORDLIST_URL, timeout=60, follow_redirects=True)
+        resp.raise_for_status()
+        cache.write_text(resp.text)
+    return {w.strip().lower() for w in cache.read_text().splitlines() if w.strip()}
+
+
 def _singular_forms(term: str) -> list[str]:
     t = normalize(term)
     return [t] + ([t[:-1]] if t.endswith("s") else [])
@@ -73,7 +87,10 @@ def _lookup_medication(term: str) -> Lookup:
     for t in _singular_forms(term):
         if t in names:
             return Lookup(True, names[t], "RxNorm")
-    suggestions = _get(f"{RXNAV}/spellingsuggestions.json", name=term)["suggestionGroup"]["suggestionList"]
+    try:
+        suggestions = _get(f"{RXNAV}/spellingsuggestions.json", name=term)["suggestionGroup"]["suggestionList"]
+    except httpx.HTTPError:
+        suggestions = None  # offline: fall back to the cached list below
     close = difflib.get_close_matches(normalize(term), names.keys(), n=3, cutoff=0.75)
     return Lookup(False, source="RxNorm",
                   suggestions=list(dict.fromkeys((suggestions or {}).get("suggestion", []) + [names[c] for c in close])))
@@ -115,12 +132,19 @@ def _lookup_procedure(term: str) -> Lookup:
     return Lookup(bool(hits), hits[0] if hits else None, "LOINC", hits[1:])
 
 
+def _lookup_medical_term(term: str) -> Lookup:
+    words = normalize(term).split()
+    found = bool(words) and all(w in medical_words() or w in drug_names() for w in words)
+    return Lookup(found, term.lower() if found else None, "medical spelling list")
+
+
 _LOOKUPS = {
     "medication": _lookup_medication,
     "drug_class": _lookup_drug_class,
     "condition": _lookup_condition,
     "lab_test": _lookup_lab,
     "procedure": _lookup_procedure,
+    "medical_term": _lookup_medical_term,
 }
 
 

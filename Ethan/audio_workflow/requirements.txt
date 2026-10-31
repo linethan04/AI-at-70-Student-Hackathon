@@ -3,6 +3,8 @@ elevenlabs
 faster-whisper
 httpx
 pydantic
+rapidfuzz
+sherpa-onnx
 sounddevice
 soundfile
 numpy
