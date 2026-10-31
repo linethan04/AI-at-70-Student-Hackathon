@@ -279,7 +279,7 @@ function renderResult(r) {
 
 loadConfig();
 
-// /?open=<recording name> reopens a transcript processed earlier.
+// /advanced?open=<recording name> reopens a transcript processed earlier.
 const toOpen = new URLSearchParams(location.search).get("open");
 if (toOpen) {
   fetch(`/api/results/${encodeURIComponent(toOpen)}`)

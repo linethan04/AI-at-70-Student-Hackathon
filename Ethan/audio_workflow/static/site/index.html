@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111418" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="Record or upload a medical appointment and get a clear transcript with each speaker labeled.">
+  <title>Visit Recorder</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23c62828'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/site/site.css">
+</head>
+<body>
+  <main class="page">
+    <header class="brand">
+      <h1>Visit Recorder</h1>
+      <p>Record an appointment or upload audio. You'll get a written transcript with each speaker labeled.</p>
+    </header>
+
+    <!-- Start -->
+    <section id="start" class="screen" aria-label="Choose audio">
+      <button id="recordBtn" class="big-btn record" type="button">
+        <span class="icon dot" aria-hidden="true"></span>
+        <span class="label"><strong>Record</strong><small>Use this device's microphone</small></span>
+      </button>
+
+      <label class="big-btn upload" for="fileInput">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0-5 5m5-5 5 5M5 20h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="label"><strong>Upload audio</strong><small>Voice memo, MP3, WAV, M4A…</small></span>
+      </label>
+      <input id="fileInput" type="file" accept="audio/*,.m4a,.mp3,.wav,.aac,.ogg,.webm,.mp4" hidden>
+
+      <p class="fine">Only record with everyone's permission. A clinician should review every transcript before it's shared.</p>
+    </section>
+
+    <!-- Recording -->
+    <section id="recording" class="screen" hidden aria-label="Recording">
+      <div class="rec-status"><span class="live-dot" aria-hidden="true"></span> Recording</div>
+      <div id="timer" class="timer" role="timer" aria-live="off">0:00</div>
+      <div class="meter" aria-hidden="true"><div id="meterFill"></div></div>
+      <p class="fine center">Keep this screen open. The bar moves when the microphone hears sound.</p>
+      <button id="stopBtn" class="big-btn stop" type="button">
+        <span class="icon square" aria-hidden="true"></span>
+        <span class="label"><strong>Stop &amp; transcribe</strong></span>
+      </button>
+      <button id="cancelBtn" class="text-btn" type="button">Cancel</button>
+    </section>
+
+    <!-- Working -->
+    <section id="working" class="screen center" hidden aria-label="Working">
+      <div class="spinner" aria-hidden="true"></div>
+      <h2 id="workTitle">Uploading…</h2>
+      <p id="workDetail" class="muted" aria-live="polite">This usually takes about a minute for every 7 minutes of audio.</p>
+      <ol class="progress" id="progress" aria-label="Progress">
+        <li data-step="save">Upload</li>
+        <li data-step="transcribe">Transcribe</li>
+        <li data-step="speakers">Speakers</li>
+        <li data-step="terms">Medical terms</li>
+      </ol>
+    </section>
+
+    <!-- Error -->
+    <section id="error" class="screen center" hidden aria-label="Something went wrong">
+      <h2>Something went wrong</h2>
+      <p id="errorText" class="muted" role="alert"></p>
+      <button id="retryBtn" class="big-btn upload" type="button"><span class="label"><strong>Start over</strong></span></button>
+    </section>
+
+    <!-- Result -->
+    <section id="result" class="screen" hidden aria-label="Transcript">
+      <div class="result-head">
+        <h2>Transcript</h2>
+        <button id="newBtn" class="pill-btn" type="button">New recording</button>
+      </div>
+
+      <audio id="player" controls preload="metadata"></audio>
+      <div id="speakers" class="speakers"></div>
+
+      <div id="checkBox" class="check" hidden>
+        <h3>Please check before sharing</h3>
+        <ul id="checkList"></ul>
+      </div>
+
+      <div id="transcript" class="transcript"></div>
+
+      <details id="termsBox" class="terms" hidden>
+        <summary id="termsSummary">Medical terms checked</summary>
+        <ul id="termsList"></ul>
+        <p class="fine">Highlighted words were corrected automatically using medical dictionaries. Tap one to see what was heard.</p>
+      </details>
+
+      <div class="actions">
+        <button id="copyBtn" class="pill-btn" type="button">Copy text</button>
+        <a id="downloadTxt" class="pill-btn" download>Download</a>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+  <script src="/site/site.js"></script>
+</body>
+</html>

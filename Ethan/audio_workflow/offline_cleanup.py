@@ -150,6 +150,9 @@ def _is_known(word: str, known: set[str]) -> bool:
     return False
 
 
+TITLE_BEFORE = re.compile(r"\b(mr|mrs|ms|miss|dr|doctor)\.?\s*$", re.IGNORECASE)  # "Mrs. Alvarez"
+
+
 def find_terms(segments: list[dict]) -> tuple[list[TermCandidate], list[Issue]]:
     from rapidfuzz import fuzz, process
 
@@ -168,7 +171,9 @@ def find_terms(segments: list[dict]) -> tuple[list[TermCandidate], list[Issue]]:
             w = word.lower()
             confident = unsure is not None and w not in unsure
             # Capitalized mid-sentence = probably a name ("Mrs. Alvarez"); only flag strong matches.
-            is_name = word[0].isupper() and not seg["text"].startswith(word)
+            before = seg["text"][: seg["text"].find(word)] or (segments[i - 1]["text"] if i else "")
+            is_name = word[0].isupper() and (bool(TITLE_BEFORE.search(before))
+                                             or not seg["text"].startswith(word))
             if w in drugs and w not in _english_words():
                 # A drug name spelled correctly: still list it so it shows as confirmed.
                 terms.append(TermCandidate(utterance_id=i, heard=word, corrected_text=word,
@@ -176,7 +181,8 @@ def find_terms(segments: list[dict]) -> tuple[list[TermCandidate], list[Issue]]:
                 continue
             if len(w) < 5 or _is_known(w, known):
                 continue
-            choices = sorted(drugs) if confident else vocab  # confident words: only check for drug names
+            # Confident words and capitalized names: only check for (brand) drug names.
+            choices = sorted(drugs) if (confident or is_name) else vocab
             match = process.extractOne(w, choices, scorer=fuzz.ratio,
                                        score_cutoff=AUTO_FIX_SCORE if is_name else SUGGEST_SCORE)
             if not match:
